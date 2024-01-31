@@ -5,7 +5,7 @@ COPY --from=libpcsckai / /build/
 
 # Install dependencies for build
 RUN set -x && \
-    apk add -U --no-cache git cmake ninja g++ make
+    apk add -U --no-cache git cmake ninja g++ pcsc-lite-dev make
 
 # Build libaribb25
 WORKDIR /libaribb25/
