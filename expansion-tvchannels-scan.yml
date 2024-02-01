@@ -1,0 +1,26 @@
+services:
+  tvchannels-scan:
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+    init: true
+    restart: "no"
+    network_mode: "none"
+    devices:
+      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+    container_name: tvchannels-scan
+    image: stu2005/tvchannels-scan:latest
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./tvchannels-scan
+        target: /opt/tvchannels-scan
+    environment:
+      TZ: Asia/Tokyo
+    tty: true
