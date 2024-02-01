@@ -5,22 +5,21 @@ COPY --from=libpcsckai / /build/
 
 # Install dependencies for build
 RUN set -x && \
-    apk add -U --no-cache git cmake ninja g++ pcsc-lite-dev make linux-headers
-
+    apk add -U --no-cache git cmake ninja g++ pcsc-lite-dev make linux-headers && \
+\
 # Build libaribb25
-WORKDIR /libaribb25/
-RUN set -x && \
-    git clone https://github.com/tsukumijima/libaribb25 . && \
+    git clone https://github.com/tsukumijima/libaribb25 /libaribb25 && \
+    cd /libaribb25/ && \
     cmake -GNinja -Bbuild -DWITH_PCSC_LIBRARY=pcsckai -DCMAKE_INSTALL_PREFIX=/build/usr/local && \
     cd build && \
+    sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
+    sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
-    ninja install
-
+    ninja install && \
+\
 # Build recfsusb2n
-WORKDIR /recfsusb2n/
-RUN set -x && \
-    git clone https://github.com/tkmsst/recfsusb2n.git . && \
-    cd src && \
+    git clone https://github.com/tkmsst/recfsusb2n.git /recfsusb2n && \
+    cd /recfsusb2n/src/ && \
     rm -rf Makefile usbdevfile.c && \
     wget https://gist.githubusercontent.com/stu2005/ec575983485aa69ebfe6a58d713e8ee8/raw/c3afe8b91ba9acdda2e252e9e766da41ad8a87d8/Makefile && \
     wget https://gist.githubusercontent.com/stu2005/041420d48d9af94dd3d8b0ec4bb5c5f1/raw/cddfc97399f4c1b19d78cdeee55d481580104a59/usbdevfile.c && \
