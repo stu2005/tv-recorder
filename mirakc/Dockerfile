@@ -18,7 +18,7 @@ RUN set -x && \
     ninja install && \
 \
 # Build recfsusb2n
-    git clone https://github.com/tkmsst/recfsusb2n.git /recfsusb2n && \
+    git clone https://github.com/stu2005/recfsusb2n.git /recfsusb2n && \
     cd /recfsusb2n/src/ && \
     rm -rf Makefile usbdevfile.c && \
     wget https://gist.githubusercontent.com/stu2005/ec575983485aa69ebfe6a58d713e8ee8/raw/c3afe8b91ba9acdda2e252e9e766da41ad8a87d8/Makefile && \
