@@ -26,6 +26,13 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: ./tvchannels-scan/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: stu2005/tvchannels-scan:latest
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
           context: ./mirakc/
           platforms: linux/amd64,linux/arm64
           push: true
