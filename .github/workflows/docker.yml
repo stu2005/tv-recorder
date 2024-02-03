@@ -37,3 +37,10 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: stu2005/mirakc:latest
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./epgstation/
+          platforms: linux/arm/v7
+          push: true
+          tags: stu2005/epgstation:raspberrypi
