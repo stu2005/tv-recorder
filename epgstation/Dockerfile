@@ -11,7 +11,6 @@ RUN set -x && \
 # Install dependencies for Build
     apk add -U --no-cache --virtual .build-deps \
       alpine-sdk \
-      git \
       autoconf \
       automake \
       pkgconf \
@@ -84,7 +83,7 @@ RUN set -x && \
     rm -rf ./aribb24* && \
 \
 # Build userland
-    wget -O /userland-master.zip https://github.com/raspberrypi/userland/archive/refs/heads/master.zip && \
+    wget -O /userland-master.zip https://github.com/stu2005/userland/archive/refs/heads/master.zip && \
     unzip ./userland-master.zip && \
     cd /userland-master/ && \
     ./buildme && \
