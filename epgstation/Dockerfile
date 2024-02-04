@@ -1,8 +1,8 @@
 FROM l3tnun/epgstation:alpine
 ENV TZ="Asia/Tokyo"
-ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
-ARG LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
-ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
+ENV PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
+ENV LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
 EXPOSE 8888/tcp
 VOLUME /app/data/
 VOLUME /app/thumbnail/
@@ -155,7 +155,6 @@ RUN set -x && \
       --enable-nonfree && \
     make -j$(nproc) && \
     make install && \
-    rm -rf /opt/ && \
     cd / && \
     rm -rf ./ffmpeg* && \
 \
