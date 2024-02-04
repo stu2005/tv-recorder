@@ -1,0 +1,91 @@
+services:
+
+  mirakc:
+    image: docker.io/stu2005/mirakc:latest
+    container_name: mirakc
+    init: true
+    restart: unless-stopped
+    devices:
+      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+    ports:
+      - target: 40772
+        published: 40772
+    volumes:
+      - type: volume
+        source: mirakc
+        target: /var/lib/mirakc/epg/
+      - type: bind
+        source: ./mirakc/config.yml
+        target: /etc/mirakc/config.yml
+        read_only: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+
+  mariadb:
+    image: yobasystems/alpine-mariadb:latest
+    container_name: mariadb
+    volumes:
+      - type: volume
+        source: mariadb
+        target: /var/lib/mysql
+    environment:
+      MYSQL_USER: epgstation
+      MYSQL_PASSWORD: epgstation
+      MYSQL_ROOT_PASSWORD: epgstation
+      MYSQL_DATABASE: epgstation
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --expire_logs_days=1
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+
+  epgstation:
+    image: docker.io/stu2005/epgstation:raspberrypi
+    container_name: epgstation
+    devices:
+      - "/dev/video11:/dev/video11"
+      - "/dev/vcsm-cma:/dev/vcsm-cma"
+    volumes:
+      - type: bind
+        source: ./epgstation/
+        target: /app/config/
+      - type: volume
+        source: epgstation
+        target: /app/data/
+      - type: volume
+        source: epgstation
+        target: /app/thumbnail/
+      - type: bind
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+    depends_on:
+      mirakc:
+        condition: service_healthy
+      mariadb:
+        condition: service_started
+    ports:
+      - target: 8888
+        published: 8888
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+
+volumes:
+  epgstation:
+    name: epgstation
+  mariadb:
+    name: mariadb
+  mirakc:
+    name: mirakc
+    driver: local
