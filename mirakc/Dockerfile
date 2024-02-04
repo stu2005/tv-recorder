@@ -37,3 +37,5 @@ COPY --from=build /build/ /
 ENV TZ=Asia/Tokyo
 ENV RUST_LOG=info
 VOLUME /var/lib/mirakc/epg/
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD curl -fsSL http://localhost:40772/api/status || exit 1
