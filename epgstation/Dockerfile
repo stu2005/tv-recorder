@@ -71,26 +71,30 @@ RUN set -x && \
       sudo \
 && \
 # Build libaribb24
-    git clone https://salsa.debian.org/multimedia-team/aribb24.git /aribb24 && \
-    cd /aribb24 && \
+    wget -O /aribb24-master.tar.bz2 https://salsa.debian.org/multimedia-team/aribb24/-/archive/master/aribb24-master.tar.bz2 && \
+    cd / && \
+    tar -jxvf ./aribb24-master.tar.bz2 && \
+    cd /aribb24-master/ && \
     ./bootstrap && \
     ./configure && \
     make -j$(nproc) && \
     make prefix=/usr install && \
     sed -i -e 's#/usr/local#/usr#g' /usr/lib/pkgconfig/aribb24.pc && \
     cd / && \
-    rm -rf ./aribb24 && \
+    rm -rf ./aribb24* && \
 \
 # Build userland
-    git clone https://github.com/stu2005/userland /userland && \
-    cd /userland && \
+    wget -O /userland-master.zip https://github.com/raspberrypi/userland/archive/refs/heads/master.zip && \
+    unzip ./userland-master.zip && \
+    cd /userland-master/ && \
     ./buildme && \
     cd / && \
-    rm -rf ./userland && \
+    rm -rf ./userland* && \
 \
 # Build ffmpeg
-    git clone -b release/6.0 https://git.ffmpeg.org/ffmpeg.git /ffmpeg && \
-    cd /ffmpeg/ && \
+    wget -O /ffmpeg-6.0.1.tar.xz https://ffmpeg.org/releases/ffmpeg-6.0.1.tar.xz && \
+    tar -Jxvf ./ffmpeg-6.0.1.tar.xz && \
+    cd /ffmpeg-6.0.1/ && \
     ./configure \
       --prefix=/usr \
       --disable-librtmp \
