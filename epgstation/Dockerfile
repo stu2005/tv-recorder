@@ -57,7 +57,11 @@ RUN set -x && \
       soxr-dev \
       v4l-utils-dev \
       vidstab-dev \
+      vulkan-loader \
+      vulkan-loader-dbg \
       vulkan-loader-dev \
+      vulkan-tools \
+      vulkan-headers \
       x264-dev \
       x265-dev \
       xvidcore-dev \
