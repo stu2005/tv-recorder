@@ -10,6 +10,7 @@ RUN set -x && \
 \
 # Install dependencies for Build
     apk add -U --no-cache --virtual .build-deps \
+      alpine-sdk \
       git \
       autoconf \
       automake \
