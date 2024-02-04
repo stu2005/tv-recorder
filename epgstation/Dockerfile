@@ -6,6 +6,8 @@ ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/b
 EXPOSE 8888/tcp
 VOLUME /app/data/
 VOLUME /app/thumbnail/
+ENTRYPOINT ["node"]
+CMD ["dist/index.js"]
 RUN set -x && \
 \
 # Install dependencies for Build
