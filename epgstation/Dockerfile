@@ -17,7 +17,6 @@ RUN set -x && \
       libtool \
       gawk \
       mawk \
-      nawk \
       make \
       gcc \
       clang \
