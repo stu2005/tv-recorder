@@ -155,6 +155,7 @@ RUN set -x && \
       --enable-nonfree && \
     make -j$(nproc) && \
     make install && \
+    rm -rf /opt/ && \
     cd / && \
     rm -rf ./ffmpeg* && \
 \
@@ -201,4 +202,5 @@ RUN set -x && \
       libxml2 \
       libvdpau \
       libx11 \
-      soxr
+      soxr \
+      raspberrypi-libs
