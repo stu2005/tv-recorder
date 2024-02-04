@@ -1,11 +1,15 @@
-FROM alpine:latest AS build
+FROM l3tnun/epgstation:alpine
+ENV TZ="Asia/Tokyo"
 ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
 ARG LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
 ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
+EXPOSE 8888/tcp
+VOLUME /app/data/
+VOLUME /app/thumbnail/
 RUN set -x && \
 \
 # Install dependencies for Build
-    apk add -U --no-cache \
+    apk add -U --no-cache --virtual .build-deps \
       git \
       autoconf \
       automake \
@@ -26,9 +30,8 @@ RUN set -x && \
       fontconfig-dev \
       freetype-dev \
       fribidi-dev \
-      harfbuzz-dev \
+      gnutls-dev \
       imlib2-dev \
-      ladspa-dev \
       lame-dev \
       libass-dev \
       libbluray-dev \
@@ -46,13 +49,10 @@ RUN set -x && \
       libwebp-dev \
       libxfixes-dev \
       libxml2-dev \
-      lilv-dev \
-      nasm \
-      openssl-dev \
+      nasm
       opus-dev \
       perl-dev \
       pulseaudio-dev \
-      rav1e-dev \
       sdl2-dev \
       soxr-dev \
       v4l-utils-dev \
@@ -76,18 +76,19 @@ RUN set -x && \
     ./bootstrap && \
     ./configure && \
     make -j$(nproc) && \
-    make prefix=/build/usr install && \
     make prefix=/usr install && \
-    sed -i -e 's#/usr/local#/usr#g' /build/usr/lib/pkgconfig/aribb24.pc && \
     sed -i -e 's#/usr/local#/usr#g' /usr/lib/pkgconfig/aribb24.pc && \
+    cd / && \
+    rm -rf ./aribb24 && \
 \
 # Build userland
     git clone https://github.com/stu2005/userland /userland && \
     cd /userland && \
     ./buildme && \
+    cd / && \
+    rm -rf ./userland && \
 \
 # Build ffmpeg
-    cd / && \
     wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
     tar -jxvf ./ffmpeg-snapshot.tar.bz2 && \
     cd ./ffmpeg/ && \
@@ -97,12 +98,11 @@ RUN set -x && \
       --disable-lzma \
       --disable-static \
       --disable-stripping \
-      --disable-shared \
       --disable-debug \
       --disable-doc \
       --enable-avfilter \
+      --enable-gnutls \
       --enable-gpl \
-      --enable-ladspa \
       --enable-libaom \
       --enable-libass \
       --enable-libbluray \
@@ -111,13 +111,11 @@ RUN set -x && \
       --enable-libfontconfig \
       --enable-libfreetype \
       --enable-libfribidi \
-      --enable-libharfbuzz \
       --enable-libmp3lame \
       --enable-libopenmpt \
       --enable-libopus \
       --enable-libplacebo \
       --enable-libpulse \
-      --enable-librav1e \
       --enable-librist \
       --enable-libsoxr \
       --enable-libsrt \
@@ -135,78 +133,69 @@ RUN set -x && \
       --enable-libxvid \
       --enable-libzimg \
       --enable-libzmq \
-      --enable-lto=auto \
-      --enable-lv2 \
-      --enable-openssl \
+      --enable-lto \
       --enable-pic \
       --enable-postproc \
       --enable-pthreads \
       --enable-shared \
       --enable-vaapi \
       --enable-vdpau \
-      --enable-version3 \
       --enable-vulkan \
       --optflags=-O3 \
       --enable-libjxl \
       --enable-omx \
       --enable-omx-rpi \
       --enable-mmal \
+      --enable-version3 \
       --enable-libaribb24 \
       --enable-nonfree && \
-    make -j$(nproc)
-
+    make -j$(nproc) && \
+    make install && \
+    rm -rf /opt/ && \
+    cd / && \
+    rm -rf ./ffmpeg* && \
+\
+\
 # Final Image
-FROM l3tnun/epgstation:alpine
-COPY --from=build /ffmpeg/ /ffmpeg/
-COPY --from=build /build/ /
-RUN apk add -U --no-cache \
+    apk del --purge .build-deps && \
+    apk add -U --no-cache \
+      sdl2 \
       aom-libs \
       lame-libs \
       libdav1d \
       libjxl \
       libtheora \
       libva \
-      liborbis \
+      libvorbis \
       libvpx \
       libwebp \
-      libwebpmux \
       opus \
-      rav1e-libs \
       x264-libs \
       x265-libs \
       xvidcore \
+      zlib \
       alsa-lib \
       libdrm \
       libpulse \
       libxcb \
-      sdl2 \
       v4l-utils-libs \
       fontconfig \
       freetype \
-      frbidi \
-      harfbuzz \
+      fribidi \
       libass \
+      libopenmpt \
       libplacebo \
       libzmq \
-      libv-libs \
       vidstab \
       zimg \
-      zlib \
+      gnutls \
       libbluray \
       libbz2 \
-      libcrypto3 \
       libopenmpt \
       librist \
       libsrt \
       libssh \
-      libssl3 \
       libxml2 \
-      libzmq \
       libvdpau \
       libx11 \
-      soxr \
-      make && \
-    cd /ffmpeg/ && \
-    make install && \
-    apk del --purge make && \
-    rm -rf /ffmpeg/
+      soxr

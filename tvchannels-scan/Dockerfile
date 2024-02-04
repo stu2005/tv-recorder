@@ -14,5 +14,8 @@ RUN set -x && \
     mkdir -p /build/usr/local/bin/ && \
     make PREFIX=/build/usr/local install
 
+
+# Final Image
 FROM collelog/tvchannels-scan:latest-alpine
 COPY --from=build /build/ /
+ENV TZ=Asia/Tokyo

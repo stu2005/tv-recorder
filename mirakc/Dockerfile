@@ -2,9 +2,9 @@ FROM stu2005/libpcsckai:latest AS libpcsckai
 FROM alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
-
-# Install dependencies for build
 RUN set -x && \
+\
+# Install dependencies for build
     apk add -U --no-cache git cmake ninja g++ pcsc-lite-dev make linux-headers && \
 \
 # Build libaribb25
@@ -26,9 +26,10 @@ RUN set -x && \
     make -j$(nproc) && \
     make PREFIX=/build/usr/local install
 
-WORKDIR /build/
-
 
 # Final Image
 FROM mirakc/mirakc:alpine
 COPY --from=build /build/ /
+ENV TZ=Asia/Tokyo
+ENV RUST_LOG=info
+VOLUME /var/lib/mirakc/epg/
