@@ -49,7 +49,7 @@ RUN set -x && \
       libwebp-dev \
       libxfixes-dev \
       libxml2-dev \
-      nasm
+      nasm \
       opus-dev \
       perl-dev \
       pulseaudio-dev \
