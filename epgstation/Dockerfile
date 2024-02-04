@@ -57,6 +57,7 @@ RUN set -x && \
       soxr-dev \
       v4l-utils-dev \
       vidstab-dev \
+      vulkan-loader-dev \
       x264-dev \
       x265-dev \
       xvidcore-dev \
@@ -88,9 +89,8 @@ RUN set -x && \
     rm -rf ./userland && \
 \
 # Build ffmpeg
-    wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
-    tar -jxvf ./ffmpeg-snapshot.tar.bz2 && \
-    cd ./ffmpeg/ && \
+    git clone -b release/6.0 https://git.ffmpeg.org/ffmpeg.git /ffmpeg && \
+    cd /ffmpeg/ && \
     ./configure \
       --prefix=/usr \
       --disable-librtmp \
@@ -139,6 +139,7 @@ RUN set -x && \
       --enable-shared \
       --enable-vaapi \
       --enable-vdpau \
+      --enable-vulkan \
       --optflags=-O3 \
       --enable-libjxl \
       --enable-omx \
