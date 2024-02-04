@@ -57,11 +57,6 @@ RUN set -x && \
       soxr-dev \
       v4l-utils-dev \
       vidstab-dev \
-      vulkan-loader \
-      vulkan-loader-dbg \
-      vulkan-loader-dev \
-      vulkan-tools \
-      vulkan-headers \
       x264-dev \
       x265-dev \
       xvidcore-dev \
@@ -144,7 +139,6 @@ RUN set -x && \
       --enable-shared \
       --enable-vaapi \
       --enable-vdpau \
-      --enable-vulkan \
       --optflags=-O3 \
       --enable-libjxl \
       --enable-omx \
