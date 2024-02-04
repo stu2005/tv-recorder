@@ -5,7 +5,7 @@ COPY --from=libpcsckai / /build/
 RUN set -x && \
 \
 # Install dependencies for build
-    apk add -U --no-cache cmake ninja pcsc-lite-dev make linux-headers && \
+    apk add -U --no-cache gcc g++ cmake ninja pcsc-lite-dev make linux-headers && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
