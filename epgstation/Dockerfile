@@ -65,7 +65,6 @@ RUN set -x && \
       zeromq-dev \
       zimg-dev \
       zlib-dev \
-      raspberrypi-libs \
       bash \
       cmake \
       ninja \
