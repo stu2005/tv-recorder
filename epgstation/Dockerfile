@@ -65,10 +65,6 @@ RUN set -x && \
       zeromq-dev \
       zimg-dev \
       zlib-dev \
-      bash \
-      cmake \
-      ninja \
-      sudo \
       raspberrypi-userland-dev \
 && \
 # Build libaribb24
