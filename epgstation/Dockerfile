@@ -70,7 +70,7 @@ RUN set -x && \
 # Build libaribb24
     wget -O /aribb24-master.tar.bz2 https://salsa.debian.org/multimedia-team/aribb24/-/archive/master/aribb24-master.tar.bz2 && \
     cd / && \
-    tar -jxvf ./aribb24-master.tar.bz2 && \
+    tar -jxf ./aribb24-master.tar.bz2 && \
     cd /aribb24-master/ && \
     ./bootstrap && \
     ./configure && \
@@ -82,7 +82,7 @@ RUN set -x && \
 \
 # Build ffmpeg
     wget -O /ffmpeg-6.0.1.tar.xz https://ffmpeg.org/releases/ffmpeg-6.0.1.tar.xz && \
-    tar -Jxvf ./ffmpeg-6.0.1.tar.xz && \
+    tar -Jxf ./ffmpeg-6.0.1.tar.xz && \
     cd /ffmpeg-6.0.1/ && \
     ./configure \
       --prefix=/usr \
@@ -143,7 +143,6 @@ RUN set -x && \
       --enable-nonfree && \
     make -j$(nproc) && \
     make install && \
-    rm -rf /opt/ && \
     cd / && \
     rm -rf ./ffmpeg* && \
 \
