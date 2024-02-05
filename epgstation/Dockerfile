@@ -69,6 +69,7 @@ RUN set -x && \
       cmake \
       ninja \
       sudo \
+      raspberrypi-userland-dev \
 && \
 # Build libaribb24
     wget -O /aribb24-master.tar.bz2 https://salsa.debian.org/multimedia-team/aribb24/-/archive/master/aribb24-master.tar.bz2 && \
@@ -82,14 +83,6 @@ RUN set -x && \
     sed -i -e 's#/usr/local#/usr#g' /usr/lib/pkgconfig/aribb24.pc && \
     cd / && \
     rm -rf ./aribb24* && \
-\
-# Build userland
-    wget -O /userland-master.zip https://github.com/stu2005/userland/archive/refs/heads/master.zip && \
-    unzip ./userland-master.zip && \
-    cd /userland-master/ && \
-    ./buildme && \
-    cd / && \
-    rm -rf ./userland* && \
 \
 # Build ffmpeg
     wget -O /ffmpeg-6.0.1.tar.xz https://ffmpeg.org/releases/ffmpeg-6.0.1.tar.xz && \
@@ -202,4 +195,4 @@ RUN set -x && \
       libvdpau \
       libx11 \
       soxr \
-      raspberrypi-libs
+      raspberrypi-userland-libs
