@@ -1,0 +1,19 @@
+epg:
+  cache-dir: /var/lib/mirakc/epg
+
+server:
+  addrs:
+    - http: '0.0.0.0:40772'
+
+tuners:
+  - name: US-3POUT
+    types: [GR, BS]
+    command: >-
+      recfsusb2n {{{channel}}} - -
+
+filters:
+  decode-filter:
+    command: >-
+      arib-b25-stream-test
+
+channels:

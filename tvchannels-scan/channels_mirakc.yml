@@ -1,0 +1,131 @@
+  - name: 'ＮＨＫＥテレ・仙台'
+    type: 'GR'
+    channel: 'C14'
+
+  - name: 'ＮＨＫ総合・仙台'
+    type: 'GR'
+    channel: 'C15'
+
+  - name: 'ＴＢＣテレビ'
+    type: 'GR'
+    channel: 'C16'
+
+  - name: '仙台放送'
+    type: 'GR'
+    channel: 'C17'
+
+  - name: 'ミヤギテレビ'
+    type: 'GR'
+    channel: 'C18'
+
+  - name: '東日本放送ＣＨ'
+    type: 'GR'
+    channel: 'C20'
+
+  - name: 'ＢＳ朝日'
+    type: 'BS'
+    channel: 'BS01_0'
+
+  - name: 'ＢＳ－ＴＢＳ'
+    type: 'BS'
+    channel: 'BS01_1'
+
+  - name: 'ＢＳテレ東'
+    type: 'BS'
+    channel: 'BS01_2'
+
+  - name: 'ＷＯＷＯＷプライム'
+    type: 'BS'
+    channel: 'BS03_0'
+
+  - name: 'ＮＨＫ'
+    type: 'BS'
+    channel: 'BS03_1'
+
+  - name: 'ＷＯＷＯＷライブ'
+    type: 'BS'
+    channel: 'BS05_0'
+
+  - name: 'ＷＯＷＯＷシネマ'
+    type: 'BS'
+    channel: 'BS05_1'
+
+  - name: 'ＢＳ１１イレブン'
+    type: 'BS'
+    channel: 'BS09_0'
+
+  - name: 'スターチャンネル１'
+    type: 'BS'
+    channel: 'BS09_1'
+
+  - name: 'ＢＳ１２トゥエルビ'
+    type: 'BS'
+    channel: 'BS09_2'
+
+  - name: '放送大学'
+    type: 'BS'
+    channel: 'BS11_2'
+
+  - name: 'ＢＳ釣りビジョン'
+    type: 'BS'
+    channel: 'BS11_3'
+
+  - name: 'ＢＳ日テレ'
+    type: 'BS'
+    channel: 'BS13_0'
+
+  - name: 'ＢＳフジ'
+    type: 'BS'
+    channel: 'BS13_1'
+
+  - name: 'ＢＳアニマックス'
+    type: 'BS'
+    channel: 'BS13_2'
+
+  - name: 'スターチャンネル２'
+    type: 'BS'
+    channel: 'BS15_1'
+
+  - name: 'Ｊ　ＳＰＯＲＴＳ　４'
+    type: 'BS'
+    channel: 'BS19_0'
+
+  - name: 'Ｊ　ＳＰＯＲＴＳ　１'
+    type: 'BS'
+    channel: 'BS19_1'
+
+  - name: 'Ｊ　ＳＰＯＲＴＳ　２'
+    type: 'BS'
+    channel: 'BS19_2'
+
+  - name: 'Ｊ　ＳＰＯＲＴＳ　３'
+    type: 'BS'
+    channel: 'BS19_3'
+
+  - name: 'ＷＯＷＯＷプラス'
+    type: 'BS'
+    channel: 'BS21_0'
+
+  - name: '日本映画専門ｃｈ'
+    type: 'BS'
+    channel: 'BS21_1'
+
+  - name: 'グリーンチャンネル'
+    type: 'BS'
+    channel: 'BS21_2'
+
+  - name: 'ディズニーｃｈ'
+    type: 'BS'
+    channel: 'BS23_0'
+
+  - name: 'ＢＳよしもと'
+    type: 'BS'
+    channel: 'BS23_1'
+
+  - name: 'ＢＳＪａｐａｎｅｘｔ'
+    type: 'BS'
+    channel: 'BS23_2'
+
+  - name: 'ＢＳ松竹東急'
+    type: 'BS'
+    channel: 'BS23_3'
