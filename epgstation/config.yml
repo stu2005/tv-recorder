@@ -14,6 +14,7 @@ mysql:
     user: epgstation
     password: epgstation
     database: epgstation
+    charset: utf8mb4
 
 epgUpdateIntervalTime: 10
 
@@ -30,8 +31,8 @@ thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
 
-ffmpeg: /usr/local/bin/ffmpeg
-ffprobe: /usr/local/bin/ffprobe
+ffmpeg: /usr/bin/ffmpeg
+ffprobe: /usr/bin/ffprobe
 
 encodeProcessNum: 4
 concurrentEncodeNum: 1
@@ -58,11 +59,11 @@ stream:
                 - name: 720p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_v4l2m2m -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast -y -f mpegts pipe:1'
+                      -c:v h264_omx -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast -y -f mpegts pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
-                      -c:v h264_v4l2m2m -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast -y -f mpegts pipe:1'
+                      -c:v h264_omx -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast -y -f mpegts pipe:1'
                 - name: 無変換
 
             m2tsll:
@@ -70,13 +71,13 @@ stream:
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -f mpegts -analyzeduration 500000 -c:v mpeg2_mmal -i pipe:0 -map 0 -c:s copy -c:d
                       copy -ignore_unknown -fflags nobuffer -flags low_delay -max_delay 250000 -max_interleave_delta 1
-                      -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v h264_v4l2m2m -flags +cgop -vf yadif,scale=-2:720
+                      -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v h264_omx -flags +cgop -vf yadif,scale=-2:720
                       -b:v 3000k -preset veryfast -y -f mpegts pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -f mpegts -analyzeduration 500000 -c:v mpeg2_mmal -i pipe:0 -map 0 -c:s copy -c:d
                       copy -ignore_unknown -fflags nobuffer -flags low_delay -max_delay 250000 -max_interleave_delta 1
-                      -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v h264_v4l2m2m -flags +cgop -vf yadif,scale=-2:480
+                      -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v h264_omx -flags +cgop -vf yadif,scale=-2:480
                       -b:v 1500k -preset veryfast -y -f mpegts pipe:1'
 
             webm:
@@ -95,13 +96,13 @@ stream:
                 - name: 720p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_v4l2m2m -vf yadif,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      -c:v h264_omx -vf yadif,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
-                      -c:v h264_v4l2m2m -vf yadif,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      -c:v h264_omx -vf yadif,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
 
@@ -111,14 +112,14 @@ stream:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_v4l2m2m -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_omx -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast
                       -flags +loop-global_header %OUTPUT%'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_v4l2m2m -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_omx -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast
                       -flags +loop-global_header %OUTPUT%'
     recorded:
         ts:
@@ -138,13 +139,13 @@ stream:
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
-                      h264_v4l2m2m -vf yadif,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      h264_omx -vf yadif,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v
-                      h264_v4l2m2m -vf yadif,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      h264_omx -vf yadif,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
 
@@ -154,14 +155,14 @@ stream:
                       '%FFMPEG% -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_v4l2m2m -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_omx -vf yadif,scale=-2:720 -b:v 3000k -preset veryfast
                       -flags +loop-global_header %OUTPUT%'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -c:v mpeg2_mmal -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_v4l2m2m -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_omx -vf yadif,scale=-2:480 -b:v 1500k -preset veryfast
                       -flags +loop-global_header %OUTPUT%'
 
         encoded:
@@ -181,13 +182,13 @@ stream:
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
-                      2 -c:v h264_v4l2m2m -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      2 -c:v h264_omx -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac
-                      2 -c:v h264_v4l2m2m -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      2 -c:v h264_omx -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
 
@@ -197,12 +198,12 @@ stream:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_v4l2m2m -vf scale=-2:720 -b:v 3000k -preset veryfast -flags
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v h264_omx -vf scale=-2:720 -b:v 3000k -preset veryfast -flags
                       +loop-global_header %OUTPUT%'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -ignore_unknown
                       -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
                       -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
-                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_v4l2m2m -vf scale=-2:480 -b:v 3000k -preset veryfast -flags
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v h264_omx -vf scale=-2:480 -b:v 3000k -preset veryfast -flags
                       +loop-global_header %OUTPUT%'

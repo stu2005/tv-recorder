@@ -1,4 +1,4 @@
-FROM l3tnun/epgstation:alpine
+FROM docker.io/l3tnun/epgstation:alpine
 ENV TZ="Asia/Tokyo"
 ENV LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
 ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
@@ -8,6 +8,8 @@ VOLUME /app/data/
 VOLUME /app/thumbnail/
 ENTRYPOINT ["node"]
 CMD ["dist/index.js"]
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD curl -fsSL http://localhost:8888/api/status || exit 1
 RUN set -x && \
 \
 # Install dependencies for Build

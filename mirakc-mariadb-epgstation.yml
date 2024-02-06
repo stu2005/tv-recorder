@@ -25,19 +25,19 @@ services:
         max-file: "2"
         compress: "true"
 
-  mariadb:
-    image: yobasystems/alpine-mariadb:latest
-    container_name: mariadb
+  mysql:
+    image: mysql:latest
+    container_name: mysql
     volumes:
       - type: volume
-        source: mariadb
+        source: mysql
         target: /var/lib/mysql
     environment:
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
       MYSQL_ROOT_PASSWORD: epgstation
       MYSQL_DATABASE: epgstation
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --expire_logs_days=1
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci --performance-schema=false --expire_logs_days=1 --default-authentication-plugin=mysql_native_password
     restart: always
     logging:
       driver: "json-file"
@@ -51,7 +51,7 @@ services:
     container_name: epgstation
     devices:
       - "/dev/video11:/dev/video11"
-      - "/dev/vcsm-cma:/dev/vcsm-cma"
+      - "/dev/vchiq:/dev/vchiq"
     volumes:
       - type: bind
         source: ./epgstation/
@@ -68,7 +68,7 @@ services:
     depends_on:
       mirakc:
         condition: service_healthy
-      mariadb:
+      mysql:
         condition: service_started
     ports:
       - target: 8888
@@ -84,8 +84,8 @@ services:
 volumes:
   epgstation:
     name: epgstation
-  mariadb:
-    name: mariadb
+  mysql:
+    name: mysql
   mirakc:
     name: mirakc
     driver: local
