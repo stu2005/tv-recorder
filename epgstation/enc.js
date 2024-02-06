@@ -37,7 +37,7 @@ Array.prototype.push.apply(args, ['-fix_sub_duration']);
 // input 設定
 Array.prototype.push.apply(args, ['-c:v', 'mpeg2_mmal', '-i', input]);
 // ビデオストリーム設定
-Array.prototype.push.apply(args, ['-map', '0:v', '-c:v', 'h264_omx']);
+Array.prototype.push.apply(args, ['-map', '0:v', '-c:v', 'h264_omx', '-b:v', '1500k']);
 // インターレス解除
 Array.prototype.push.apply(args, ['-vf', 'yadif']);
 // オーディオストリーム設定
