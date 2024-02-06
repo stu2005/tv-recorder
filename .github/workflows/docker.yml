@@ -23,24 +23,32 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
+      - name: Build and push tvchannels-scan
         uses: docker/build-push-action@v5
         with:
           context: ./tvchannels-scan/
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: stu2005/tvchannels-scan:latest
-      - name: Build and push
+      - name: Build and push mirakc
         uses: docker/build-push-action@v5
         with:
           context: ./mirakc/
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: stu2005/mirakc:latest
-      - name: Build and push
+      - name: Build and push EPGStation for multiarch
         uses: docker/build-push-action@v5
         with:
           context: ./epgstation/
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: stu2005/epgstation:latest
+      - name: Build and push EPGStation for RaspberryPi
+        uses: docker/build-push-action@v5
+        with:
+          context: ./epgstation/
+          file: raspberrypi.Dockerfile
           platforms: linux/arm/v7
           push: true
           tags: stu2005/epgstation:raspberrypi

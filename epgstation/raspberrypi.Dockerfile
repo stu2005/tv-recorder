@@ -1,5 +1,8 @@
 FROM docker.io/l3tnun/epgstation:alpine
 ENV TZ="Asia/Tokyo"
+ENV LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
+ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
+ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
 EXPOSE 8888/tcp
 VOLUME /app/data/
 VOLUME /app/thumbnail/
@@ -64,6 +67,7 @@ RUN set -x && \
       zeromq-dev \
       zimg-dev \
       zlib-dev \
+      raspberrypi-userland-dev \
 && \
 # Build libaribb24
     wget -O /aribb24-master.tar.bz2 https://salsa.debian.org/multimedia-team/aribb24/-/archive/master/aribb24-master.tar.bz2 && \
@@ -133,6 +137,9 @@ RUN set -x && \
       --enable-vulkan \
       --optflags=-O3 \
       --enable-libjxl \
+      --enable-omx \
+      --enable-omx-rpi \
+      --enable-mmal \
       --enable-version3 \
       --enable-libaribb24 \
       --enable-nonfree && \
@@ -185,3 +192,4 @@ RUN set -x && \
       libvdpau \
       libx11 \
       soxr \
+      raspberrypi-userland-libs
