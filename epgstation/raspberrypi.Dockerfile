@@ -3,7 +3,6 @@ ENV TZ="Asia/Tokyo"
 ENV LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
 ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
 ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
-EXPOSE 8888/tcp
 VOLUME /app/data/
 VOLUME /app/thumbnail/
 ENTRYPOINT ["node"]

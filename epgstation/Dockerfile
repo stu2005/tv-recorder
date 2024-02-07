@@ -1,6 +1,5 @@
 FROM docker.io/l3tnun/epgstation:alpine
 ENV TZ="Asia/Tokyo"
-EXPOSE 8888/tcp
 VOLUME /app/data/
 VOLUME /app/thumbnail/
 ENTRYPOINT ["node"]

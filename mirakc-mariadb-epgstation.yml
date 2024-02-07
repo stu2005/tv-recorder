@@ -25,20 +25,27 @@ services:
         max-file: "2"
         compress: "true"
 
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    volumes:
-      - type: volume
-        source: mysql
-        target: /var/lib/mysql
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
     environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Tokyo
+      MYSQL_DATABASE: epgstation
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
-      MYSQL_ROOT_PASSWORD: epgstation
-      MYSQL_DATABASE: epgstation
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci --performance-schema=false --expire_logs_days=1 --default-authentication-plugin=mysql_native_password
-    restart: always
+    volumes:
+      - type: bind
+        source: ./mariadb/
+        target: /config/
+        bind:
+          create_host_path: true
+    restart: unless-stopped
+    healthcheck:
+      test: curl -fsSL http://localhost:3306 || exit 1
+      interval: 10s
+      timeout: 3s
     logging:
       driver: "json-file"
       options:
@@ -47,15 +54,14 @@ services:
         compress: "true"
 
   epgstation:
-    image: docker.io/stu2005/epgstation:raspberrypi
+    image: docker.io/stu2005/epgstation:latest
     container_name: epgstation
-    devices:
-      - "/dev/video11:/dev/video11"
-      - "/dev/vchiq:/dev/vchiq"
     volumes:
       - type: bind
         source: ./epgstation/
         target: /app/config/
+        bind:
+          create_host_path: true
       - type: volume
         source: epgstation
         target: /app/data/
@@ -65,11 +71,13 @@ services:
       - type: bind
         source: /mnt/hdd/recorded/
         target: /app/recorded/
+        bind:
+          create_host_path: true
     depends_on:
       mirakc:
         condition: service_healthy
-      mysql:
-        condition: service_started
+      mariadb:
+        condition: service_healthy
     ports:
       - target: 8888
         published: 8888
@@ -84,8 +92,6 @@ services:
 volumes:
   epgstation:
     name: epgstation
-  mysql:
-    name: mysql
   mirakc:
     name: mirakc
     driver: local

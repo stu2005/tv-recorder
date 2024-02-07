@@ -82,9 +82,13 @@
   type: 'BS'
   channel: 'BS13_2'
 
-- name: 'スターチャンネル２'
+- name: 'ＮＨＫ　ＢＳ'
   type: 'BS'
   channel: 'BS15_1'
+
+- name: 'スターチャンネル２'
+  type: 'BS'
+  channel: 'BS15_2'
 
 - name: 'Ｊ　ＳＰＯＲＴＳ　４'
   type: 'BS'

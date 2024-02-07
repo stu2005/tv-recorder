@@ -12,7 +12,7 @@ services:
     devices:
       - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
     container_name: tvchannels-scan
-    image: stu2005/tvchannels-scan:latest
+    image: docker.io/stu2005/tvchannels-scan:latest
     volumes:
       - type: bind
         source: /etc/localtime
@@ -21,6 +21,6 @@ services:
       - type: bind
         source: ./tvchannels-scan
         target: /opt/tvchannels-scan
-    environment:
-      TZ: Asia/Tokyo
+        bind:
+          create_host_path: true
     tty: true
