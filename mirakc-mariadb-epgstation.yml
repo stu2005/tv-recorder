@@ -43,7 +43,7 @@ services:
           create_host_path: true
     restart: unless-stopped
     healthcheck:
-      test: curl -fsSL http://localhost:3306 || exit 1
+      test: mysqladmin -hlocalhost -P3306 -uepgstation -pepgstation ping || exit 1
       interval: 10s
       timeout: 3s
     logging:
