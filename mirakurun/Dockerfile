@@ -63,3 +63,5 @@ COPY --from=build /usr/local/lib/node_modules/mirakurun/ /app/
 COPY --from=build /build/ /
 CMD ["./docker/container-init.sh"]
 EXPOSE 40772
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD wget -qO- http://localhost:40772/api/status || exit 1
