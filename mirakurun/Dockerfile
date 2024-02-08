@@ -1,6 +1,6 @@
 FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
 FROM docker.io/library/node:18-alpine AS build
-COPY --from=libpcsckai /build/ /
+COPY --from=libpcsckai / /
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
 \
