@@ -37,6 +37,13 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: stu2005/mirakc:latest
+      - name: Build and push Mirakurun
+        uses: docker/build-push-action@v5
+        with:
+          context: ./mirakurun/
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: stu2005/mirakurun:latest
       - name: Build and push EPGStation for multiarch
         uses: docker/build-push-action@v5
         with:
