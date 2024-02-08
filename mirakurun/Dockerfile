@@ -25,7 +25,7 @@ RUN set -x && \
     unzip ./recfsusb2n.zip && \
     cd /recfsusb2n-alpine/src/ && \
     make -j$(nproc) && \
-    make PREFIX=/build/usr/local install
+    make PREFIX=/build/usr/local install && \
 \
 # Build Mirakurun
     wget -O /mirakurun-master.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip && \
