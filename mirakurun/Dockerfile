@@ -44,21 +44,8 @@ RUN set -x && \
 # Final Image
 FROM docker.io/library/node:18-alpine
 WORKDIR /app/
-ENV SERVER_CONFIG_PATH=/app-config/server.yml
-ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml
-ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml
-ENV SERVICES_DB_PATH=/app-data/services.json
-ENV PROGRAMS_DB_PATH=/app-data/programs.json
-ENV LOGO_DATA_DIR_PATH=/app-data/logo-data
-ENV PATH=/opt/bin:$PATH
-ENV DOCKER=YES
-ENV INIT_PID=$$
-ENV MALLOC_ARENA_MAX=2
-ENV TZ=Asia/Tokyo
-VOLUME /var/run/
-VOLUME /opt/
-VOLUME /app-config/
-VOLUME /app-data/
+ENV SERVER_CONFIG_PATH=/app-config/server.yml TUNERS_CONFIG_PATH=/app-config/tuners.yml CHANNELS_CONFIG_PATH=/app-config/channels.yml SERVICES_DB_PATH=/app-data/services.json PROGRAMS_DB_PATH=/app-data/programs.json LOGO_DATA_DIR_PATH=/app-data/logo-data PATH=/opt/bin:$PATH DOCKER=YES INIT_PID=$$ MALLOC_ARENA_MAX=2 TZ=Asia/Tokyo
+VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /usr/local/lib/node_modules/mirakurun/ /app/
 COPY --from=build /build/ /
 RUN apk add -U --no-cache curl

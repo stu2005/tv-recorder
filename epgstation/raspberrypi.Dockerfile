@@ -1,10 +1,7 @@
 FROM docker.io/l3tnun/epgstation:alpine
-ENV TZ="Asia/Tokyo"
-ENV LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
-ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
-ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
-VOLUME /app/data/
-VOLUME /app/thumbnail/
+ENV TZ="Asia/Tokyo" LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
+ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig" PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
+VOLUME /app/data/ /app/thumbnail/
 ENTRYPOINT ["node"]
 CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
@@ -151,6 +148,7 @@ RUN set -x && \
 # Final Image
     apk del --purge .build-deps && \
     apk add -U --no-cache \
+      curl \
       sdl2 \
       aom-libs \
       lame-libs \

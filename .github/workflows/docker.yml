@@ -59,3 +59,10 @@ jobs:
           platforms: linux/arm/v7
           push: true
           tags: stu2005/epgstation:raspberrypi
+      - name: Build and push Chinachu
+        uses: docker/build-push-action@v5
+        with:
+          context: ./chinachu/
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: stu2005/chinachu:latest

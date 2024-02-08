@@ -1,7 +1,6 @@
 FROM docker.io/l3tnun/epgstation:alpine
 ENV TZ="Asia/Tokyo"
-VOLUME /app/data/
-VOLUME /app/thumbnail/
+VOLUME /app/data/ /app/thumbnail/
 ENTRYPOINT ["node"]
 CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
@@ -144,6 +143,7 @@ RUN set -x && \
 # Final Image
     apk del --purge .build-deps && \
     apk add -U --no-cache \
+      curl \
       sdl2 \
       aom-libs \
       lame-libs \
