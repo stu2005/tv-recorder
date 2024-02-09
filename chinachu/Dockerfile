@@ -11,8 +11,7 @@ RUN set -x && \
     mv /src/chinachu/common /src/chinachu/package*json /build/chinachu/ && \
     cd /build/chinachu/ && \
     npm install && \
-    npm update && \
-    npm audit fix --force
+    npm update
 
 
 # Final Image
