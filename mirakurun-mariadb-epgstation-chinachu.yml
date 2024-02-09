@@ -1,0 +1,140 @@
+services:
+
+  mirakurun:
+    image: docker.io/stu2005/mirakurun:latest
+    container_name: mirakurun
+    cap_add:
+      - SYS_ADMIN
+      - SYS_NICE
+    ports:
+      - target: 40772
+        published: 40772
+    devices:
+      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+    volumes:
+      - type: bind
+        source: ./mirakurun/
+        target: /app-config/
+        bind:
+          create_host_path: true
+      - type: volume
+        source: mirakurun
+        target: /app-data/
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: epgstation
+      MYSQL_DATABASE: epgstation
+      MYSQL_USER: epgstation
+      MYSQL_PASSWORD: epgstation
+    volumes:
+      - type: bind
+        source: ./mariadb/
+        target: /config/
+        bind:
+          create_host_path: true
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin -h localhost -P 3306 -u epgstation -p epgstation ping
+      interval: 10s
+      timeout: 3s
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  epgstation:
+    image: docker.io/stu2005/epgstation:latest
+    container_name: epgstation
+    volumes:
+      - type: bind
+        source: ./epgstation/
+        target: /app/config/
+        bind:
+          create_host_path: true
+      - type: volume
+        source: epgstation
+        target: /app/data/
+      - type: volume
+        source: epgstation
+        target: /app/thumbnail/
+      - type: bind
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+        bind:
+          create_host_path: true
+    depends_on:
+      mirakurun:
+        condition: service_healthy
+      mariadb:
+        condition: service_healthy
+    ports:
+      - target: 8888
+        published: 8888
+    devices:
+      - "/dev/video11:/dev/video11"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  chinachu:
+    image: docker.io/stu2005/chinachu:latest
+    container_name: chinachu
+    ports:
+      - target: 20772
+        published: 20772
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./chinachu/config.json
+        target: /app/config.json
+      - type: bind
+        source: ./chinachu/rules.json
+        target: /app/rules.json
+      - type: volume
+        source: chinachu
+        target: /app/data/
+      - type: bind
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+        bind:
+          create_host_path: true
+    depends_on:
+      mirakurun:
+        condition: service_healthy
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+volumes:
+  mirakurun:
+    name: "mirakurun"
+  epgstation:
+    name: "epgstation"
+  chinachu:
+    name: "chinachu"
