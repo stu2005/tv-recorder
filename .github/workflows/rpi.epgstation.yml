@@ -1,4 +1,4 @@
-name: ci
+name: rpi-epgstation
 
 on:
   push:

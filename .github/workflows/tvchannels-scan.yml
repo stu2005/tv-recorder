@@ -1,4 +1,4 @@
-name: ci
+name: tvchannels-scan
 
 on:
   push:
