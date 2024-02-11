@@ -1,6 +1,5 @@
 FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:14-alpine AS build
-COPY --from=update_baseImage / /
 RUN set -x && \
 \
 # Install Build Dependencies
