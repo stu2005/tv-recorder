@@ -1,4 +1,6 @@
-FROM node:14-alpine AS build
+FROM docker.io/library/alpine:latest AS update_baseImage
+FROM docker.io/library/node:14-alpine AS build
+COPY --from=update_baseImage / /
 RUN set -x && \
 \
 # Install Build Dependencies
@@ -16,6 +18,7 @@ RUN set -x && \
 
 # Final Image
 FROM node:14-alpine
+COPY --from=update_baseImage / /
 COPY --from=build /src/chinachu/ /app/
 COPY --from=build /build/chinachu/ /app/
 WORKDIR /app/
