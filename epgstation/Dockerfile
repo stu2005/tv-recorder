@@ -166,7 +166,6 @@ RUN set -x && \
       libvpx \
       libwebp \
       libwebpmux \
-      onevpl-libs \
       opus \
       rav1e-libs \
       x264-libs \
@@ -188,7 +187,6 @@ RUN set -x && \
       libva \
       libzmq \
       lilv-libs \
-      onevpl-libs \
       vidstab \
       zimg \
       libbluray \
