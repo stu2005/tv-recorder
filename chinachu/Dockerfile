@@ -27,5 +27,6 @@ EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
     apk add -U --no-cache curl ffmpeg && \
     npm install pm2 -g
+CMD ["./docker/container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
