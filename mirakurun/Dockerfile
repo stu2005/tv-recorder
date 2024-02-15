@@ -1,8 +1,11 @@
 FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
+FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:18-alpine AS build
+COPY --from=update_baseImage / /
 COPY --from=libpcsckai / /
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
+    apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
     apk add -U --no-cache alpine-sdk gcc g++ cmake ninja pcsc-lite-dev make linux-headers && \
@@ -46,9 +49,11 @@ FROM docker.io/library/node:18-alpine
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml TUNERS_CONFIG_PATH=/app-config/tuners.yml CHANNELS_CONFIG_PATH=/app-config/channels.yml SERVICES_DB_PATH=/app-data/services.json PROGRAMS_DB_PATH=/app-data/programs.json LOGO_DATA_DIR_PATH=/app-data/logo-data PATH=/opt/bin:$PATH DOCKER=YES INIT_PID=$$ MALLOC_ARENA_MAX=2 TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
+COPY --from=update_baseImage / /
 COPY --from=build /usr/local/lib/node_modules/mirakurun/ /app/
 COPY --from=build /build/ /
-RUN apk add -U --no-cache curl
+RUN apk upgrade -U --no-cache && \
+    apk add -U --no-cache curl
 CMD ["./docker/container-init.sh"]
 EXPOSE 40772
 HEALTHCHECK --interval=10s --timeout=3s \

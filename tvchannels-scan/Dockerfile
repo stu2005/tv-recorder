@@ -1,5 +1,7 @@
+FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/alpine:latest AS build
 RUN set -x && \
+    apk upgrade -U --no-cache && \
 \
 # Install Dependencies for Build
     apk add -U --no-cache make gcc musl-dev linux-headers && \
@@ -16,5 +18,7 @@ RUN set -x && \
 
 # Final Image
 FROM collelog/tvchannels-scan:latest-alpine
+COPY --from=update_baseImage / /
 COPY --from=build /build/ /
+RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo

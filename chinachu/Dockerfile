@@ -1,6 +1,7 @@
 FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:14-alpine AS build
 RUN set -x && \
+    apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
     apk add -U --no-cache alpine-sdk git python3 && \
@@ -23,7 +24,8 @@ COPY --from=build /build/chinachu/ /app/
 WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
-RUN apk add -U --no-cache curl ffmpeg && \
+RUN apk upgrade -U --no-cache && \
+    apk add -U --no-cache curl ffmpeg && \
     npm install pm2 -g
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1

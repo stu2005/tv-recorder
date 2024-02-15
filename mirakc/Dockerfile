@@ -1,8 +1,10 @@
-FROM stu2005/libpcsckai:latest AS libpcsckai
-FROM alpine:latest AS build
+FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
+FROM docker.io/library/alpine:latest AS update_baseImage
+FROM docker.io/library/alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \
+    apk upgrade -U --no-cache && \
 \
 # Install dependencies for build
     apk add -U --no-cache gcc g++ cmake ninja pcsc-lite-dev make linux-headers && \
@@ -31,6 +33,8 @@ RUN set -x && \
 # Final Image
 FROM mirakc/mirakc:alpine
 COPY --from=build /build/ /
+COPY --from=update_baseImage / /
+RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo RUST_LOG=info
 VOLUME /var/lib/mirakc/epg/
 HEALTHCHECK --interval=10s --timeout=3s \

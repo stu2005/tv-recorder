@@ -8,6 +8,7 @@ CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
 RUN set -x && \
+    apk upgrade -U --no-cache && \
 \
 # Install dependencies for Build
     apk add -U --no-cache --virtual .build-deps \
