@@ -1,12 +1,10 @@
 FROM docker.io/library/alpine:latest AS update_baseImage
-FROM docker.io/library/python:3-alpine3.17 AS python
 FROM docker.io/library/node:14-alpine AS build
-COPY --from=python / /
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
-    apk add -U --no-cache alpine-sdk git && \
+    apk add -U --no-cache alpine-sdk python3 git && \
 \
 # Build Chinachu
     git config --global http.version HTTP/1.1 && \
