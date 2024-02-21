@@ -4,7 +4,7 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
-    apk add -U --no-cache alpine-sdk python3 git && \
+    apk add -U --no-cache alpine-sdk python3 git bash && \
 \
 # Build Chinachu
     git config --global http.version HTTP/1.1 && \
@@ -25,8 +25,9 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg && \
+    apk add -U --no-cache curl ffmpeg bash && \
     npm install pm2 -g
-CMD ["./docker/container-init.sh"]
+ENTRYPOINT ["pm2-runtime"]
+CMD ["./processes.json"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
