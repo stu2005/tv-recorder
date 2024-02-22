@@ -45,6 +45,7 @@ RUN apk upgrade -U --no-cache && \
     sed -i 's/VSERVER/DOCKER/Ig' /lib/rc/sh/init.sh && \
     ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
     ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
+    chmod +x /etc/init.d/chinachu* && \
     rc-update add chinachu-operator && \
     rc-update add chinachu-wui
 CMD ["/sbin/init"]
