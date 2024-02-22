@@ -46,8 +46,8 @@ RUN apk upgrade -U --no-cache && \
     ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
     ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
     chmod +x /etc/init.d/chinachu* && \
-    rc-update add chinachu-operator && \
-    rc-update add chinachu-wui
+    rc-update add chinachu-operator default && \
+    rc-update add chinachu-wui default
 CMD ["/sbin/init"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
