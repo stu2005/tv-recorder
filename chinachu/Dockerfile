@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:latest AS update_baseImage
+FROM docker.io/dockage/alpine:3-openrc AS update_baseImage
 FROM docker.io/library/node:14-alpine AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -26,28 +26,10 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/ /sys/fs/cgroup/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash openrc && \
-    sed -i 's/^\(tty\d\:\:\)/#\1/g' /etc/inittab && \
-    sed -i \
-      -e 's/#rc_sys=".*"/rc_sys="docker"/g' \
-      -e 's/#rc_env_allow=".*"/rc_env_allow="\*"/g' \
-      -e 's/#rc_crashed_stop=.*/rc_crashed_stop=NO/g' \
-      -e 's/#rc_crashed_start=.*/rc_crashed_start=YES/g' \
-      -e 's/#rc_provide=".*"/rc_provide="loopback net"/g' \
-      /etc/rc.conf && \
-    rm -f /etc/init.d/hwdrivers \
-      /etc/init.d/hwclock \
-      /etc/init.d/hwdrivers \
-      /etc/init.d/modules \
-      /etc/init.d/modules-load \
-      /etc/init.d/modloop && \
-    sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh && \
-    sed -i 's/VSERVER/DOCKER/Ig' /lib/rc/sh/init.sh && \
+    apk add -U --no-cache curl ffmpeg bash && \
     ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
     ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
-    chmod +x /etc/init.d/chinachu* && \
-    rc-update add chinachu-operator default && \
-    rc-update add chinachu-wui default
-CMD ["/sbin/init"]
+    chmod +x /etc/init.d/chinachu*
+CMD ["./docker/container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
