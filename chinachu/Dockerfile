@@ -1,4 +1,4 @@
-FROM docker.io/dockage/alpine:3-openrc AS update_baseImage
+FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:14-alpine AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -26,10 +26,7 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/ /sys/fs/cgroup/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash && \
-    ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
-    ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
-    chmod +x /etc/init.d/chinachu*
+    apk add -U --no-cache curl ffmpeg bash
 CMD ["./docker/container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
