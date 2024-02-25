@@ -26,7 +26,10 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/ /sys/fs/cgroup/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash
+    apk add -U --no-cache curl ffmpeg bash openrc && \
+    ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
+    ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
+    chmod +x /etc/init.d/chinachu*
 CMD ["./docker/container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
