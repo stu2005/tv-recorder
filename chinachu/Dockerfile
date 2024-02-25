@@ -1,5 +1,5 @@
-FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:14-alpine AS build
+FROM docker.io/alpine:latest AS update_baseImage
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -18,7 +18,6 @@ RUN set -x && \
 
 # Final Image
 FROM docker.io/library/node:14-alpine
-ENV container=docker
 COPY --from=update_baseImage / /
 COPY --from=build /src/chinachu/ /app/
 COPY --from=build /build/chinachu/ /app/
@@ -26,10 +25,11 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/ /sys/fs/cgroup/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash openrc && \
-    ./chinachu service operator initscript > /etc/init.d/chinachu-operator && \
-    ./chinachu service wui initscript > /etc/init.d/chinachu-wui && \
-    chmod +x /etc/init.d/chinachu*
-CMD ["./docker/container-init.sh"]
+    apk add -U --no-cache curl ffmpeg bash && \
+    npm install pm2 -g && \
+    ln -s /var/run/chinachu-wui-0.pid /var/run/chinachu-wui.pid && \
+    ln -s /var/run/chinachu-operator-1.pid /var/run/chinachu-operator.pid
+ENTRYPOINT ["pm2-runtime"]
+CMD ["./processes.json"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
