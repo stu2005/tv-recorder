@@ -1,5 +1,5 @@
-FROM docker.io/library/node:14-alpine AS build
 FROM docker.io/library/alpine:latest AS update_baseImage
+FROM docker.io/library/node:14-alpine AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -22,7 +22,7 @@ COPY --from=update_baseImage / /
 COPY --from=build /src/chinachu/ /app/
 COPY --from=build /build/chinachu/ /app/
 WORKDIR /app/
-VOLUME /app/data/ /app/recorded/ /sys/fs/cgroup/
+VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
     apk add -U --no-cache curl ffmpeg bash && \
