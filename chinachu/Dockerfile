@@ -1,5 +1,5 @@
 FROM docker.io/library/node:14-alpine AS build
-FROM docker.io/alpine:latest AS update_baseImage
+FROM docker.io/library/alpine:latest AS update_baseImage
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
