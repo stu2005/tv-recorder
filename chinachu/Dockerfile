@@ -25,10 +25,8 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash && \
-    npm install pm2 -g && \
-    ln -s /var/run/chinachu-wui-0.pid /var/run/chinachu-wui.pid && \
-    ln -s /var/run/chinachu-operator-1.pid /var/run/chinachu-operator.pid
+    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
+    npm install pm2 -g
 ENTRYPOINT ["pm2-runtime"]
 CMD ["./processes.json"]
 HEALTHCHECK --interval=10s --timeout=3s \
