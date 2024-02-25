@@ -1,7 +1,7 @@
 {
-  "uid": null,
+  "uid": "root",
   "gid": "video",
-  "mirakurunPath": "http+unix://%2Fvar%2Frun%2Fmirakurun.sock/",
+  "mirakurunPath": "http://mirakurun:40772",
 
   "recordedDir" : "./recorded/",
 
@@ -44,7 +44,7 @@
   "wuiMdnsAdvertisement": true,
 
   "recordedFormat": "[<date:yymmdd-HHMM>][<type><channel>][<channel-name>]<title>.m2ts",
-  "storageLowSpaceThresholdMB": 3000,
+  "storageLowSpaceThresholdMB": 9000,
   "storageLowSpaceAction": "remove",
   "storageLowSpaceNotifyTo": null,
   "storageLowSpaceCommand": ""
