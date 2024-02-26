@@ -25,9 +25,7 @@ WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
-    npm install pm2 -g
-ENTRYPOINT ["pm2-runtime"]
-CMD ["./processes.json"]
+    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates
+CMD ["./docker/container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
