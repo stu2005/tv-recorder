@@ -8,10 +8,10 @@ RUN set -x && \
 \
 # Build Chinachu
     git config --global http.version HTTP/1.1 && \
-    git clone --recursive https://github.com/stu2005/chinachu /src/chinachu && \
-    mkdir -p /build/chinachu/ && \
-    mv /src/chinachu/common /src/chinachu/package*json /build/chinachu/ && \
-    cd /build/chinachu/ && \
+    git clone --recursive https://github.com/stu2005/chinachu /src && \
+    mkdir -p /build/ && \
+    mv /src/common /src/package*json /build/ && \
+    cd /build/ && \
     npm install && \
     npm update
 
@@ -19,13 +19,15 @@ RUN set -x && \
 # Final Image
 FROM docker.io/library/node:14-alpine
 COPY --from=update_baseImage / /
-COPY --from=build /src/chinachu/ /app/
-COPY --from=build /build/chinachu/ /app/
+COPY --from=build /src/ /app/
+COPY --from=build /build/ /app/
 WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates
-CMD ["./docker/container-init.sh"]
+    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
+    npm install pm2 -g
+ENTRYPOINT ["pm2-runtime"]
+CMD ["./processes.json"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
