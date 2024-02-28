@@ -1,7 +1,5 @@
 FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/node:18-alpine AS build
-COPY --from=update_baseImage / /
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 ARG DOCKER=YES NODE_ENV=production

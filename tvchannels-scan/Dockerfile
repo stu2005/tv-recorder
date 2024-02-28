@@ -1,4 +1,3 @@
-FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/alpine:latest AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -17,6 +16,7 @@ RUN set -x && \
 
 
 # Final Image
+FROM docker.io/library/alpine:latest AS update_baseImage
 FROM collelog/tvchannels-scan:latest-alpine
 COPY --from=update_baseImage / /
 COPY --from=build /build/ /

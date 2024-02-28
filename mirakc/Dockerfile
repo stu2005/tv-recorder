@@ -1,5 +1,4 @@
 FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/library/alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
@@ -31,7 +30,8 @@ RUN set -x && \
 
 
 # Final Image
-FROM mirakc/mirakc:alpine
+FROM docker.io/library/alpine:latest AS update_baseImage
+FROM docker.io/mirakc/mirakc:alpine
 COPY --from=build /build/ /
 COPY --from=update_baseImage / /
 RUN apk upgrade -U --no-cache
