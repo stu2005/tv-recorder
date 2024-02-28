@@ -19,14 +19,16 @@ RUN set -x && \
 # Final Image
 FROM docker.io/library/node:14-alpine
 COPY --from=update_baseImage / /
-COPY --from=build /src/ /app/
-COPY --from=build /build/ /app/
+COPY --chown=node:node --from=build /src/ /app/
+COPY --chown=node:node --from=build /build/ /app/
 WORKDIR /app/
 VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
     apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
-    npm install pm2 -g
+    npm install pm2 -g && \
+    chown -R node:node *
+USER node:node
 ENTRYPOINT ["pm2-runtime"]
 CMD ["./processes.json"]
 HEALTHCHECK --interval=10s --timeout=3s \
