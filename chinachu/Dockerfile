@@ -12,7 +12,8 @@ RUN set -x && \
     mv /src/common /src/package*json /build/ && \
     cd /build/ && \
     npm install && \
-    npm update
+    npm update && \
+    npm audit fix
 
 
 # Final Image
