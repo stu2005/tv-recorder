@@ -23,7 +23,6 @@ COPY --from=update_baseImage /etc/apk/repositories /etc/apk/repositories
 COPY --chown=node:node --from=build /src/ /app/
 COPY --chown=node:node --from=build /build/ /app/
 WORKDIR /app/
-VOLUME /app/data/ /app/recorded/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
     apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
