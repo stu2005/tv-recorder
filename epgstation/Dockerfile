@@ -24,51 +24,51 @@ RUN set -x && \
       clang \
       libjxl-dev \
       alsa-lib-dev \
-	    aom-dev \
-	    bzip2-dev \
-    	coreutils \
-    	dav1d-dev \
-    	fontconfig-dev \
-    	freetype-dev \
-    	fribidi-dev \
-    	harfbuzz-dev \
+	     aom-dev \
+	     bzip2-dev \
+    	 coreutils \
+    	 dav1d-dev \
+    	 fontconfig-dev \
+     	freetype-dev \
+    	 fribidi-dev \
+     	harfbuzz-dev \
      	imlib2-dev \
       ladspa-dev \
    	  lame-dev \
-    	libass-dev \
+     	libass-dev \
      	libbluray-dev \
      	libdrm-dev \
      	libopenmpt-dev \
      	libplacebo-dev \
       librist-dev \
       libsrt-dev \
-    	libssh-dev \
-    	libtheora-dev \
-    	libva-dev \
-    	libvdpau-dev \
-    	libvorbis-dev \
-    	libvpx-dev \
-    	libwebp-dev \
-    	libxfixes-dev \
-    	libxml2-dev \
-    	lilv-dev \
-    	nasm \
-    	openssl-dev \
-    	opus-dev \
-    	perl-dev \
-    	pulseaudio-dev \
-    	rav1e-dev \
-    	sdl2-dev \
-    	soxr-dev \
-    	v4l-utils-dev \
-    	vidstab-dev \
-    	vulkan-loader-dev \
-    	x264-dev \
+     	libssh-dev \
+     	libtheora-dev \
+     	libva-dev \
+     	libvdpau-dev \
+     	libvorbis-dev \
+     	libvpx-dev \
+     	libwebp-dev \
+    	 libxfixes-dev \
+     	libxml2-dev \
+     	lilv-dev \
+     	nasm \
+     	openssl-dev \
+     	opus-dev \
+     	perl-dev \
+     	pulseaudio-dev \
+     	rav1e-dev \
+     	sdl2-dev \
+     	soxr-dev \
+     	v4l-utils-dev \
+     	vidstab-dev \
+     	vulkan-loader-dev \
+     	x264-dev \
      	x265-dev \
-    	xvidcore-dev \
-    	zeromq-dev \
-    	zimg-dev \
-    	zlib-dev \
+     	xvidcore-dev \
+     	zeromq-dev \
+     	zimg-dev \
+     	zlib-dev \
 && \
 # Build libaribb24
     wget -O /aribb24-master.tar.bz2 https://salsa.debian.org/multimedia-team/aribb24/-/archive/master/aribb24-master.tar.bz2 && \
@@ -96,51 +96,50 @@ RUN set -x && \
       --disable-debug \
       --disable-doc \
       --enable-avfilter \
-		  --enable-gpl \
-		  --enable-ladspa \
-		  --enable-libaom \
-		  --enable-libass \
-		  --enable-libbluray \
-		  --enable-libdav1d \
-		  --enable-libdrm \
-		  --enable-libfontconfig \
-		  --enable-libfreetype \
-		  --enable-libfribidi \
-		  --enable-libharfbuzz \
-		  --enable-libmp3lame \
-		  --enable-libopenmpt \
-		  --enable-libopus \
-		  --enable-libplacebo \
-		  --enable-libpulse \
-		  --enable-librav1e \
-		  --enable-librist \
-		  --enable-libsoxr \
-		  --enable-libsrt \
-		  --enable-libssh \
-		  --enable-libtheora \
-		  --enable-libv4l2 \
-		  --enable-libvidstab \
-		  --enable-libvorbis \
-		  --enable-libvpx \
-		  --enable-libwebp \
-		  --enable-libx264 \
-		  --enable-libx265 \
-		  --enable-libxcb \
-		  --enable-libxml2 \
-		  --enable-libxvid \
-		  --enable-libzimg \
-		  --enable-libzmq \
-		  --enable-lto=auto \
-		  --enable-lv2 \
-		  --enable-openssl \
-		  --enable-pic \
-		  --enable-postproc \
-		  --enable-pthreads \
-		  --enable-shared \
-		  --enable-vaapi \
-		  --enable-vdpau \
-		  --enable-version3 \
-		  --enable-vulkan \
+		    --enable-gpl \
+		    --enable-ladspa \
+		    --enable-libaom \
+		    --enable-libass \
+		    --enable-libbluray \
+		    --enable-libdav1d \
+		    --enable-libdrm \
+		    --enable-libfontconfig \
+		    --enable-libfreetype \
+		    --enable-libfribidi \
+		    --enable-libharfbuzz \
+		    --enable-libmp3lame \
+		    --enable-libopenmpt \
+		    --enable-libopus \
+		    --enable-libplacebo \
+		    --enable-libpulse \
+		    --enable-librav1e \
+		    --enable-librist \
+		    --enable-libsoxr \
+		    --enable-libsrt \
+		    --enable-libssh \
+		    --enable-libtheora \
+		    --enable-libv4l2 \
+		    --enable-libvidstab \
+		    --enable-libvorbis \
+		    --enable-libvpx \
+		    --enable-libwebp \
+		    --enable-libx264 \
+		    --enable-libx265 \
+		    --enable-libxcb \
+		    --enable-libxml2 \
+		    --enable-libxvid \
+		    --enable-libzimg \
+		    --enable-libzmq \
+		    --enable-lto=auto \
+		    --enable-lv2 \
+		    --enable-openssl \
+		    --enable-pic \
+		    --enable-postproc \
+		    --enable-pthreads \
+		    --enable-shared \
+		    --enable-vaapi \
+		    --enable-vdpau \
+		    --enable-version3 \
       --optflags=-O3 \
       --enable-libjxl \
       --enable-version3 \
