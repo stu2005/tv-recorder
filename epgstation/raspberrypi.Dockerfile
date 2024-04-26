@@ -25,10 +25,10 @@ RUN set -x && \
       clang \
       libjxl-dev \
       alsa-lib-dev \
-	     aom-dev \
-	     bzip2-dev \
+	    aom-dev \
+	    bzip2-dev \
      	coreutils \
-    	 dav1d-dev \
+    	dav1d-dev \
      	fontconfig-dev \
      	freetype-dev \
     　	fribidi-dev \
@@ -63,7 +63,6 @@ RUN set -x && \
    　 	soxr-dev \
     　	v4l-utils-dev \
    　 	vidstab-dev \
-  　  	vulkan-loader-dev \
    　 	x264-dev \
      	x265-dev \
    　 	xvidcore-dev \
@@ -108,39 +107,39 @@ RUN set -x && \
       --enable-libfontconfig \
       --enable-libfreetype \
       --enable-libfribidi \
-		    --enable-libharfbuzz \
-		    --enable-libmp3lame \
-		    --enable-libopenmpt \
-		    --enable-libopus \
-		    --enable-libplacebo \
-		    --enable-libpulse \
-		    --enable-librav1e \
-		    --enable-librist \
-		    --enable-libsoxr \
-		    --enable-libsrt \
-		    --enable-libssh \
-		    --enable-libtheora \
-		    --enable-libv4l2 \
-		    --enable-libvidstab \
-		    --enable-libvorbis \
-		    --enable-libvpx \
-		    --enable-libwebp \
-		    --enable-libx264 \
-		    --enable-libx265 \
-		    --enable-libxcb \
-		    --enable-libxml2 \
-		    --enable-libxvid \
-		    --enable-libzimg \
-		    --enable-libzmq \
-		    --enable-lto=auto \
-		    --enable-lv2 \
-		    --enable-openssl \
-		    --enable-pic \
-		    --enable-postproc \
-		    --enable-pthreads \
-		    --enable-shared \
-		    --enable-vaapi \
-		    --enable-vdpau \
+		  --enable-libharfbuzz \
+		  --enable-libmp3lame \
+		  --enable-libopenmpt \
+		  --enable-libopus \
+		  --enable-libplacebo \
+		  --enable-libpulse \
+		  --enable-librav1e \
+		  --enable-librist \
+		  --enable-libsoxr \
+		  --enable-libsrt \
+		  --enable-libssh \
+		  --enable-libtheora \
+		  --enable-libv4l2 \
+		  --enable-libvidstab \
+		  --enable-libvorbis \
+		  --enable-libvpx \
+		  --enable-libwebp \
+		  --enable-libx264 \
+		  --enable-libx265 \
+		  --enable-libxcb \
+		  --enable-libxml2 \
+		  --enable-libxvid \
+		  --enable-libzimg \
+		  --enable-libzmq \
+		  --enable-lto=auto \
+		  --enable-lv2 \
+		  --enable-openssl \
+		  --enable-pic \
+		  --enable-postproc \
+		  --enable-pthreads \
+		  --enable-shared \
+		  --enable-vaapi \
+		  --enable-vdpau \
       --optflags=-O3 \
       --enable-libjxl \
       --enable-omx \
