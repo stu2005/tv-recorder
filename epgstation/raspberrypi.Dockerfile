@@ -25,50 +25,50 @@ RUN set -x && \
       clang \
       libjxl-dev \
       alsa-lib-dev \
-	    aom-dev \
-	    bzip2-dev \
-     	coreutils \
-    	dav1d-dev \
-     	fontconfig-dev \
-     	freetype-dev \
-    　	fribidi-dev \
-    　	harfbuzz-dev \
-     	imlib2-dev \
+      aom-dev \
+      bzip2-dev \
+      coreutils \
+      dav1d-dev \
+      fontconfig-dev \
+      freetype-dev \
+      fribidi-dev \
+      harfbuzz-dev \
+      imlib2-dev \
       ladspa-dev \
-   	  lame-dev \
-   　 	libass-dev \
-     	libbluray-dev \
-     	libdrm-dev \
-     	libopenmpt-dev \
-     	libplacebo-dev \
+      lame-dev \
+      libass-dev \
+      libbluray-dev \
+      libdrm-dev \
+      libopenmpt-dev \
+      libplacebo-dev \
       librist-dev \
       libsrt-dev \
-    　	libssh-dev \
-   　 	libtheora-dev \
-   　 	libva-dev \
-  　  	libvdpau-dev \
-  　  	libvorbis-dev \
-   　 	libvpx-dev \
-   　 	libwebp-dev \
-   　 	libxfixes-dev \
-   　 	libxml2-dev \
-   　 	lilv-dev \
-   　 	nasm \
-    　	openssl-dev \
-   　 	opus-dev \
-   　 	perl-dev \
-   　 	pulseaudio-dev \
-    　	rav1e-dev \
-   　 	sdl2-dev \
-   　 	soxr-dev \
-    　	v4l-utils-dev \
-   　 	vidstab-dev \
-   　 	x264-dev \
-     	x265-dev \
-   　 	xvidcore-dev \
-  　  	zeromq-dev \
-   　 	zimg-dev \
-   　 	zlib-dev \
+      libssh-dev \
+      libtheora-dev \
+      libva-dev \
+      libvdpau-dev \
+      libvorbis-dev \
+      libvpx-dev \
+      libwebp-dev \
+      libxfixes-dev \
+      libxml2-dev \
+      lilv-dev \
+      nasm \
+      openssl-dev \
+      opus-dev \
+      perl-dev \
+      pulseaudio-dev \
+      rav1e-dev \
+      sdl2-dev \
+      soxr-dev \
+      v4l-utils-dev \
+      vidstab-dev \
+      x264-dev \
+      x265-dev \
+      xvidcore-dev \
+      zeromq-dev \
+      zimg-dev \
+      zlib-dev \
       raspberrypi-userland-dev \
 && \
 # Build libaribb24
