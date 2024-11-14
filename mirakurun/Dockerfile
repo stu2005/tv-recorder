@@ -7,8 +7,15 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
-    apk add -U --no-cache alpine-sdk gcc g++ cmake ninja pcsc-lite-dev make linux-headers && \
-\
+    apk add -U --no-cache \
+      gcc \
+      g++ \
+      cmake \
+      ninja \
+      pcsc-lite-dev \
+      make \
+      linux-headers \
+&& \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
     cd / && \
@@ -19,16 +26,18 @@ RUN set -x && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
-    ninja install && \
-\
-# Build recfsusb2n
-    wget -O /recfsusb2n.zip https://github.com/stu2005/recfsusb2n/archive/refs/heads/alpine.zip && \
+    ninja install 
+&& \
+# Build recpt1
+    wget -O /recpt1.zip https://github.com/stz2012/recpt1/archive/refs/heads/master.zip && \
     cd / && \
-    unzip ./recfsusb2n.zip && \
-    cd /recfsusb2n-alpine/src/ && \
+    unzip ./recpt1.zip && \
+    cd /recpt1-master/recpt1/ && \
+    ./autogen.sh && \
+    ./configure && \
     make -j$(nproc) && \
-    make PREFIX=/build/usr/local install && \
-\
+    make prefix=/build/usr/local install 
+&& \
 # Build Mirakurun
     wget -O /mirakurun-master.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip && \
     cd / && \
@@ -46,7 +55,17 @@ RUN set -x && \
 # Final Image
 FROM docker.io/library/node:18-alpine
 WORKDIR /app/
-ENV SERVER_CONFIG_PATH=/app-config/server.yml TUNERS_CONFIG_PATH=/app-config/tuners.yml CHANNELS_CONFIG_PATH=/app-config/channels.yml SERVICES_DB_PATH=/app-data/services.json PROGRAMS_DB_PATH=/app-data/programs.json LOGO_DATA_DIR_PATH=/app-data/logo-data PATH=/opt/bin:$PATH DOCKER=YES INIT_PID=$$ MALLOC_ARENA_MAX=2 TZ=Asia/Tokyo
+ENV SERVER_CONFIG_PATH=/app-config/server.yml 
+ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 
+ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml 
+ENV SERVICES_DB_PATH=/app-data/services.json 
+ENV PROGRAMS_DB_PATH=/app-data/programs.json 
+ENV LOGO_DATA_DIR_PATH=/app-data/logo-data 
+ENV PATH=/opt/bin:$PATH 
+ENV DOCKER=YES 
+ENV INIT_PID=$$ 
+ENV MALLOC_ARENA_MAX=2 
+ENV TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /usr/local/lib/node_modules/mirakurun/ /app/
 COPY --from=build /build/ /
