@@ -1,4 +1,4 @@
-name: rpi-epgstation
+name: mirakurun
 
 on:
   push:
@@ -23,11 +23,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push EPGStation for RaspberryPi
+      - name: Build and push Mirakurun
         uses: docker/build-push-action@v5
         with:
-          context: ./epgstation/
-          file: ./epgstation/raspberrypi.Dockerfile
-          platforms: linux/arm/v7
+          context: ./mirakurun/
+          file: debian.Dockerfile
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: stu2005/epgstation:raspberrypi
+          tags: stu2005/mirakurun:debian
