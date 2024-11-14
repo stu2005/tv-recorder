@@ -6,8 +6,14 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install dependencies for build
-    apk add -U --no-cache gcc g++ cmake ninja pcsc-lite-dev make linux-headers && \
-\
+    apk add -U --no-cache \ 
+      gcc \
+      g++ \
+      cmake \
+      ninja \
+      pcsc-lite-dev \
+      #linux-headers \
+&& \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
     cd / && \
@@ -18,15 +24,7 @@ RUN set -x && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
-    ninja install && \
-\
-# Build recfsusb2n
-    wget -O /recfsusb2n.zip https://github.com/stu2005/recfsusb2n/archive/refs/heads/alpine.zip && \
-    cd / && \
-    unzip ./recfsusb2n.zip && \
-    cd /recfsusb2n-alpine/src/ && \
-    make -j$(nproc) && \
-    make PREFIX=/build/usr/local install
+    ninja install
 
 
 # Final Image
