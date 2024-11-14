@@ -29,7 +29,6 @@ RUN set -x && \
 # Final Image
 FROM docker.io/mirakc/mirakc:alpine
 COPY --from=build /build/ /
-COPY --from=update_baseImage / /
 RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo RUST_LOG=info
 VOLUME /var/lib/mirakc/epg/
