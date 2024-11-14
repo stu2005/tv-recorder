@@ -1,4 +1,4 @@
-name: mirakc
+name: mirakc_debian
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./mirakc/
-          file: debian.Dockerfile
+          file: ./mirakc/debian.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: stu2005/mirakc:debian
