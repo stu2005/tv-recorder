@@ -17,7 +17,8 @@ RUN set -x && \
       libclang-dev \
       libdvbv5-dev \
       libudev-dev \
-      pkg-config && \
+      pkg-config \
+      libpcsclite-dev && \
 \
 # Build recisdb
     git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
