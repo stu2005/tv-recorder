@@ -14,7 +14,8 @@ RUN set -x && \
       ninja \
       pcsc-lite-dev \
       make \
-      linux-headers && \
+      linux-headers \
+      autoconf && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
