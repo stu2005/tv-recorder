@@ -14,8 +14,8 @@ RUN set -x && \
       ninja \
       pcsc-lite-dev \
       make \
-      linux-headers \
-&& \
+      linux-headers && \
+\
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
     cd / && \
@@ -26,8 +26,8 @@ RUN set -x && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
-    ninja install 
-&& \
+    ninja install && \
+\
 # Build recpt1
     wget -O /recpt1.zip https://github.com/stz2012/recpt1/archive/refs/heads/master.zip && \
     cd / && \
@@ -36,8 +36,8 @@ RUN set -x && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \
-    make prefix=/build/usr/local install 
-&& \
+    make prefix=/build/usr/local install && \
+\
 # Build Mirakurun
     wget -O /mirakurun-master.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip && \
     cd / && \
