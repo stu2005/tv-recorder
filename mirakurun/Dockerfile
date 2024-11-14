@@ -53,7 +53,7 @@ RUN set -x && \
     wget https://gist.githubusercontent.com/stu2005/750f11ea953cf4ad33478e9830099278/raw/9f472fd7f99378a801e4f6eab3f6172f0daa6460/container-init.sh && \
     chmod +x ./container-init.sh && \
     cd / && \
-    mv /usr/local/lib/node_modules/mirakurun/ /build/app/
+    mv -r /usr/local/lib/node_modules/mirakurun/ /build/app/
 
 
 # Final Image
