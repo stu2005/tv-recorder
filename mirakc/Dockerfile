@@ -11,9 +11,8 @@ RUN set -x && \
       g++ \
       cmake \
       ninja \
-      pcsc-lite-dev \
-      #linux-headers \
-&& \
+      pcsc-lite-dev && \
+\
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
     cd / && \
@@ -28,7 +27,6 @@ RUN set -x && \
 
 
 # Final Image
-FROM docker.io/library/alpine:latest AS update_baseImage
 FROM docker.io/mirakc/mirakc:alpine
 COPY --from=build /build/ /
 COPY --from=update_baseImage / /

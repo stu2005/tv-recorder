@@ -41,9 +41,9 @@ RUN set -x && \
     make prefix=/build/usr/local install && \
 \
 # Build Mirakurun
-    wget -O /mirakurun-master.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip && \
+    wget -O /mirakurun.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip && \
     cd / && \
-    unzip mirakurun-master.zip && \
+    unzip mirakurun.zip && \
     cd Mirakurun-master && \
     npm install --production=false && \
     npm run build && \
@@ -51,7 +51,9 @@ RUN set -x && \
     cd /usr/local/lib/node_modules/mirakurun/docker/ && \
     rm -rf container-init.sh && \
     wget https://gist.githubusercontent.com/stu2005/750f11ea953cf4ad33478e9830099278/raw/9f472fd7f99378a801e4f6eab3f6172f0daa6460/container-init.sh && \
-    chmod +x ./container-init.sh
+    chmod +x ./container-init.sh && \
+    cd / && \
+    mv /usr/local/lib/node_modules/mirakurun/ /build/app/
 
 
 # Final Image
@@ -69,7 +71,6 @@ ENV INIT_PID=$$
 ENV MALLOC_ARENA_MAX=2 
 ENV TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
-COPY --from=build /usr/local/lib/node_modules/mirakurun/ /app/
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache && \
     apk add -U --no-cache curl
