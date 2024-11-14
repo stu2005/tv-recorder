@@ -1,5 +1,5 @@
 FROM docker.io/stu2005/libpcsckai:debian AS libpcsckai
-FROM docker.io/library/rust:latest AS build
+FROM --platform=$BUILDPLATFORM docker.io/library/rust:latest AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/

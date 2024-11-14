@@ -1,6 +1,6 @@
 FROM docker.io/stu2005/libpcsckai:debian AS libpcsckai
 FROM docker.io/chinachu/mirakurun:latest AS mirakurun
-FROM docker.io/library/rust:latest AS build
+FROM --platform=$BUILDPLATFORM docker.io/library/rust:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
