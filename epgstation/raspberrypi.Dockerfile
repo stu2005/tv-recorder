@@ -1,11 +1,11 @@
-FROM public.ecr.aws/docker/library/alpine:latest AS update
-FROM mirror.gcr.io/l3tnun/epgstation:alpine AS epgstation
+FROM alpine:latest AS update
+FROM l3tnun/epgstation:alpine AS epgstation
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
 RUN set -x && \
     mkdir -p /build/etc/apk/ && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
     mv /app/ /build/app/
-FROM public.ecr.aws/docker/library/node:18-alpine
+FROM node:18-alpine
 COPY --from=epgstation /app/ /app/
 WORKDIR /app/
 EXPOSE 8888

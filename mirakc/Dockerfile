@@ -1,5 +1,5 @@
 FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM public.ecr.aws/docker/library/alpine:latest AS build
+FROM alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \
@@ -29,7 +29,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM mirror.gcr.io/mirakc/mirakc:alpine
+FROM mirakc/mirakc:alpine
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo RUST_LOG=info

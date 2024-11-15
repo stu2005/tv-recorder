@@ -1,6 +1,6 @@
 FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM public.ecr.aws/docker/library/alpine:latest AS update
-FROM public.ecr.aws/docker/library/node:18-alpine AS build
+FROM alpine:latest AS update
+FROM node:18-alpine AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
@@ -62,7 +62,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM public.ecr.aws/docker/library/node:18-alpine
+FROM node:18-alpine
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 

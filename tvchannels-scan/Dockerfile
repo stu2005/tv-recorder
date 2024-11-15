@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/alpine:latest AS build
+FROM alpine:latest AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -25,7 +25,7 @@ RUN set -x && \
     mv /etc/apk/repositories /build/etc/apk/repositories
 
 # Final Image
-FROM mirror.gcr.io/collelog/tvchannels-scan:latest-alpine
+FROM collelog/tvchannels-scan:latest-alpine
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo

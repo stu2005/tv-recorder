@@ -1,5 +1,5 @@
-FROM public.ecr.aws/docker/library/alpine:latest AS update
-FROM public.ecr.aws/docker/library/node:14-alpine AS build
+FROM alpine:latest AS update
+FROM node:14-alpine AS build
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -22,7 +22,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM public.ecr.aws/docker/library/node:14-alpine
+FROM node:14-alpine
 COPY --chown=node:node --from=build /build/ /
 WORKDIR /app/
 EXPOSE 20772

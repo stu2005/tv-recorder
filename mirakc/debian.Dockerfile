@@ -1,5 +1,5 @@
 FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
-FROM public.ecr.aws/docker/library/rust:latest AS build
+FROM rust:latest AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
@@ -28,7 +28,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM mirror.gcr.io/mirakc/mirakc:debian
+FROM mirakc/mirakc:debian
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=build /build/ /
 RUN apt-get update && \
