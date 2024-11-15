@@ -1,6 +1,6 @@
-FROM docker.io/stu2005/libpcsckai:debian AS libpcsckai
+FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
 FROM docker.io/chinachu/mirakurun:latest AS mirakurun
-FROM docker.io/library/rust:latest AS build
+FROM mirror.gcr.io/library/rust:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
@@ -33,7 +33,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM docker.io/library/node:18-slim
+FROM mirror.gcr.io/library/node:18-slim
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 

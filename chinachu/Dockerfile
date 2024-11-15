@@ -1,4 +1,4 @@
-FROM docker.io/library/node:14-alpine AS build
+FROM mirror.gcr.io/library/node:14-alpine AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -17,8 +17,8 @@ RUN set -x && \
 
 
 # Final Image
-FROM docker.io/library/alpine:latest AS update_baseImage
-FROM docker.io/library/node:14-alpine
+FROM mirror.gcr.io/library/alpine:latest AS update_baseImage
+FROM mirror.gcr.io/library/node:14-alpine
 COPY --from=update_baseImage /etc/apk/repositories /etc/apk/repositories
 COPY --chown=node:node --from=build /src/ /app/
 COPY --chown=node:node --from=build /build/ /app/

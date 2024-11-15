@@ -1,7 +1,7 @@
 services:
 
   mirakurun:
-    image: docker.io/stu2005/mirakurun:latest
+    image: ghcr.io/stu2005/mirakurun:latest
     container_name: mirakurun
     cap_add:
       - SYS_ADMIN
@@ -10,7 +10,7 @@ services:
       - target: 40772
         published: 40772
     devices:
-      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
     volumes:
       - type: bind
         source: ./mirakurun/
@@ -54,7 +54,7 @@ services:
         compress: "true"
 
   epgstation:
-    image: docker.io/stu2005/epgstation:latest
+    image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
     volumes:
       - type: bind
@@ -92,7 +92,7 @@ services:
         compress: "true"
 
   chinachu:
-    image: docker.io/stu2005/chinachu:latest
+    image: ghcr.io/stu2005/chinachu:latest
     container_name: chinachu
     ports:
       - target: 20772

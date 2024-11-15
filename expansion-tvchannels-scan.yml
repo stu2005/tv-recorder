@@ -10,9 +10,9 @@ services:
     restart: "no"
     network_mode: "none"
     devices:
-      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
     container_name: tvchannels-scan
-    image: docker.io/stu2005/tvchannels-scan:latest
+    image: ghcr.io/stu2005/tvchannels-scan:latest
     volumes:
       - type: bind
         source: /etc/localtime

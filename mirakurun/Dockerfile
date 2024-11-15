@@ -1,5 +1,5 @@
-FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM docker.io/library/node:18-alpine AS build
+FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
+FROM mirror.gcr.io/library/node:18-alpine AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 ARG DOCKER=YES NODE_ENV=production
@@ -58,7 +58,7 @@ RUN set -x && \
 
 
 # Final Image
-FROM docker.io/library/node:18-alpine
+FROM mirror.gcr.io/library/node:18-alpine
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 

@@ -1,12 +1,12 @@
 services:
 
   mirakc:
-    image: docker.io/stu2005/mirakc:latest
+    image: ghcr.io/stu2005/mirakc:latest
     container_name: mirakc
     init: true
     restart: unless-stopped
     devices:
-      - "/dev/bus/usb/001/006:/dev/bus/usb/001/006"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
     ports:
       - target: 40772
         published: 40772
@@ -50,7 +50,7 @@ services:
         compress: "true"
 
   epgstation:
-    image: docker.io/stu2005/epgstation:latest
+    image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
     volumes:
       - type: bind

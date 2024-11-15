@@ -1,5 +1,5 @@
-FROM docker.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM docker.io/library/alpine:latest AS build
+FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
+FROM mirror.gcr.io/library/alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \

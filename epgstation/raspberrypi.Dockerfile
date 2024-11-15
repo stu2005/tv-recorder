@@ -1,4 +1,4 @@
-FROM docker.io/library/node:18-alpine AS update-baseImage
+FROM mirror.gcr.io/library/node:18-alpine AS update-baseImage
 FROM docker.io/l3tnun/epgstation:alpine
 COPY --from=update-baseImage / /
 ENV TZ="Asia/Tokyo" LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"

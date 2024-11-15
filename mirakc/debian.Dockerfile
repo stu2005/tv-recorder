@@ -1,5 +1,5 @@
-FROM docker.io/stu2005/libpcsckai:debian AS libpcsckai
-FROM docker.io/library/rust:latest AS build
+FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
+FROM mirror.gcr.io/library/rust:latest AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
