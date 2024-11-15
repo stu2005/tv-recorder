@@ -20,6 +20,7 @@ RUN set -x && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \
+    mkdir -p /build/usr/local/bin/ && \
     make prefix=/build/usr/local install && \
     mkdir -p /build/etc/apk/ && \
     mv /etc/apk/repositories /build/etc/apk/repositories

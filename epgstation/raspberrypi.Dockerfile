@@ -6,7 +6,7 @@ RUN set -x && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
     mv /app/ /build/app/
 FROM node:18-alpine
-COPY --from=epgstation /app/ /app/
+COPY --from=epgstation /build/ /
 WORKDIR /app/
 EXPOSE 8888
 ENV TZ="Asia/Tokyo" LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
