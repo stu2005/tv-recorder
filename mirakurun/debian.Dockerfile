@@ -1,6 +1,6 @@
 FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
-FROM docker.io/chinachu/mirakurun:latest AS mirakurun
-FROM mirror.gcr.io/library/rust:latest AS build
+FROM mirror.gcr.io/chinachu/mirakurun:latest AS mirakurun
+FROM public.ecr.aws/docker/library/rust:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
@@ -29,11 +29,13 @@ RUN set -x && \
     cd /build/app/docker/ && \
     rm -rf container-init.sh && \
     curl -OL https://gist.githubusercontent.com/stu2005/750f11ea953cf4ad33478e9830099278/raw/9f472fd7f99378a801e4f6eab3f6172f0daa6460/container-init.sh && \
-    chmod +x ./container-init.sh
+    chmod +x ./container-init.sh && \
+    mkdir -p /build/etc/apt/ && \
+    cp -r /etc/apt/ /build/etc/apt/
 
 
 # Final Image
-FROM mirror.gcr.io/library/node:18-slim
+FROM public.ecr.aws/docker/library/node:18-slim
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 

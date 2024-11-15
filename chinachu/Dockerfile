@@ -1,33 +1,40 @@
-FROM mirror.gcr.io/library/node:14-alpine AS build
+FROM public.ecr.aws/docker/library/alpine:latest AS update
+FROM public.ecr.aws/docker/library/node:14-alpine AS build
+COPY --from=update /etc/apk/repositories /etc/apk/repositories
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install Build Dependencies
-    apk add -U --no-cache alpine-sdk python3 git bash && \
+    apk add -U --no-cache \
+      alpine-sdk \
+      python3 \
+      git \
+      bash && \
 \
 # Build Chinachu
-    git config --global http.version HTTP/1.1 && \
-    git clone --recursive https://github.com/stu2005/chinachu /src && \
-    mkdir -p /build/ && \
-    mv /src/common /src/package*json /build/ && \
-    cd /build/ && \
+    git clone --recursive https://github.com/stu2005/chinachu /build/app/ && \
+    cd /build/app/ && \
     npm install && \
     npm update && \
-    npm audit fix
+    npm audit fix && \
+    mkdir -p /build/etc/apk/ && \
+    cp /etc/apk/repositories /build/etc/apk/repositories
 
 
 # Final Image
-FROM mirror.gcr.io/library/alpine:latest AS update_baseImage
-FROM mirror.gcr.io/library/node:14-alpine
-COPY --from=update_baseImage /etc/apk/repositories /etc/apk/repositories
-COPY --chown=node:node --from=build /src/ /app/
-COPY --chown=node:node --from=build /build/ /app/
+FROM public.ecr.aws/docker/library/node:14-alpine
+COPY --chown=node:node --from=build /build/ /
 WORKDIR /app/
 EXPOSE 20772
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates && \
-    npm install pm2 -g && \
-    chown -R node:node *
+    apk add -U --no-cache \
+      curl \
+      ffmpeg \
+      bash \
+      coreutils \
+      procps-ng \
+      ca-certificates && \
+    npm install pm2 -g
 USER node:node
 ENTRYPOINT ["pm2-runtime"]
 CMD ["./processes.json"]

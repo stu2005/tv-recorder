@@ -1,4 +1,4 @@
-FROM mirror.gcr.io/library/alpine:latest AS build
+FROM public.ecr.aws/docker/library/alpine:latest AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -20,12 +20,12 @@ RUN set -x && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \
-    make prefix=/build/usr/local install 
+    make prefix=/build/usr/local install && \
+    mkdir -p /build/etc/apk/ && \
+    mv /etc/apk/repositories /build/etc/apk/repositories
 
 # Final Image
-FROM mirror.gcr.io/library/alpine:latest AS update_baseImage
-FROM docker.io/collelog/tvchannels-scan:latest-alpine
-COPY --from=update_baseImage / /
+FROM mirror.gcr.io/collelog/tvchannels-scan:latest-alpine
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo

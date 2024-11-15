@@ -1,14 +1,21 @@
-FROM mirror.gcr.io/library/node:18-alpine AS update-baseImage
-FROM docker.io/l3tnun/epgstation:alpine
-COPY --from=update-baseImage / /
+FROM public.ecr.aws/docker/library/alpine:latest AS update
+FROM mirror.gcr.io/l3tnun/epgstation:alpine AS epgstation
+COPY --from=update /etc/apk/repositories /etc/apk/repositories
+RUN set -x && \
+    mkdir -p /build/etc/apk/ && \
+    cp /etc/apk/repositories /build/etc/apk/repositories && \
+    mv /app/ /build/app/
+FROM public.ecr.aws/docker/library/node:18-alpine
+COPY --from=epgstation /build/ /
+WORKDIR /app/
+EXPOSE 8888
 ENV TZ="Asia/Tokyo"
 VOLUME /app/data/ /app/thumbnail/
 ENTRYPOINT ["node"]
 CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
-RUN set -x && \
-    apk upgrade -U --no-cache && \
+RUN apk upgrade -U --no-cache && \
 \
 # Install dependencies for Build
     apk add -U --no-cache --virtual .build-deps \

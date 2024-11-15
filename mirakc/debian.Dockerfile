@@ -1,5 +1,5 @@
 FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
-FROM mirror.gcr.io/library/rust:latest AS build
+FROM public.ecr.aws/docker/library/rust:latest AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
@@ -22,11 +22,13 @@ RUN set -x && \
     cd /recisdb/ && \
     cargo build -F dvb --release && \
     mkdir -p /build/usr/local/bin/ && \
-    install -m 755 target/release/recisdb /build/usr/local/bin/
+    install -m 755 target/release/recisdb /build/usr/local/bin/ && \
+    mkdir -p /build/etc/apt/ && \
+    cp -r /etc/apt/ /build/etc/apt/
 
 
 # Final Image
-FROM docker.io/mirakc/mirakc:debian
+FROM mirror.gcr.io/mirakc/mirakc:debian
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=build /build/ /
 RUN apt-get update && \

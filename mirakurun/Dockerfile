@@ -1,7 +1,9 @@
 FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM mirror.gcr.io/library/node:18-alpine AS build
+FROM public.ecr.aws/docker/library/alpine:latest AS update
+FROM public.ecr.aws/docker/library/node:18-alpine AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
+COPY --from=update /etc/apk/repositories /etc/apk/repositories
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -54,11 +56,13 @@ RUN set -x && \
     chmod +x ./container-init.sh && \
     cd / && \
     mkdir -p /build/app/ && \
-    mv /usr/local/lib/node_modules/mirakurun/ /build/app/
+    mv /usr/local/lib/node_modules/mirakurun/ /build/app/ && \
+    mkdir -p /build/etc/apk/ && \
+    cp /etc/apk/repositories /build/etc/apk/repositories
 
 
 # Final Image
-FROM mirror.gcr.io/library/node:18-alpine
+FROM public.ecr.aws/docker/library/node:18-alpine
 WORKDIR /app/
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 

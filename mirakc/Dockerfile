@@ -1,5 +1,5 @@
 FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-FROM mirror.gcr.io/library/alpine:latest AS build
+FROM public.ecr.aws/docker/library/alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \
@@ -23,11 +23,13 @@ RUN set -x && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
-    ninja install
+    ninja install && \
+    mkdir -p /build/etc/apk && \
+    cp /etc/apk/repositories /build/etc/apk/repositories
 
 
 # Final Image
-FROM docker.io/mirakc/mirakc:alpine
+FROM mirror.gcr.io/mirakc/mirakc:alpine
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo RUST_LOG=info
