@@ -50,15 +50,12 @@ RUN set -x && \
     npm install --production=false && \
     npm run build && \
     npm install -g --unsafe-perm --production && \
-    cd /usr/local/lib/node_modules/mirakurun/docker/ && \
-    rm -rf container-init.sh && \
-    wget https://gist.githubusercontent.com/stu2005/750f11ea953cf4ad33478e9830099278/raw/9f472fd7f99378a801e4f6eab3f6172f0daa6460/container-init.sh && \
-    chmod +x ./container-init.sh && \
     cd / && \
     mkdir -p /build/app/ && \
     mv /usr/local/lib/node_modules/mirakurun/ /build/app/ && \
     mkdir -p /build/etc/apk/ && \
     cp /etc/apk/repositories /build/etc/apk/repositories
+COPY ./container-init.sh /build/app/docker/container-init.sh
 
 
 # Final Image

@@ -19,7 +19,6 @@ RUN apk upgrade -U --no-cache && \
 \
 # Install dependencies for Build
     apk add -U --no-cache --virtual .build-deps \
-      alpine-sdk \
       autoconf \
       automake \
       pkgconf \

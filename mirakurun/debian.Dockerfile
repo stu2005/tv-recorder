@@ -4,6 +4,7 @@ FROM rust:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
+COPY ./container-init-debian.sh /build/app/docker/container-init.sh
 ARG DEBIAN_FRONTEND=noninteractive
 RUN set -x && \
     apt-get update && \
@@ -26,10 +27,6 @@ RUN set -x && \
     cargo build -F dvb --release && \
     mkdir -p /build/usr/local/bin/ && \
     install -m 755 target/release/recisdb /build/usr/local/bin/ && \
-    cd /build/app/docker/ && \
-    rm -rf container-init.sh && \
-    curl -OL https://gist.githubusercontent.com/stu2005/750f11ea953cf4ad33478e9830099278/raw/9f472fd7f99378a801e4f6eab3f6172f0daa6460/container-init.sh && \
-    chmod +x ./container-init.sh && \
     mkdir -p /build/etc/apt/ && \
     cp -r /etc/apt/ /build/etc/apt/
 
