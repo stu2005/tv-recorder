@@ -7,7 +7,8 @@ RUN set -x && \
     apk add -U --no-cache \
       python3 \
       git \
-      bash && \
+      bash \
+      make && \
 \
 # Build Chinachu
     git clone --recursive https://github.com/stu2005/chinachu /build/app/ && \
@@ -30,8 +31,7 @@ RUN apk upgrade -U --no-cache && \
       bash \
       coreutils \
       procps-ng \
-      ca-certificates \
-      make && \
+      ca-certificates && \
     npm install pm2 -g
 USER node:node
 ENTRYPOINT ["pm2-runtime"]
