@@ -5,7 +5,6 @@ RUN set -x && \
 \
 # Install Build Dependencies
     apk add -U --no-cache \
-      alpine-sdk \
       python3 \
       git \
       bash && \
