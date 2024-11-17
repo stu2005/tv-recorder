@@ -1,3 +1,4 @@
+FROM alpine:latest AS update
 FROM node:14-alpine AS build
 RUN set -x && \
     apk upgrade -U --no-cache && \
@@ -15,6 +16,7 @@ RUN set -x && \
     npm install && \
     npm update && \
     npm audit fix
+COPY --from=update /etc/apk/repositories /build/etc/apk/repositories
 
 
 # Final Image
