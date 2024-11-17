@@ -30,7 +30,8 @@ RUN apk upgrade -U --no-cache && \
       bash \
       coreutils \
       procps-ng \
-      ca-certificates && \
+      ca-certificates \
+      make && \
     npm install pm2 -g
 USER node:node
 ENTRYPOINT ["pm2-runtime"]
