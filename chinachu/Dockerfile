@@ -8,7 +8,8 @@ RUN set -x && \
       python3 \
       git \
       bash \
-      make && \
+      make \
+      g++ && \
 \
 # Build Chinachu
     git clone --recursive https://github.com/stu2005/chinachu /build/app/ && \
