@@ -49,7 +49,9 @@ VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /build/ /
 RUN apt-get update && \
     apt-get full-upgrade -y && \
-    apt-get install -y --no-install-recommends curl && \
+    apt-get install -y --no-install-recommends \
+      curl \
+      libdvbv5-0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 CMD ["./docker/container-init.sh"]
