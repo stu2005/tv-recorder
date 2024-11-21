@@ -52,7 +52,7 @@ RUN set -x && \
     npm install -g --unsafe-perm --production && \
     cd / && \
     mkdir -p /build/app/ && \
-    mv /usr/local/lib/node_modules/mirakurun/ /build/app/ && \
+    mv /usr/local/lib/node_modules/mirakurun/* /build/app/ && \
     mkdir -p /build/etc/apk/ && \
     cp /etc/apk/repositories /build/etc/apk/repositories
 COPY ./container-init.sh /build/app/docker/container-init.sh
