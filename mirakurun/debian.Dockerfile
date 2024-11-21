@@ -34,6 +34,7 @@ RUN set -x && \
 # Final Image
 FROM node:18-slim
 WORKDIR /app/
+ARG DEBIAN_FRONTEND=noninteractive
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 
 ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml 
