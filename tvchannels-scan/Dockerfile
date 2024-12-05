@@ -13,7 +13,7 @@ RUN set -x && \
       g++ && \
 \
 # Build recpt1
-    wget -O /recpt1.zip https://github.com/stz2012/recpt1/archive/refs/heads/master.zip && \
+    wget -O /recpt1.zip https://github.com/stu2005/recpt1/archive/refs/heads/master.zip && \
     cd / && \
     unzip ./recpt1.zip && \
     cd /recpt1-master/recpt1/ && \

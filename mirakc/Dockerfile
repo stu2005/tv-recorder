@@ -25,7 +25,17 @@ RUN set -x && \
     ninja -j$(nproc) && \
     ninja install && \
     mkdir -p /build/etc/apk && \
-    cp /etc/apk/repositories /build/etc/apk/repositories
+    cp /etc/apk/repositories /build/etc/apk/repositories && \
+\
+# Build recpt1
+    wget -O /recpt1.zip https://github.com/stu2005/recpt1/archive/refs/heads/master.zip && \
+    cd / && \
+    unzip ./recpt1.zip && \
+    cd /recpt1-master/recpt1/ && \
+    ./autogen.sh && \
+    ./configure && \
+    make -j$(nproc) && \
+    make prefix=/build/usr/local install
 
 
 # Final Image
