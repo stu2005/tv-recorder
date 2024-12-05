@@ -6,7 +6,8 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
 \
 # Install dependencies for build
-    apk add -U --no-cache \ 
+    apk add -U --no-cache \
+      make \
       gcc \
       g++ \
       cmake \
