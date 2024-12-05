@@ -206,4 +206,5 @@ RUN apk upgrade -U --no-cache && \
       libzmq \
       libvdpau \
       libx11 \
-      soxr
+      soxr \
+      libsrt

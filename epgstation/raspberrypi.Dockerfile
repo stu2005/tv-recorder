@@ -209,4 +209,5 @@ RUN apk upgrade -U --no-cache && \
       libvdpau \
       libx11 \
       soxr \
-      raspberrypi-userland-libs
+      raspberrypi-userland-libs \
+      libsrt
