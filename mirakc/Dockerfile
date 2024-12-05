@@ -11,7 +11,11 @@ RUN set -x && \
       g++ \
       cmake \
       ninja \
-      pcsc-lite-dev && \
+      pcsc-lite-dev \
+      autoconf \
+      automake \
+      musl-dev \
+      linux-headers && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
