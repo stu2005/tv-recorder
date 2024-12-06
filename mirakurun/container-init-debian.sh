@@ -10,6 +10,7 @@ fi
 
 function start() {
   if [ "$DEBUG" != "true" ]; then
+    pcscd
     export NODE_ENV=production
     node -r source-map-support/register lib/server.js &
   else

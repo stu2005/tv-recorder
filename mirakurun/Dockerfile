@@ -1,8 +1,5 @@
-FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
 FROM alpine:latest AS update
 FROM node:18-alpine AS build
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
@@ -25,7 +22,7 @@ RUN set -x && \
     cd / && \
     unzip ./libaribb25-master.zip && \
     cd /libaribb25-master/ && \
-    cmake -GNinja -Bbuild -DWITH_PCSC_LIBRARY=pcsckai -DCMAKE_INSTALL_PREFIX=/build/usr/local && \
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local && \
     cd build && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
@@ -75,7 +72,11 @@ ENV TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl
+    apk add -U --no-cache \
+      curl \
+      pcsc-lite \
+      pcsc-lite-libs \
+      ccid
 CMD ["./docker/container-init.sh"]
 EXPOSE 40772
 HEALTHCHECK --interval=10s --timeout=3s \

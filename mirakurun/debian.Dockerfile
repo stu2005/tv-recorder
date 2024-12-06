@@ -1,8 +1,5 @@
-FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
 FROM chinachu/mirakurun:latest AS mirakurun
 FROM rust:latest AS build
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
 COPY ./container-init-debian.sh /build/app/docker/container-init.sh
 ARG DEBIAN_FRONTEND=noninteractive
@@ -22,7 +19,7 @@ RUN set -x && \
       libpcsclite-dev && \
 \
 # Build recisdb
-    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
+    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/ && \
     cd /recisdb/ && \
     cargo build -F dvb --release && \
     mkdir -p /build/usr/local/bin/ && \
@@ -52,7 +49,10 @@ RUN apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install -y --no-install-recommends \
       curl \
-      libdvbv5-0 && \
+      libdvbv5-0 \
+      libpcsclite1 \
+      pcscd \
+      libccid && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 CMD ["./docker/container-init.sh"]

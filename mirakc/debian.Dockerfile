@@ -1,8 +1,5 @@
-FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
 FROM rust:latest AS build
 ARG DEBIAN_FRONTEND=noninteractive
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
 RUN set -x && \
     apt-get update && \
     apt-get full-upgrade -y && \
@@ -18,7 +15,7 @@ RUN set -x && \
       libpcsclite-dev && \
 \
 # Build recisdb
-    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
+    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/ && \
     cd /recisdb/ && \
     cargo build -F dvb --release && \
     mkdir -p /build/usr/local/bin/ && \
@@ -33,6 +30,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=build /build/ /
 RUN apt-get update && \
     apt-get full-upgrade -y && \
+    apt-get install --no-install-recommends -y \
+      libpcsclite1 \
+      pcscd \
+      libccid && \    
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 ENV TZ=Asia/Tokyo RUST_LOG=info
