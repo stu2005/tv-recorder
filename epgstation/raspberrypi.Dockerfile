@@ -1,16 +1,16 @@
 FROM alpine:latest AS update
 FROM l3tnun/epgstation:alpine AS epgstation
-COPY --from=update /etc/apk/repositories /etc/apk/repositories
+COPY --from=update /etc/apk/repositories /build/etc/apk/repositories
 RUN set -x && \
-    mkdir -p /build/etc/apk/ && \
-    cp /etc/apk/repositories /build/etc/apk/repositories && \
-    mv /app/ /build/app/
+    mkdir -p /build/app/ && \
+    mv /app/* /build/app/
 FROM node:18-alpine
 COPY --from=epgstation /build/ /
 WORKDIR /app/
 EXPOSE 8888
 ENV TZ="Asia/Tokyo" LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib:/opt/vc/lib"
-ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig" PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
+ARG PKG_CONFIG_PATH="/usr/lib/pkgconfig:/opt/vc/lib/pkgconfig"
+ARG PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vc/bin"
 VOLUME /app/data/ /app/thumbnail/
 ENTRYPOINT ["node"]
 CMD ["dist/index.js"]
