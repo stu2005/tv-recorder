@@ -11,7 +11,8 @@ RUN set -x && \
       samurai \
       pcsc-lite-dev \
       autoconf \
-      automake && \
+      automake \
+      linux-headers && \
     mkdir -p /build/etc/apk && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
