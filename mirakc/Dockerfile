@@ -4,19 +4,9 @@ COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \
     apk upgrade -U --no-cache && \
-\
-# Install dependencies for build
-    apk add -U --no-cache \
-      make \
-      gcc \
-      g++ \
-      cmake \
-      ninja \
-      pcsc-lite-dev \
-      autoconf \
-      automake \
-      musl-dev \
-      linux-headers && \
+    apk add -U --no-cache alpine-sdk && \
+    mkdir -p /build/etc/apk && \
+    cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
@@ -29,8 +19,6 @@ RUN set -x && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
     ninja -j$(nproc) && \
     ninja install && \
-    mkdir -p /build/etc/apk && \
-    cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build recpt1
     wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \

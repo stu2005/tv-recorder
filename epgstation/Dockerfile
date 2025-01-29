@@ -1,7 +1,8 @@
 FROM alpine:latest AS update
 FROM l3tnun/epgstation:alpine
-COPY --from=update / /
-RUN apk add -U --no-cache ffmpeg
+COPY --from=update /etc/apk/repositories /etc/apk/repositories
+RUN apk upgrade -U --no-cache && \
+    apk add -U --no-cache ffmpeg
 ENV TZ="Asia/Tokyo"
 VOLUME /app/data/ /app/thumbnail/
 ENTRYPOINT ["node"]
