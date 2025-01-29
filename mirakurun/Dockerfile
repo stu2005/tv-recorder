@@ -1,5 +1,8 @@
+FROM stu2005/libpcsckai:latest AS pcsckai
 FROM alpine:latest AS update
 FROM node:18-alpine AS build
+COPY --from=pcsckai / /
+COPY --from=pcsckai / /build/
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
@@ -30,10 +33,10 @@ RUN set -x && \
     ninja install && \
 \
 # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/master.zip && \
+    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \
     cd / && \
     unzip ./recpt1.zip && \
-    cd /recpt1-master/recpt1/ && \
+    cd /recpt1-feature-px4/recpt1/ && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \
@@ -72,11 +75,7 @@ ENV TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /build/ /
 RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache \
-      curl \
-      pcsc-lite \
-      pcsc-lite-libs \
-      ccid
+    apk add -U --no-cache curl
 CMD ["./docker/container-init.sh"]
 EXPOSE 40772
 HEALTHCHECK --interval=10s --timeout=3s \

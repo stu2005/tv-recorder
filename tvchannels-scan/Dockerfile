@@ -13,10 +13,10 @@ RUN set -x && \
       g++ && \
 \
 # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/master.zip && \
+    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \
     cd / && \
     unzip ./recpt1.zip && \
-    cd /recpt1-master/recpt1/ && \
+    cd /recpt1-feature-px4/recpt1/ && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \

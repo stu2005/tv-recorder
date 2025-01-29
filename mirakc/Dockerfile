@@ -1,4 +1,7 @@
+FROM stu2005/libpcsckai:latest AS libpcsckai
 FROM alpine:latest AS build
+COPY --from=libpcsckai / /
+COPY --from=libpcsckai / /build/
 RUN set -x && \
     apk upgrade -U --no-cache && \
 \
@@ -30,10 +33,10 @@ RUN set -x && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/master.zip && \
+    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \
     cd / && \
     unzip ./recpt1.zip && \
-    cd /recpt1-master/recpt1/ && \
+    cd /recpt1-feature-px4/recpt1/ && \
     ./autogen.sh && \
     ./configure && \
     make -j$(nproc) && \
@@ -43,11 +46,7 @@ RUN set -x && \
 # Final Image
 FROM mirakc/mirakc:alpine
 COPY --from=build /build/ /
-RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache \
-      pcsc-lite \
-      pcsc-lite-libs \
-      ccid
+RUN apk upgrade -U --no-cache
 ENV TZ=Asia/Tokyo RUST_LOG=info
 VOLUME /var/lib/mirakc/epg/
 HEALTHCHECK --interval=10s --timeout=3s \

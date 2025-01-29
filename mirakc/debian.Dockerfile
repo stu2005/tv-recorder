@@ -1,4 +1,7 @@
+FROM stu2005/libpcsckai:debian AS pcsckai
 FROM rust:latest AS build
+COPY --from=pcsckai / /
+COPY --from=pcsckai / /build/
 ARG DEBIAN_FRONTEND=noninteractive
 RUN set -x && \
     apt-get update && \
@@ -29,11 +32,7 @@ FROM mirakc/mirakc:debian
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=build /build/ /
 RUN apt-get update && \
-    apt-get full-upgrade -y && \
-    apt-get install --no-install-recommends -y \
-      libpcsclite1 \
-      pcscd \
-      libccid && \    
+    apt-get full-upgrade -y && \ 
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 ENV TZ=Asia/Tokyo RUST_LOG=info

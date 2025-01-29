@@ -1,5 +1,8 @@
 FROM chinachu/mirakurun:latest AS mirakurun
+FROM stu2005/libpcsckai:debian AS pcsckai
 FROM rust:latest AS build
+COPY --from=pcsckai / /
+COPY --from=pcsckai / /build/
 COPY --from=mirakurun /app/ /build/app/
 COPY ./container-init-debian.sh /build/app/docker/container-init.sh
 ARG DEBIAN_FRONTEND=noninteractive
@@ -49,10 +52,7 @@ RUN apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install -y --no-install-recommends \
       curl \
-      libdvbv5-0 \
-      libpcsclite1 \
-      pcscd \
-      libccid && \
+      libdvbv5-0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 CMD ["./docker/container-init.sh"]
