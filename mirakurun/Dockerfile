@@ -12,7 +12,9 @@ RUN set -x && \
       cmake \
       ninja-build \
       samurai \
-      pcsc-lite-dev && \
+      pcsc-lite-dev \
+      autoconf \
+      automake && \
     mkdir -p /build/etc/apk/ && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
