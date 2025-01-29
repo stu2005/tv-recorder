@@ -6,7 +6,8 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
     apk add -U --no-cache \
       alpine-sdk \
-      cmake && \
+      cmake \
+      ninja-build && \
     mkdir -p /build/etc/apk && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \

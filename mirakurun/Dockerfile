@@ -9,7 +9,8 @@ RUN set -x && \
     apk upgrade -U --no-cache && \
     apk add -U --no-cache \
       alpine-sdk \
-      cmake && \
+      cmake \
+      ninja-build && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
