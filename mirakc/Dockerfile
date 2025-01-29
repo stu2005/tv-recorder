@@ -1,13 +1,14 @@
-FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
+FROM ghcr.io/stu2005/libpcsckai:latest AS pcsckai
 FROM alpine:latest AS build
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
+COPY --from=pcsckai / /
+COPY --from=pcsckai / /build/
 RUN set -x && \
     apk upgrade -U --no-cache && \
     apk add -U --no-cache \
       alpine-sdk \
       cmake \
-      ninja-build && \
+      ninja-build \
+      samurai && \
     mkdir -p /build/etc/apk && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \

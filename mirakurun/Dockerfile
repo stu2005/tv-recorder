@@ -10,7 +10,10 @@ RUN set -x && \
     apk add -U --no-cache \
       alpine-sdk \
       cmake \
-      ninja-build && \
+      ninja-build \
+      samurai && \
+    mkdir -p /build/etc/apk/ && \
+    cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
@@ -44,9 +47,7 @@ RUN set -x && \
     npm install -g --unsafe-perm --production && \
     cd / && \
     mkdir -p /build/app/ && \
-    mv /usr/local/lib/node_modules/mirakurun/* /build/app/ && \
-    mkdir -p /build/etc/apk/ && \
-    cp /etc/apk/repositories /build/etc/apk/repositories
+    mv /usr/local/lib/node_modules/mirakurun/* /build/app/
 COPY ./container-init.sh /build/app/docker/container-init.sh
 
 
