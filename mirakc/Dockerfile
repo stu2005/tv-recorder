@@ -21,7 +21,7 @@ RUN set -x && \
     cd / && \
     unzip ./libaribb25-master.zip && \
     cd /libaribb25-master/ && \
-    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_LIBRARY=pcsckai && \
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_LIBRARY=pcsckai -DWITH_PCSC_PACKAGE=NO && \
     cd build && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
