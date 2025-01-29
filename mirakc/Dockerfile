@@ -4,7 +4,9 @@ COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 RUN set -x && \
     apk upgrade -U --no-cache && \
-    apk add -U --no-cache alpine-sdk && \
+    apk add -U --no-cache \
+      alpine-sdk \
+      cmake && \
     mkdir -p /build/etc/apk && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
