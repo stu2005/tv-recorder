@@ -11,7 +11,8 @@ RUN set -x && \
       alpine-sdk \
       cmake \
       ninja-build \
-      samurai && \
+      samurai \
+      pcsc-lite-dev && \
     mkdir -p /build/etc/apk/ && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
