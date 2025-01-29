@@ -1,4 +1,4 @@
-FROM stu2005/libpcsckai:debian AS pcsckai
+FROM ghcr.io/stu2005/libpcsckai:debian AS pcsckai
 FROM rust:latest AS build
 COPY --from=pcsckai / /
 COPY --from=pcsckai / /build/

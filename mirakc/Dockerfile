@@ -1,4 +1,4 @@
-FROM stu2005/libpcsckai:latest AS libpcsckai
+FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
 FROM alpine:latest AS build
 COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/

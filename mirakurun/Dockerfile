@@ -1,4 +1,4 @@
-FROM stu2005/libpcsckai:latest AS pcsckai
+FROM ghcr.io/stu2005/libpcsckai:latest AS pcsckai
 FROM alpine:latest AS update
 FROM node:18-alpine AS build
 COPY --from=pcsckai / /
