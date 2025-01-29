@@ -20,7 +20,7 @@ RUN set -x && \
     cd / && \
     unzip ./libaribb25-master.zip && \
     cd /libaribb25-master/ && \
-    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local && \
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_LIBRARY=pcsckai && \
     cd build && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc && \
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc && \
@@ -30,7 +30,7 @@ RUN set -x && \
     cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build recpt1
-    wget -O /recpt1.zip https://github.com/stu2005/recpt1/archive/refs/heads/master.zip && \
+    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/master.zip && \
     cd / && \
     unzip ./recpt1.zip && \
     cd /recpt1-master/recpt1/ && \

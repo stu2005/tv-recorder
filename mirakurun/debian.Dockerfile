@@ -19,7 +19,7 @@ RUN set -x && \
       libpcsclite-dev && \
 \
 # Build recisdb
-    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/ && \
+    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
     cd /recisdb/ && \
     cargo build -F dvb --release && \
     mkdir -p /build/usr/local/bin/ && \
