@@ -4,6 +4,7 @@ RUN set -x && \
 \
 # Install Dependencies for Build
     apk add -U --no-cache \
+      alpine-sdk \
       make \
       gcc \
       musl-dev \
