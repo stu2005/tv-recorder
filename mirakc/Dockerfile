@@ -19,7 +19,7 @@ RUN set -x && \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
     cd / && \
-    unzip ./libaribb25-master.zip && \
+    unzip -qq ./libaribb25-master.zip && \
     cd /libaribb25-master/ && \
     cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_LIBRARY=pcsckai -DWITH_PCSC_PACKAGE=NO && \
     cd build && \
@@ -31,7 +31,7 @@ RUN set -x && \
 # Build recpt1
     wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \
     cd / && \
-    unzip ./recpt1.zip && \
+    unzip -qq ./recpt1.zip && \
     cd /recpt1-feature-px4/recpt1/ && \
     ./autogen.sh && \
     ./configure && \

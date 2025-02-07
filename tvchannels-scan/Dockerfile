@@ -16,7 +16,7 @@ RUN set -x && \
 # Build recpt1
     wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip && \
     cd / && \
-    unzip ./recpt1.zip && \
+    unzip -qq ./recpt1.zip && \
     cd /recpt1-feature-px4/recpt1/ && \
     ./autogen.sh && \
     ./configure && \
