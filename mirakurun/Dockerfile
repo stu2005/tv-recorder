@@ -1,12 +1,9 @@
 FROM ghcr.io/stu2005/libpcsckai:latest AS pcsckai
-FROM alpine:latest AS update
 FROM node:18-alpine AS build
 COPY --from=pcsckai / /
 COPY --from=pcsckai / /build/
-COPY --from=update /etc/apk/repositories /etc/apk/repositories
 ARG DOCKER=YES NODE_ENV=production
 RUN set -x && \
-    apk upgrade -U --no-cache && \
     apk add -U --no-cache \
       alpine-sdk \
       cmake \
@@ -16,8 +13,6 @@ RUN set -x && \
       autoconf \
       automake \
       linux-headers && \
-    mkdir -p /build/etc/apk/ && \
-    cp /etc/apk/repositories /build/etc/apk/repositories && \
 \
 # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip && \
@@ -71,8 +66,7 @@ ENV MALLOC_ARENA_MAX=2
 ENV TZ=Asia/Tokyo
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
 COPY --from=build /build/ /
-RUN apk upgrade -U --no-cache && \
-    apk add -U --no-cache curl
+RUN apk add -U --no-cache curl
 CMD ["./docker/container-init.sh"]
 EXPOSE 40772
 HEALTHCHECK --interval=10s --timeout=3s \
