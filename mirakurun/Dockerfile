@@ -96,6 +96,6 @@ RUN <<EOF ash -x
     apk upgrade -U --no-cache
 
   # Install
-    apk add -U --no-cache curl
+    apk add -U --no-cache curl pcsc-lite-libs pcsc-lite ccid
 
 EOF

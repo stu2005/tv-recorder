@@ -68,7 +68,7 @@ RUN <<EOF bash -x
     apt-get full-upgrade
 
   # Install
-    apt-get install libpcsclite1 libccid
+    apt-get install libpcsclite1 pcscd libccid
 
   # Clean
     apt-get clean

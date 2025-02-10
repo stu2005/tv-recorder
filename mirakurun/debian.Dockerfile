@@ -86,7 +86,7 @@ RUN <<EOF bash -x
     apt-get full-upgrade
   
   # Install
-    apt-get install -y --no-install-recommends curl libdvbv5-0
+    apt-get install curl libdvbv5-0 libpcsclite1 pcscd libccid
 
   # Clean
     apt-get clean && \
