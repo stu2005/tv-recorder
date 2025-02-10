@@ -1,4 +1,4 @@
-#!/usr/bin/env ash
+#!/usr/bin/env sh
 
 # rename wrong filename (migration from <= 3.1.1 >= 3.0.0)
 if [ -f "/app-data/services.yml" -a ! -f "$SERVICES_DB_PATH" ]; then
@@ -10,6 +10,7 @@ fi
 
 function start() {
   if [ "$DEBUG" != "true" ]; then
+    pcscd
     export NODE_ENV=production
     node -r source-map-support/register lib/server.js &
   else

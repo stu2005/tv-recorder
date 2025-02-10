@@ -10,7 +10,11 @@ services:
       - target: 40772
         published: 40772
     devices:
-      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
+      - "/dev/bus:/dev/bus"
+      - "/dev/px4video0:/dev/px4video0"
+      - "/dev/px4video1:/dev/px4video1"
+      - "/dev/px4video2:/dev/px4video2"
+      - "/dev/px4video3:/dev/px4video3"      
     volumes:
       - type: bind
         source: ./mirakurun/
@@ -28,34 +32,33 @@ services:
         max-size: "5m"
         compress: "true"
 
-  mariadb:
-    image: lscr.io/linuxserver/mariadb:latest
-    container_name: mariadb
+  mysql:
+    image: docker.io/library/mysql:latest
+    container_name: mysql
     environment:
-      PUID: 1000
-      PGID: 1000
       TZ: Asia/Tokyo
-      MYSQL_ROOT_PASSWORD: epgstation
       MYSQL_DATABASE: epgstation
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
+      MYSQL_ROOT_PASSWORD: epgstation
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci --performance-schema=false --expire_logs_days=1 --default-authentication-plugin=mysql_native_password
     volumes:
-      - type: bind
-        source: ./mariadb/
-        target: /config/
-        bind:
-          create_host_path: true
-    restart: unless-stopped
+      - type: volume
+        source: mysql
+        target: /var/lib/mysql
+    restart: always
     logging:
       driver: "json-file"
       options:
-        max-file: "2"
         max-size: "5m"
+        max-file: "2"
         compress: "true"
 
   epgstation:
     image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
+    devices:
+      - "/dev/dri:/dev/dri"
     volumes:
       - type: bind
         source: ./epgstation/
@@ -76,13 +79,11 @@ services:
     depends_on:
       mirakurun:
         condition: service_healthy
-      mariadb:
+      mysql:
         condition: service_started
     ports:
       - target: 8888
         published: 8888
-    devices:
-      - "/dev/video11:/dev/video11"
     restart: always
     logging:
       driver: "json-file"

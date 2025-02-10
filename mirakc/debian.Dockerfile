@@ -1,41 +1,77 @@
-FROM ghcr.io/stu2005/libpcsckai:debian AS pcsckai
-FROM rust:latest AS build
-COPY --from=pcsckai / /
-COPY --from=pcsckai / /build/
+# Build stage
+FROM library/rust:latest AS build
+
+# Apt settings in a build stage
 ARG DEBIAN_FRONTEND=noninteractive
-RUN set -x && \
-    apt-get update && \
-    apt-get full-upgrade -y && \
-\
-# Install dependencies for build
-    apt-get install -y --no-install-recommends \ 
-      cmake \
-      git \
-      libclang-dev \
-      libdvbv5-dev \
-      libudev-dev \
-      pkg-config \
-      libpcsclite-dev && \
-\
-# Build recisdb
-    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
-    cd /recisdb/ && \
-    cargo build -F dvb --release && \
-    mkdir -p /build/usr/local/bin/ && \
-    install -m 755 target/release/recisdb /build/usr/local/bin/ && \
-    mkdir -p /build/etc/apt/ && \
-    cp -r /etc/apt/ /build/etc/apt/
+ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
+
+# Copy startup script
+COPY ./container-init.sh /build/usr/local/bin/
+
+# Run the build script
+RUN <<EOF bash -x
+
+  # Set startup script permission
+    chmod +x /build/usr/local/bin/container-init.sh
+
+  # Update packages
+    apt-get update
+    apt-get full-upgrade
+
+  # Install requires
+    apt-get install cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+
+  # Build recisdb
+    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
+    cd /recisdb/
+    cargo build -F dvb --release
+    mkdir -p /build/usr/local/bin/
+    install -m 755 target/release/recisdb /build/usr/local/bin/
+    
+  # Update package repositories
+    mkdir -p /build/etc/apt/
+    cp /etc/apt/sources.list /build/etc/apt/
+    cp -r /etc/apt/sources.list.d/ /build/etc/apt/
+
+EOF
 
 
-# Final Image
+# Final image
 FROM mirakc/mirakc:debian
+
+# Apt Settings
 ARG DEBIAN_FRONTEND=noninteractive
-COPY --from=build /build/ /
-RUN apt-get update && \
-    apt-get full-upgrade -y && \ 
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-ENV TZ=Asia/Tokyo RUST_LOG=info
+ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
+
+# Set environment variables
+ENV TZ=Asia/Tokyo
+ENV RUST_LOG=info
+
+# Directories that need to be mounted to run
 VOLUME /var/lib/mirakc/epg/
+
+# Set a command to be executed at startup
+CMD ["/usr/local/bin/container-init.sh"]
+
+# Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:40772/api/status || exit 1
+
+# Copy build stage artifacts
+COPY --from=build /build/ /
+
+# Install requires
+RUN <<EOF bash -x
+
+  # Update
+    apt-get update
+    apt-get full-upgrade
+
+  # Install
+    apt-get install libpcsclite1 libccid
+
+  # Clean
+    apt-get clean
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+EOF

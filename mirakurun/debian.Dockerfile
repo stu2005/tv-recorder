@@ -1,40 +1,52 @@
+# Get mirakurun
 FROM chinachu/mirakurun:latest AS mirakurun
-FROM ghcr.io/stu2005/libpcsckai:debian AS pcsckai
+
+# Build stage
 FROM rust:latest AS build
-COPY --from=pcsckai / /
-COPY --from=pcsckai / /build/
+
+# Apt settings in a build stage
+ARG DEBIAN_FRONTEND=noninteractive
+ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
+
+# Copy mirakurun
 COPY --from=mirakurun /app/ /build/app/
-COPY ./container-init-debian.sh /build/app/docker/container-init.sh
-ARG DEBIAN_FRONTEND=noninteractive
-RUN set -x && \
-    apt-get update && \
-    apt-get full-upgrade -y && \
-\
-# Install Build Dependencies
-    apt-get install -y --no-install-recommends \
-      curl \
-      cmake \
-      git \
-      libclang-dev \
-      libdvbv5-dev \
-      libudev-dev \
-      pkg-config \
-      libpcsclite-dev && \
-\
-# Build recisdb
-    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/ && \
-    cd /recisdb/ && \
-    cargo build -F dvb --release && \
-    mkdir -p /build/usr/local/bin/ && \
-    install -m 755 target/release/recisdb /build/usr/local/bin/ && \
-    mkdir -p /build/etc/apt/ && \
-    cp -r /etc/apt/ /build/etc/apt/
+
+# Copy the startup script
+COPY ./container-init.sh /build/usr/local/bin/container-init.sh
+
+# Run the build script
+RUN <<EOF bash -x
+
+  # Update packages
+    apt-get update
+    apt-get full-upgrade
+
+  # Install requires
+    apt-get install curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+
+  # Build recisdb
+    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
+    cd /recisdb/
+    cargo build -F dvb --release
+    mkdir -p /build/usr/local/bin/
+    install -m 755 target/release/recisdb /build/usr/local/bin/
+
+  # Update package repositories
+    mkdir -p /build/etc/apt/
+    cp /etc/apt/sources.list /build/etc/apt/
+    cp -r /etc/apt/sources.list.d/ /build/etc/apt/
+
+EOF
 
 
-# Final Image
+# Final image
 FROM node:18-slim
-WORKDIR /app/
+
+# Apt settings
 ARG DEBIAN_FRONTEND=noninteractive
+ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
+
+# Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
 ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 
 ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml 
@@ -46,16 +58,38 @@ ENV DOCKER=YES
 ENV INIT_PID=$$ 
 ENV MALLOC_ARENA_MAX=2 
 ENV TZ=Asia/Tokyo
+
+# Set the working directory
+WORKDIR /app/
+
+# Directories that need to be mounted to run
 VOLUME /var/run/ /opt/ /app-config/ /app-data/
-COPY --from=build /build/ /
-RUN apt-get update && \
-    apt-get full-upgrade -y && \
-    apt-get install -y --no-install-recommends \
-      curl \
-      libdvbv5-0 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-CMD ["./docker/container-init.sh"]
+
+# Open port
 EXPOSE 40772
+
+# Set a command to be executed at startup
+CMD ["/usr/local/bin/container-init.sh"]
+
+# Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:40772/api/status || exit 1
+
+# Copy build stage artifacts
+COPY --from=build /build/ /
+
+# Install requires
+RUN <<EOF bash -x
+
+  # Update
+    apt-get update
+    apt-get full-upgrade
+  
+  # Install
+    apt-get install -y --no-install-recommends curl libdvbv5-0
+
+  # Clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+EOF
