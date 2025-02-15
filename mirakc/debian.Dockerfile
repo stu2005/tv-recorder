@@ -1,11 +1,6 @@
 # Build stage
 FROM library/rust:latest AS build
 
-# Apt settings in a build stage
-ARG DEBIAN_FRONTEND=noninteractive
-ARG APT_OPTS="-y"
-ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
-
 # Copy startup script
 COPY ./container-init.sh /build/usr/local/bin/
 
@@ -17,10 +12,10 @@ RUN <<EOF bash -x
 
   # Update packages
     apt-get update
-    apt-get full-upgrade
+    apt-get full-upgrade -y
 
   # Install requires
-    apt-get install cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+    apt-get install -y --no-install-recommends --no-install-suggests cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
     git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
@@ -39,11 +34,6 @@ EOF
 
 # Final image
 FROM mirakc/mirakc:debian
-
-# Apt Settings
-ARG DEBIAN_FRONTEND=noninteractive
-ARG APT_OPTS="-y"
-ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
 
 # Set environment variables
 ENV TZ=Asia/Tokyo
@@ -67,10 +57,10 @@ RUN <<EOF bash -x
 
   # Update
     apt-get update
-    apt-get full-upgrade
+    apt-get full-upgrade -y
 
   # Install
-    apt-get install libpcsclite1 pcscd libccid
+    apt-get install -y --no-install-recommends --no-install-suggests libpcsclite1 pcscd libccid
 
   # Clean
     apt-get clean

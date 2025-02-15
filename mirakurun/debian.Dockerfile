@@ -4,11 +4,6 @@ FROM chinachu/mirakurun:latest AS mirakurun
 # Build stage
 FROM rust:latest AS build
 
-# Apt settings in a build stage
-ARG DEBIAN_FRONTEND=noninteractive
-ARG APT_OPTS="-y"
-ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
-
 # Copy mirakurun
 COPY --from=mirakurun /app/ /build/app/
 
@@ -20,10 +15,10 @@ RUN <<EOF bash -x
 
   # Update packages
     apt-get update
-    apt-get full-upgrade
+    apt-get full-upgrade -y
 
   # Install requires
-    apt-get install curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+    apt-get install -y --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
     git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
@@ -42,11 +37,6 @@ EOF
 
 # Final image
 FROM node:18-slim
-
-# Apt settings
-ARG DEBIAN_FRONTEND=noninteractive
-ARG APT_OPTS="-y"
-ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
@@ -85,10 +75,10 @@ RUN <<EOF bash -x
 
   # Update
     apt-get update
-    apt-get full-upgrade
+    apt-get full-upgrade -y
   
   # Install
-    apt-get install curl libdvbv5-0 libpcsclite1 pcscd libccid
+    apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0 libpcsclite1 pcscd libccid
 
   # Clean
     apt-get clean && \
