@@ -1,0 +1,924 @@
+{
+    "Terrestrial": [],
+    "BS": [
+        {
+            "physical_channel": "BS01/TS0",
+            "transport_stream_id": 16400,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.72748,
+            "satellite_transponder": 1,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "151",
+                    "service_id": 151,
+                    "service_type": 1,
+                    "service_name": "BS朝日1",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "152",
+                    "service_id": 152,
+                    "service_type": 1,
+                    "service_name": "BS朝日2",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "153",
+                    "service_id": 153,
+                    "service_type": 1,
+                    "service_name": "BS朝日3",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "753",
+                    "service_id": 753,
+                    "service_type": 192,
+                    "service_name": "BS朝日データ753",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "755",
+                    "service_id": 755,
+                    "service_type": 192,
+                    "service_name": "BS朝日データ755",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "756",
+                    "service_id": 756,
+                    "service_type": 192,
+                    "service_name": "BS朝日データ756",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "757",
+                    "service_id": 757,
+                    "service_type": 192,
+                    "service_name": "BS朝日データ757",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS01_0",
+            "physical_channel_recpt1": "BS01_0"
+        },
+        {
+            "physical_channel": "BS01/TS1",
+            "transport_stream_id": 16401,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.72748,
+            "satellite_transponder": 1,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "161",
+                    "service_id": 161,
+                    "service_type": 1,
+                    "service_name": "BS-TBS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "162",
+                    "service_id": 162,
+                    "service_type": 1,
+                    "service_name": "BS-TBS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "163",
+                    "service_id": 163,
+                    "service_type": 1,
+                    "service_name": "BS-TBS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "169",
+                    "service_id": 169,
+                    "service_type": 161,
+                    "service_name": "BS-TBS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "766",
+                    "service_id": 766,
+                    "service_type": 192,
+                    "service_name": "BS-TBS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "768",
+                    "service_id": 768,
+                    "service_type": 192,
+                    "service_name": "Gガイド",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS01_1",
+            "physical_channel_recpt1": "BS01_1"
+        },
+        {
+            "physical_channel": "BS01/TS2",
+            "transport_stream_id": 16402,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.72748,
+            "satellite_transponder": 1,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "171",
+                    "service_id": 171,
+                    "service_type": 1,
+                    "service_name": "BSテレ東",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "172",
+                    "service_id": 172,
+                    "service_type": 1,
+                    "service_name": "BSテレ東2",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "173",
+                    "service_id": 173,
+                    "service_type": 1,
+                    "service_name": "BSテレ東3",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "179",
+                    "service_id": 179,
+                    "service_type": 161,
+                    "service_name": "BSテレ東臨時",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "777",
+                    "service_id": 777,
+                    "service_type": 192,
+                    "service_name": "株価情報",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "778",
+                    "service_id": 778,
+                    "service_type": 192,
+                    "service_name": "778ch",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS01_2",
+            "physical_channel_recpt1": "BS01_2"
+        },
+        {
+            "physical_channel": "BS03/TS0",
+            "transport_stream_id": 16432,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.76584,
+            "satellite_transponder": 3,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "191",
+                    "service_id": 191,
+                    "service_type": 1,
+                    "service_name": "WOWOWプライム",
+                    "is_free": false,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "791",
+                    "service_id": 791,
+                    "service_type": 192,
+                    "service_name": "ご案内チャンネル",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "792",
+                    "service_id": 792,
+                    "service_type": 192,
+                    "service_name": "プレミアムナビ",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS03_0",
+            "physical_channel_recpt1": "BS03_0"
+        },
+        {
+            "physical_channel": "BS03/TS1",
+            "transport_stream_id": 17969,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.76584,
+            "satellite_transponder": 3,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "236",
+                    "service_id": 236,
+                    "service_type": 1,
+                    "service_name": "BSアニマックス",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS03_1",
+            "physical_channel_recpt1": "BS03_1"
+        },
+        {
+            "physical_channel": "BS03/TS2",
+            "transport_stream_id": 17970,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.76584,
+            "satellite_transponder": 3,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "251",
+                    "service_id": 251,
+                    "service_type": 1,
+                    "service_name": "BS釣りビジョン",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS03_2",
+            "physical_channel_recpt1": "BS03_2"
+        },
+        {
+            "physical_channel": "BS05/TS0",
+            "transport_stream_id": 17488,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.8042,
+            "satellite_transponder": 5,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "192",
+                    "service_id": 192,
+                    "service_type": 1,
+                    "service_name": "WOWOWライブ",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS05_0",
+            "physical_channel_recpt1": "BS05_0"
+        },
+        {
+            "physical_channel": "BS05/TS1",
+            "transport_stream_id": 17489,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.8042,
+            "satellite_transponder": 5,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "193",
+                    "service_id": 193,
+                    "service_type": 1,
+                    "service_name": "WOWOWシネマ",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS05_1",
+            "physical_channel_recpt1": "BS05_1"
+        },
+        {
+            "physical_channel": "BS09/TS0",
+            "transport_stream_id": 16528,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.88092,
+            "satellite_transponder": 9,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "211",
+                    "service_id": 211,
+                    "service_type": 1,
+                    "service_name": "BS11イレブン",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS09_0",
+            "physical_channel_recpt1": "BS09_0"
+        },
+        {
+            "physical_channel": "BS09/TS2",
+            "transport_stream_id": 16530,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.88092,
+            "satellite_transponder": 9,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "222",
+                    "service_id": 222,
+                    "service_type": 1,
+                    "service_name": "BS12トゥエルビ",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS09_2",
+            "physical_channel_recpt1": "BS09_2"
+        },
+        {
+            "physical_channel": "BS13/TS0",
+            "transport_stream_id": 16592,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.95764,
+            "satellite_transponder": 13,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "141",
+                    "service_id": 141,
+                    "service_type": 1,
+                    "service_name": "BS日テレ",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "142",
+                    "service_id": 142,
+                    "service_type": 1,
+                    "service_name": "BS日テレ",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "143",
+                    "service_id": 143,
+                    "service_type": 1,
+                    "service_name": "BS日テレ",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "144",
+                    "service_id": 144,
+                    "service_type": 161,
+                    "service_name": "BS日テレ臨時",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "744",
+                    "service_id": 744,
+                    "service_type": 192,
+                    "service_name": "",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "745",
+                    "service_id": 745,
+                    "service_type": 192,
+                    "service_name": "",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "746",
+                    "service_id": 746,
+                    "service_type": 192,
+                    "service_name": "",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS13_0",
+            "physical_channel_recpt1": "BS13_0"
+        },
+        {
+            "physical_channel": "BS13/TS1",
+            "transport_stream_id": 16593,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.95764,
+            "satellite_transponder": 13,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "181",
+                    "service_id": 181,
+                    "service_type": 1,
+                    "service_name": "BSフジ・181",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "182",
+                    "service_id": 182,
+                    "service_type": 1,
+                    "service_name": "BSフジ・182",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "183",
+                    "service_id": 183,
+                    "service_type": 1,
+                    "service_name": "BSフジ・183",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "188",
+                    "service_id": 188,
+                    "service_type": 161,
+                    "service_name": "BSフジ・188",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "189",
+                    "service_id": 189,
+                    "service_type": 161,
+                    "service_name": "BSフジ・189",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "780",
+                    "service_id": 780,
+                    "service_type": 192,
+                    "service_name": "BSフジ・780",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "781",
+                    "service_id": 781,
+                    "service_type": 192,
+                    "service_name": "BSフジ・781",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS13_1",
+            "physical_channel_recpt1": "BS13_1"
+        },
+        {
+            "physical_channel": "BS13/TS2",
+            "transport_stream_id": 18130,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.95764,
+            "satellite_transponder": 13,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "231",
+                    "service_id": 231,
+                    "service_type": 1,
+                    "service_name": "放送大学テレビ",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "232",
+                    "service_id": 232,
+                    "service_type": 1,
+                    "service_name": "放送大学テレビ",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "531",
+                    "service_id": 531,
+                    "service_type": 2,
+                    "service_name": "放送大学ラジオ",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS13_2",
+            "physical_channel_recpt1": "BS13_2"
+        },
+        {
+            "physical_channel": "BS15/TS0",
+            "transport_stream_id": 16625,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.996,
+            "satellite_transponder": 15,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "101",
+                    "service_id": 101,
+                    "service_type": 1,
+                    "service_name": "NHK BS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "102",
+                    "service_id": 102,
+                    "service_type": 1,
+                    "service_name": "NHK BS",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "103",
+                    "service_id": 103,
+                    "service_type": 1,
+                    "service_name": "-",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "700",
+                    "service_id": 700,
+                    "service_type": 192,
+                    "service_name": "NHKデータ1",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "701",
+                    "service_id": 701,
+                    "service_type": 192,
+                    "service_name": "NHKデータ2",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "707",
+                    "service_id": 707,
+                    "service_type": 192,
+                    "service_name": "707チャンネル",
+                    "is_free": true,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "929",
+                    "service_id": 929,
+                    "service_type": 164,
+                    "service_name": "Dpaダウンロード",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS15_0",
+            "physical_channel_recpt1": "BS15_0"
+        },
+        {
+            "physical_channel": "BS15/TS1",
+            "transport_stream_id": 16626,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.996,
+            "satellite_transponder": 15,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "201",
+                    "service_id": 201,
+                    "service_type": 1,
+                    "service_name": "BS10スターch",
+                    "is_free": false,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "800",
+                    "service_id": 800,
+                    "service_type": 192,
+                    "service_name": "BS10スターch",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS15_1",
+            "physical_channel_recpt1": "BS15_1"
+        },
+        {
+            "physical_channel": "BS15/TS2",
+            "transport_stream_id": 18675,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 11.996,
+            "satellite_transponder": 15,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "200",
+                    "service_id": 200,
+                    "service_type": 1,
+                    "service_name": "BS10",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS15_2",
+            "physical_channel_recpt1": "BS15_2"
+        },
+        {
+            "physical_channel": "BS19/TS0",
+            "transport_stream_id": 18224,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.07272,
+            "satellite_transponder": 19,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "245",
+                    "service_id": 245,
+                    "service_type": 1,
+                    "service_name": "J SPORTS 4",
+                    "is_free": false,
+                    "is_oneseg": false
+                },
+                {
+                    "channel_number": "849",
+                    "service_id": 849,
+                    "service_type": 192,
+                    "service_name": "スカパー！ガイド",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS19_0",
+            "physical_channel_recpt1": "BS19_0"
+        },
+        {
+            "physical_channel": "BS19/TS1",
+            "transport_stream_id": 18225,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.07272,
+            "satellite_transponder": 19,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "242",
+                    "service_id": 242,
+                    "service_type": 1,
+                    "service_name": "J SPORTS 1",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS19_1",
+            "physical_channel_recpt1": "BS19_1"
+        },
+        {
+            "physical_channel": "BS19/TS2",
+            "transport_stream_id": 18226,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.07272,
+            "satellite_transponder": 19,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "243",
+                    "service_id": 243,
+                    "service_type": 1,
+                    "service_name": "J SPORTS 2",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS19_2",
+            "physical_channel_recpt1": "BS19_2"
+        },
+        {
+            "physical_channel": "BS19/TS3",
+            "transport_stream_id": 18227,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.07272,
+            "satellite_transponder": 19,
+            "satellite_slot_number": 3,
+            "services": [
+                {
+                    "channel_number": "244",
+                    "service_id": 244,
+                    "service_type": 1,
+                    "service_name": "J SPORTS 3",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS19_3",
+            "physical_channel_recpt1": "BS19_3"
+        },
+        {
+            "physical_channel": "BS21/TS0",
+            "transport_stream_id": 18256,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.11108,
+            "satellite_transponder": 21,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "252",
+                    "service_id": 252,
+                    "service_type": 1,
+                    "service_name": "WOWOWプラス",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS21_0",
+            "physical_channel_recpt1": "BS21_0"
+        },
+        {
+            "physical_channel": "BS21/TS1",
+            "transport_stream_id": 18257,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.11108,
+            "satellite_transponder": 21,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "255",
+                    "service_id": 255,
+                    "service_type": 1,
+                    "service_name": "日本映画専門ch",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS21_1",
+            "physical_channel_recpt1": "BS21_1"
+        },
+        {
+            "physical_channel": "BS21/TS2",
+            "transport_stream_id": 18258,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.11108,
+            "satellite_transponder": 21,
+            "satellite_slot_number": 2,
+            "services": [
+                {
+                    "channel_number": "234",
+                    "service_id": 234,
+                    "service_type": 1,
+                    "service_name": "グリーンチャンネル",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS21_2",
+            "physical_channel_recpt1": "BS21_2"
+        },
+        {
+            "physical_channel": "BS23/TS0",
+            "transport_stream_id": 18288,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.14944,
+            "satellite_transponder": 23,
+            "satellite_slot_number": 0,
+            "services": [
+                {
+                    "channel_number": "256",
+                    "service_id": 256,
+                    "service_type": 1,
+                    "service_name": "ディズニーch",
+                    "is_free": false,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS23_0",
+            "physical_channel_recpt1": "BS23_0"
+        },
+        {
+            "physical_channel": "BS23/TS1",
+            "transport_stream_id": 18801,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.14944,
+            "satellite_transponder": 23,
+            "satellite_slot_number": 1,
+            "services": [
+                {
+                    "channel_number": "265",
+                    "service_id": 265,
+                    "service_type": 1,
+                    "service_name": "BSよしもと",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS23_1",
+            "physical_channel_recpt1": "BS23_1"
+        },
+        {
+            "physical_channel": "BS23/TS3",
+            "transport_stream_id": 18803,
+            "network_id": 4,
+            "network_name": "BS Digital",
+            "remote_control_key_id": null,
+            "satellite_frequency": 12.14944,
+            "satellite_transponder": 23,
+            "satellite_slot_number": 3,
+            "services": [
+                {
+                    "channel_number": "260",
+                    "service_id": 260,
+                    "service_type": 1,
+                    "service_name": "BS松竹東急",
+                    "is_free": true,
+                    "is_oneseg": false
+                }
+            ],
+            "broadcast_type": "BS",
+            "physical_channel_recisdb": "BS23_3",
+            "physical_channel_recpt1": "BS23_3"
+        }
+    ],
+    "CS": []
+}

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # rename wrong filename (migration from <= 3.1.1 >= 3.0.0)
 if [ -f "/app-data/services.yml" -a ! -f "$SERVICES_DB_PATH" ]; then

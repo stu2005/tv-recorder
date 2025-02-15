@@ -6,7 +6,7 @@ ARG DOCKER=YES
 ARG NODE_ENV=production
 
 # Copy the startup script
-COPY ./container-init.sh /build/usr/local/bin/
+COPY ./container-init-debian.sh /build/usr/local/bin/
 
 # Run the build script
 RUN <<EOF ash -x

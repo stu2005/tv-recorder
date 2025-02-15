@@ -1,7 +1,7 @@
 services:
 
   mirakurun:
-    image: ghcr.io/stu2005/mirakurun:latest
+    image: ghcr.io/stu2005/mirakurun:debian
     container_name: mirakurun
     cap_add:
       - SYS_ADMIN
@@ -32,19 +32,19 @@ services:
         max-size: "5m"
         compress: "true"
 
-  mysql:
-    image: docker.io/library/mysql:latest
-    container_name: mysql
+  mariadb:
+    image: docker.io/library/mariadb:latest
+    container_name: mariadb
     environment:
       TZ: Asia/Tokyo
       MYSQL_DATABASE: epgstation
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
       MYSQL_ROOT_PASSWORD: epgstation
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci --performance-schema=false --expire_logs_days=1 --default-authentication-plugin=mysql_native_password
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --binlog_expire_logs_seconds=86400
     volumes:
       - type: volume
-        source: mysql
+        source: mariadb
         target: /var/lib/mysql
     restart: always
     logging:
@@ -79,7 +79,7 @@ services:
     depends_on:
       mirakurun:
         condition: service_healthy
-      mysql:
+      mariadb:
         condition: service_started
     ports:
       - target: 8888
@@ -131,6 +131,8 @@ services:
 volumes:
   mirakurun:
     name: "mirakurun"
+  mariadb:
+    name: "mariadb"
   epgstation:
     name: "epgstation"
   chinachu:

@@ -37,7 +37,7 @@ Array.prototype.push.apply(args, ['-hwaccel qsv']);
 // 字幕用
 Array.prototype.push.apply(args, ['-fix_sub_duration']);
 // input 設定
-Array.prototype.push.apply(args, ['-i', input]);
+Array.prototype.push.apply(args, ['-c:v', 'mpeg2_qsv', '-i', input]);
 // ビデオストリーム設定
 Array.prototype.push.apply(args, ['-map', '0:v', '-c:v', 'h264_qsv']);
 // インターレス解除
