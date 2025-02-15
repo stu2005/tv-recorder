@@ -3,6 +3,7 @@ FROM library/rust:latest AS build
 
 # Apt settings in a build stage
 ARG DEBIAN_FRONTEND=noninteractive
+ARG APT_OPTS="-y"
 ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
 
 # Copy startup script
@@ -41,6 +42,7 @@ FROM mirakc/mirakc:debian
 
 # Apt Settings
 ARG DEBIAN_FRONTEND=noninteractive
+ARG APT_OPTS="-y"
 ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false"
 
 # Set environment variables
