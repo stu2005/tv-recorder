@@ -12,7 +12,7 @@ ARG APT_OPTIONS="-o APT::Install-Recommends=false -o APT::Install-Suggests=false
 COPY --from=mirakurun /app/ /build/app/
 
 # Copy the startup script
-COPY ./container-init-bash.sh /build/usr/local/bin/container-init.sh
+COPY ./container-init-debian.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF bash -x
