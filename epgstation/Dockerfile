@@ -29,9 +29,9 @@ RUN <<EOF ash -x
     apk upgrade -U --no-cache
   
   # Install
-    apk add -U --no-cache ffmpeg
+    apk add -U --no-cache ffmpeg mesa-va-gallium mesa-dri-gallium 
     if [ "$(uname -m)" = "x86_64" ]; then
-      apk add -U --no-cache mesa-dri-gallium
+      apk add -U --no-cache libva-intel-driver intel-media-driver
     fi 
 
 EOF
