@@ -5,7 +5,7 @@
 
   "recordedDir" : "./recorded/",
 
-  "vaapiEnabled": false,
+  "vaapiEnabled": true,
   "vaapiDevice": "/dev/dri/renderD128",
 
   "excludeServices": [
