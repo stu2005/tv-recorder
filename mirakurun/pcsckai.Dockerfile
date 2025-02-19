@@ -45,7 +45,7 @@ RUN <<EOF ash -x
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
     ./autogen.sh
-    ./configure --enable-b25
+    ./configure
     make -j$(nproc)
     make prefix=/build/usr/local install
 
