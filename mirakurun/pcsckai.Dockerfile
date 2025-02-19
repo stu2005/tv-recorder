@@ -1,3 +1,6 @@
+# Get libpcsckai
+FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
+
 # Build stage
 FROM node:18-alpine AS build
 
@@ -5,8 +8,12 @@ FROM node:18-alpine AS build
 ARG DOCKER=YES
 ARG NODE_ENV=production
 
+# Copy libpcsckai
+COPY --from=libpcsckai / /
+COPY --from=libpcsckai / /build/
+
 # Copy the startup script
-COPY ./container-init-alpine.sh /build/usr/local/bin/container-init.sh
+COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF ash -x
@@ -18,14 +25,14 @@ RUN <<EOF ash -x
     apk upgrade -U --no-cache
 
   # Install requires
-    apk add -U --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
+    apk add -U --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers
 
   # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip > /dev/null
     cd /libaribb25-master/
-    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_PACKAGE=NO -DWITH_PCSC_LIBRARY=pcsckai
     cd build
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc
@@ -38,7 +45,7 @@ RUN <<EOF ash -x
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
     ./autogen.sh
-    ./configure
+    ./configure --enable-b25
     make -j$(nproc)
     make prefix=/build/usr/local install
 
@@ -92,13 +99,5 @@ HEALTHCHECK --interval=10s --timeout=3s \
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Install curl
-RUN <<EOF ash -x
-  
-  # Update
-    apk upgrade -U --no-cache
-
-  # Install
-    apk add -U --no-cache curl pcsc-lite-libs pcsc-lite ccid
-
-EOF
+# Update packages
+RUN apk upgrade -U --no-cache

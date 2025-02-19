@@ -30,5 +30,8 @@ RUN <<EOF ash -x
   
   # Install
     apk add -U --no-cache ffmpeg
+    if [ "$(uname -m)" = "x86_64" ]; then
+      apk add -U --no-cache mesa-dri-gallium
+    fi 
 
 EOF

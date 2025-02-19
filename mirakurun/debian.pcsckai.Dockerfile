@@ -1,14 +1,21 @@
+# Get libpcsckai
+FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
+
 # Get mirakurun
 FROM chinachu/mirakurun:latest AS mirakurun
 
 # Build stage
 FROM rust:latest AS build
 
+# Copy libpcsckai
+COPY --from=libpcsckai / /
+COPY --from=libpcsckai / /build/
+
 # Copy mirakurun
 COPY --from=mirakurun /app/ /build/app/
 
 # Copy the startup script
-COPY ./container-init-debian.sh /build/usr/local/bin/container-init.sh
+COPY ./container-init-debian-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF bash -x
@@ -21,19 +28,14 @@ RUN <<EOF bash -x
     apt-get full-upgrade -y
 
   # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+    apt-get install -y --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config
 
   # Build recisdb
-    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
+    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/
     cd /recisdb/
     cargo build -F dvb --release
     mkdir -p /build/usr/local/bin/
     install -m 755 target/release/recisdb /build/usr/local/bin/
-
-  # Update package repositories
-    mkdir -p /build/etc/apt/
-    cp /etc/apt/sources.list /build/etc/apt/
-    cp -r /etc/apt/sources.list.d/ /build/etc/apt/
 
 EOF
 
@@ -81,7 +83,7 @@ RUN <<EOF bash -x
     apt-get full-upgrade -y
   
   # Install
-    apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0 libpcsclite1 pcscd libccid
+    apt-get install -y --no-install-recommends --no-install-suggests curl
 
   # Clean
     apt-get clean && \
