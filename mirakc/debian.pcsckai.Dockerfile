@@ -16,7 +16,7 @@ RUN <<EOF bash -x
     apt-get full-upgrade -y
 
   # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config
+    apt-get install -y --no-install-recommends --no-install-suggests cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
     git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/
