@@ -2,7 +2,7 @@
 FROM alpine:latest AS build
 
 # Run the build script
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update packages
     apk upgrade -U --no-cache
@@ -15,10 +15,10 @@ RUN <<EOF ash -x
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
+    mkdir -p /build/usr/local/bin/
     ./autogen.sh
     ./configure
     make -j$(nproc)
-    mkdir -p /build/usr/local/bin/
     make prefix=/build/usr/local install
 
   # Update package repositories
@@ -38,7 +38,7 @@ ENV TZ=Asia/Tokyo
 COPY --from=build /build/ /
 
 # Postinstall
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update
     apk upgrade -U --no-cache

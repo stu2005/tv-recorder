@@ -5,7 +5,7 @@ FROM library/alpine:latest AS build
 COPY ./container-init.sh /build/usr/local/bin/
 
 # Run the build script
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Set startup script permission
     chmod +x /build/usr/local/bin/container-init.sh
@@ -66,7 +66,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Postinstall
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
   
   # Update
     apk upgrade -U --no-cache

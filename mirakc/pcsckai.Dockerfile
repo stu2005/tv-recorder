@@ -9,13 +9,13 @@ COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 
 # Run the build script
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update packages
     apk upgrade -U --no-cache
 
   # Install requires
-    apk add -U --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers
+    apk add -U --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
 
   # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
@@ -34,6 +34,7 @@ RUN <<EOF ash -x
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
+    mkdir -p /build/usr/local/bin/
     ./autogen.sh
     ./configure
     make -j$(nproc)
@@ -64,7 +65,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Postinstall
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update
     apk upgrade -U --no-cache

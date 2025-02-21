@@ -5,7 +5,7 @@ FROM library/alpine:latest AS update
 FROM library/node:14-alpine AS build
 
 # Run the build script
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update packages
     apk upgrade -U --no-cache
@@ -39,7 +39,7 @@ EXPOSE 20772
 COPY --chown=node:node --from=build /build/ /
 
 # Install requires
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update
     apk upgrade -U --no-cache

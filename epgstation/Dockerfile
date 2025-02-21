@@ -23,7 +23,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=update /etc/apk/repositories /etc/apk/repositories
 
 # Install ffmpeg
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Update packages
     apk upgrade -U --no-cache

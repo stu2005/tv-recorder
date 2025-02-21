@@ -5,7 +5,7 @@ FROM library/rust:latest AS build
 COPY ./container-init.sh /build/usr/local/bin/
 
 # Run the build script
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Set startup script permission
     chmod +x /build/usr/local/bin/container-init.sh
@@ -53,7 +53,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Install requires
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Update
     apt-get update

@@ -9,7 +9,7 @@ COPY --from=libpcsckai / /
 COPY --from=libpcsckai / /build/
 
 # Run the build script
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Update packages
     apt-get update
@@ -51,7 +51,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Update packages
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Update
     apt-get update

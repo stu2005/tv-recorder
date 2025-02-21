@@ -11,7 +11,7 @@ COPY --from=mirakurun /app/ /build/app/
 COPY ./container-init-debian.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Set startup scrtipt permission
     chmod +x /build/usr/local/bin/container-init.sh
@@ -74,7 +74,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Postinstall
-RUN <<EOF bash -x
+RUN <<EOF bash -ex
 
   # Update
     apt-get update
