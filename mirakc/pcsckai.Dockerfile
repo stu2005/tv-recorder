@@ -71,7 +71,7 @@ RUN <<EOF ash -ex
     apk upgrade -U --no-cache
 
   # Test
-    b25 || return 0
+    b25 || true
     recpt1 -v
 
 EOF

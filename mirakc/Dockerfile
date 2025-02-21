@@ -75,7 +75,7 @@ RUN <<EOF ash -ex
     apk add -U --no-cache pcsc-lite-libs pcsc-lite ccid
 
   # Test
-    b25 || return 0
+    b25 || true
     recpt1 -v
 
 EOF
