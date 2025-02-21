@@ -68,7 +68,7 @@ services:
         source: epgstation
         target: /app/thumbnail/
       - type: bind
-        source: /mnt/hdd/recorded/
+        source: /hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
