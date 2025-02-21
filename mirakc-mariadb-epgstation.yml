@@ -1,12 +1,11 @@
 services:
 
   mirakc:
-    image: ghcr.io/stu2005/mirakc:debian
+    image: ghcr.io/stu2005/mirakc:debian_pcsckai
     container_name: mirakc
     init: true
     restart: unless-stopped
     devices:
-      - "/dev/bus:/dev/bus"
       - "/dev/px4video0:/dev/px4video0"
       - "/dev/px4video1:/dev/px4video1"
       - "/dev/px4video2:/dev/px4video2"
@@ -29,19 +28,19 @@ services:
         max-file: "2"
         compress: "true"
 
-  mysql:
-    image: docker.io/library/mysql:latest
-    container_name: mysql
+  mariadb:
+    image: docker.io/library/mariadb:latest
+    container_name: mariadb
     environment:
       TZ: Asia/Tokyo
       MYSQL_DATABASE: epgstation
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
       MYSQL_ROOT_PASSWORD: epgstation
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci --performance-schema=false --expire_logs_days=1 --default-authentication-plugin=mysql_native_password
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --binlog_expire_logs_seconds=86400
     volumes:
       - type: volume
-        source: mysql
+        source: mariadb
         target: /var/lib/mysql
     restart: always
     logging:
@@ -76,7 +75,7 @@ services:
     depends_on:
       mirakc:
         condition: service_healthy
-      mysql:
+      mariadb:
         condition: service_started
     ports:
       - target: 8888
@@ -93,8 +92,8 @@ volumes:
   mirakc:
     driver: "local"
     name: mirakc
-  mysql:
+  mariadb:
     driver: "local"
-    name: mysql
+    name: mariadb
   epgstation:
     name: epgstation

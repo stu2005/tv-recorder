@@ -73,7 +73,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Install requires
+# Postinstall
 RUN <<EOF bash -x
 
   # Update
@@ -84,7 +84,10 @@ RUN <<EOF bash -x
     apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0 libpcsclite1 pcscd libccid
 
   # Clean
-    apt-get clean && \
+    apt-get clean
     rm -rf /var/lib/apt/lists/*
+
+  # Test
+    recisdb -V
 
 EOF

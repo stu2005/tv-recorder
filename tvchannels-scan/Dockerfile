@@ -37,5 +37,13 @@ ENV TZ=Asia/Tokyo
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Update packages
-RUN apk upgrade -U --no-cache
+# Postinstall
+RUN <<EOF ash -x
+
+  # Update
+    apk upgrade -U --no-cache
+
+  # Test
+    recpt1 -v
+
+EOF

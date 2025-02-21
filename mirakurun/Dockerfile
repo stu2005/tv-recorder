@@ -92,7 +92,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Install curl
+# Postinstall
 RUN <<EOF ash -x
   
   # Update
@@ -100,5 +100,9 @@ RUN <<EOF ash -x
 
   # Install
     apk add -U --no-cache curl pcsc-lite-libs pcsc-lite ccid
+
+  # Test
+    b25
+    recpt1 -v
 
 EOF

@@ -1,7 +1,7 @@
 services:
 
   mirakurun:
-    image: ghcr.io/stu2005/mirakurun:debian
+    image: ghcr.io/stu2005/mirakurun:debian_pcsckai
     container_name: mirakurun
     cap_add:
       - SYS_ADMIN
@@ -10,7 +10,6 @@ services:
       - target: 40772
         published: 40772
     devices:
-      - "/dev/bus:/dev/bus"
       - "/dev/px4video0:/dev/px4video0"
       - "/dev/px4video1:/dev/px4video1"
       - "/dev/px4video2:/dev/px4video2"

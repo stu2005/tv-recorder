@@ -65,13 +65,17 @@ HEALTHCHECK --interval=10s --timeout=3s \
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Install requires
+# Postinstall
 RUN <<EOF ash -x
   
   # Update
     apk upgrade -U --no-cache
 
   # Install
-    apk add -U --no-cache pcsc-lite-libs pcsc-lite ccid 
+    apk add -U --no-cache pcsc-lite-libs pcsc-lite ccid
+
+  # Test
+    b25
+    recpt1 -v
 
 EOF

@@ -83,10 +83,13 @@ RUN <<EOF bash -x
     apt-get full-upgrade -y
   
   # Install
-    apt-get install -y --no-install-recommends --no-install-suggests curl
+    apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0
 
   # Clean
-    apt-get clean && \
+    apt-get clean
     rm -rf /var/lib/apt/lists/*
+
+  # Test
+    recisdb -V
 
 EOF

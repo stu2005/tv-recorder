@@ -61,4 +61,7 @@ RUN <<EOF bash -x
     apt-get clean
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+  # Test
+    recisdb -V
+
 EOF

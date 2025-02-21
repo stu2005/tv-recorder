@@ -63,5 +63,14 @@ HEALTHCHECK --interval=10s --timeout=3s \
 # Copy build stage artifacts
 COPY --from=build /build/ /
 
-# Update packages
-RUN apk upgrade -U --no-cache
+# Postinstall
+RUN <<EOF ash -x
+
+  # Update
+    apk upgrade -U --no-cache
+
+  # Test
+    b25
+    recpt1 -v
+
+EOF
