@@ -24,11 +24,6 @@ RUN <<EOF bash -ex
     mkdir -p /build/usr/local/bin/
     install -m 755 target/release/recisdb /build/usr/local/bin/
     
-  # Update package repositories
-    mkdir -p /build/etc/apt/
-    cp /etc/apt/sources.list /build/etc/apt/
-    cp -r /etc/apt/sources.list.d/ /build/etc/apt/
-
 EOF
 
 

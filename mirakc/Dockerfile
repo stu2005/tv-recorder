@@ -16,10 +16,6 @@ RUN <<EOF ash -ex
   # Install requires
     apk add -U --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
 
-  # Update package repositories
-    mkdir -p /build/etc/apk
-    cp /etc/apk/repositories /build/etc/apk/repositories
-
   # Build libaribb25
     wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /

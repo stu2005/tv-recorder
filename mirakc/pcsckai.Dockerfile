@@ -40,10 +40,6 @@ RUN <<EOF ash -ex
     make -j$(nproc)
     make prefix=/build/usr/local install
 
-  # Update package repositories
-    mkdir -p /build/etc/apk
-    cp /etc/apk/repositories /build/etc/apk/repositories
-
 EOF
 
 
