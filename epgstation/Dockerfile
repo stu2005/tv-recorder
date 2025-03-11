@@ -1,15 +1,30 @@
-# Latest image
-FROM library/alpine:latest AS update
+# Get nodejs
+FROM library/node:18-slim AS node
+
+# Get epgstation
+FROM l3tnun/epgstation:debian AS epgstation
+COPY --from=node /usr/local/ /build/usr/local/
+RUN <<EOF bash -ex
+
+    cp -r /app /build/
+
+EOF
 
 
 # Final image
-FROM l3tnun/epgstation:alpine
+FROM linuxserver/ffmpeg:latest
+
+# Set the working directory
+WORKDIR /app/
+
+# Open port
+EXPOSE 8888
 
 # Set timezone
 ENV TZ="Asia/Tokyo"
 
 # Directories that need to be mounted to run
-VOLUME /app/data/ /app/thumbnail/
+VOLUME /app/data/ /app/thumbnail/ /app/recorded/
 
 # Set a command to be executed at startup
 ENTRYPOINT ["node"]
@@ -19,20 +34,29 @@ CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
 
-# Update package repositories
-COPY --from=update /etc/apk/repositories /etc/apk/repositories
+# Copy apt settings and latest nodejs, epgstation
+COPY --from=epgstation /build/ /
 
-# Install ffmpeg
-RUN <<EOF ash -ex
+# Postinstall
+RUN <<EOF bash -ex
 
-  # Update packages
-    apk upgrade -U --no-cache
-  
-  # Install  
-    if [ "$(uname -m)" = "x86_64" ]; then
-      apk add -U --no-cache curl ffmpeg mesa-va-gallium mesa-dri-gallium libva-intel-driver intel-media-driver
-    else
-      apk add -U --no-cache curl ffmpeg mesa-va-gallium mesa-dri-gallium
-    fi 
+  # Create user
+    groupadd --gid 1000 node
+    useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+
+  # Update
+    apt-get update
+    apt-get full-upgrade -y --autoremove --purge
+
+  # Install curl
+    apt-get install -y --no-install-recommends --no-install-suggests curl
+
+  # Test
+    node -v
+    ffmpeg -version
+
+  # Clean
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
 
 EOF

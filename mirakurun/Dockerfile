@@ -9,7 +9,7 @@ ARG NODE_ENV=production
 COPY ./container-init-alpine.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
 
   # Set startup scrtipt permission
     chmod +x /build/usr/local/bin/container-init.sh
@@ -83,7 +83,7 @@ VOLUME /var/run/ /opt/ /app-config/ /app-data/
 EXPOSE 40772
 
 # Set a command to be executed at startup
-CMD ["/usr/local/bin/container-init.sh"]
+CMD ["container-init.sh"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
@@ -93,7 +93,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 COPY --from=build /build/ /
 
 # Postinstall
-RUN <<EOF ash -x
+RUN <<EOF ash -ex
   
   # Update
     apk upgrade -U --no-cache

@@ -1,17 +1,21 @@
-# Latest image
-FROM library/alpine:latest AS update
+# Get nodejs 14
+FROM library/node:14-slim AS node
 
-# Build stage
-FROM library/node:14-alpine AS build
+# Latest image
+FROM library/ubuntu:latest AS chinachu
+
+# Copy nodejs
+COPY --from=node /usr/local/ /usr/local/
+COPY --from=node /usr/local/ /build/usr/local/
 
 # Run the build script
-RUN <<EOF ash -ex
+RUN <<EOF bash -ex
 
   # Update packages
-    apk upgrade -U --no-cache
+    apt-get update
 
   # Install requires
-    apk add -U --no-cache python3 git bash make g++
+    apt-get install -y --no-install-recommends --no-install-suggests python3 git make g++
 
   # Build
     git clone --recursive https://github.com/stu2005/chinachu /build/app/
@@ -22,12 +26,9 @@ RUN <<EOF ash -ex
 
 EOF
 
-# Update package repositories
-COPY --from=update /etc/apk/repositories /build/etc/apk/repositories
-
 
 # Final image
-FROM library/node:14-alpine
+FROM linuxserver/ffmpeg:latest
 
 # Set the working directory
 WORKDIR /app/
@@ -35,22 +36,33 @@ WORKDIR /app/
 # Open port
 EXPOSE 20772
 
+# Directory that need to be mounted to run
+VOLUME /app/recorded/
+
 # Copy build stage artifacts
-COPY --chown=node:node --from=build /build/ /
+COPY --chown=node:node --from=chinachu /build/ /
 
 # Install requires
-RUN <<EOF ash -ex
+RUN <<EOF bash -ex
+
+  # Create user
+    groupadd --gid 1000 node
+    useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
   # Update
-    apk upgrade -U --no-cache
+    apt-get update
 
   # Install
-    if [ "$(uname -m)" = "x86_64" ]; then
-      apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates mesa-va-gallium mesa-dri-gallium libva-intel-driver intel-media-driver
-    else
-      apk add -U --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates mesa-va-gallium mesa-dri-gallium
-    fi
+    apt-get install -y --no-install-recommends --no-install-suggests curl coreutils procps ca-certificates
     npm install pm2 -g
+
+  # Test
+    node -v
+    ffmpeg -version
+    
+  # Clean
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
 
 EOF
 
