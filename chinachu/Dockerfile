@@ -57,6 +57,7 @@ RUN <<EOF bash -ex
 
   # Test
     node -v
+    pm2 -v
     ffmpeg -version
 
 EOF

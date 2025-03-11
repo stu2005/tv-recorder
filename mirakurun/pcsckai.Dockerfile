@@ -55,9 +55,9 @@ RUN <<EOF ash -ex
     cd /
     unzip -qq mirakurun.zip
     cd Mirakurun-master
-    npm install --production=false
+    npm install -s --production=false
     npm run build
-    npm install -g --unsafe-perm --production
+    npm install -sg --unsafe-perm --production
     cd /
     mkdir -p /build/app/
     mv /usr/local/lib/node_modules/mirakurun/* /build/app/
