@@ -20,8 +20,9 @@ WORKDIR /app/
 # Open port
 EXPOSE 8888
 
-# Set timezone
+# Set environments
 ENV TZ="Asia/Tokyo"
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Directories that need to be mounted to run
 VOLUME /app/data/ /app/thumbnail/ /app/recorded/

@@ -48,6 +48,7 @@ ENV DOCKER=YES
 ENV INIT_PID=$$ 
 ENV MALLOC_ARENA_MAX=2 
 ENV TZ=Asia/Tokyo
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Set the working directory
 WORKDIR /app/
