@@ -2,7 +2,7 @@
 FROM library/node:14-slim AS node
 
 # Latest image
-FROM library/ubuntu:latest AS chinachu
+FROM library/ubuntu:jammy AS chinachu
 
 # Set environment in build stage
 ARG DEBIAN_FRONTEND=noninteractive
