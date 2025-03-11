@@ -49,20 +49,12 @@ RUN <<EOF bash -ex
     groupadd --gid 1000 node
     useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
-  # Update
-    apt-get update
-
   # Install
-    apt-get install -y --no-install-recommends --no-install-suggests curl coreutils procps ca-certificates
     npm install pm2 -g
 
   # Test
     node -v
     ffmpeg -version
-    
-  # Clean
-    apt-get clean
-    rm -rf /var/lib/apt/lists/*
 
 EOF
 
