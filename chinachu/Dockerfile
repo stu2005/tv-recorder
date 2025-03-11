@@ -18,7 +18,7 @@ RUN <<EOF bash -ex
     apt-get update
 
   # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests python3 git make g++
+    apt-get install -y --no-install-recommends --no-install-suggests ca-certificates python3 git make g++
 
   # Build
     git clone --recursive https://github.com/stu2005/chinachu /build/app/
