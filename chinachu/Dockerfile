@@ -51,7 +51,7 @@ RUN <<EOF bash -ex
   # Update and install
     npm install pm2 -g
     apt-get update
-    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests ffmpeg+ gh+ jq+
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ gh+ jq+
     curl -Lo/gh.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg
     curl -Lo/etc/apt/sources.list.d/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/github-cli.sources
     curl -Lo/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh
