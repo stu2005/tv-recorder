@@ -31,7 +31,7 @@ EOF
 
 
 # Final image
-FROM linuxserver/ffmpeg:latest
+FROM library/ubuntu:latest
 
 # Set the working directory
 WORKDIR /app/
@@ -48,12 +48,16 @@ COPY --chown=node:node --from=chinachu /build/ /
 # Install requires
 RUN <<EOF bash -ex
 
-  # Create user
-    groupadd --gid 1000 node
-    useradd --uid 1000 --gid node --shell /bin/bash --create-home node
-
-  # Install
+  # Update and install
     npm install pm2 -g
+    curl -Lo/gh.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    curl -Lo/etc/apt/sources.list.d/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/github-cli.sources
+    curl -Lo/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh
+    chmod +x /get_qsvencc.sh
+    apt-get update
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests ffmpeg+ gh+ jq+
+    /get_qsvencc.sh
+    apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
 
   # Test
     node -v
@@ -63,7 +67,7 @@ RUN <<EOF bash -ex
 EOF
 
 # Set execution user
-USER node:node
+USER ubuntu:ubuntu
 
 # Set a command to be executed at startup
 ENTRYPOINT ["pm2-runtime"]

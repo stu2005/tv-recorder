@@ -1,19 +1,19 @@
-# Get libpcsckai
-FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
-
 # Build stage
 FROM library/rust:latest AS build
 
+# Set environment variable
+ARG DEBIAN_FRONTEND=noninteractive
+
 # Copy libpcsckai
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
+COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
+COPY --from=ghcr.io/stu2005/libpcsckai:debian / /build/
 
 # Run the build script
 RUN <<EOF bash -ex
 
   # Update packages
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --no-install-recommends --no-install-suggests
 
   # Install requires
     apt-get install -y --no-install-recommends --no-install-suggests cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
@@ -50,7 +50,7 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --no-install-recommends --no-install-suggests
 
   # Clean
     apt-get clean

@@ -1,6 +1,9 @@
 # Build stage
 FROM library/rust:latest AS build
 
+# Set environment variable
+ARG DEBIAN_FRONTEND=noninteractive
+
 # Copy startup script
 COPY ./container-init.sh /build/usr/local/bin/
 
@@ -33,6 +36,7 @@ FROM mirakc/mirakc:debian
 # Set environment variables
 ENV TZ=Asia/Tokyo
 ENV RUST_LOG=info
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Directories that need to be mounted to run
 VOLUME /var/lib/mirakc/epg/
@@ -52,7 +56,7 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --no-install-recommends --no-install-suggests
 
   # Install
     apt-get install -y --no-install-recommends --no-install-suggests libpcsclite1 pcscd libccid

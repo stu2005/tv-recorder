@@ -1,20 +1,10 @@
-# Get libpcsckai
-FROM ghcr.io/stu2005/libpcsckai:debian AS libpcsckai
-
-# Get mirakurun
-FROM chinachu/mirakurun:latest AS mirakurun
-
 # Build stage
 FROM rust:latest AS build
 
-# Copy libpcsckai
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
-
-# Copy mirakurun
-COPY --from=mirakurun /app/ /build/app/
-
-# Copy the startup script
+# Copy libpcsckai, mirakurun and the startup script
+COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
+COPY --from=ghcr.io/stu2005/libpcsckai:debian / /build/
+COPY --from=chinachu/mirakurun:latest /app/ /build/app/
 COPY ./container-init-debian-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
@@ -81,7 +71,7 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests
   
   # Install
     apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0
@@ -91,6 +81,7 @@ RUN <<EOF bash -ex
     rm -rf /var/lib/apt/lists/*
 
   # Test
+    curl --version
     recisdb -V
 
 EOF

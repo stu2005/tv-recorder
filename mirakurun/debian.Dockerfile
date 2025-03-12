@@ -4,10 +4,11 @@ FROM chinachu/mirakurun:latest AS mirakurun
 # Build stage
 FROM rust:latest AS build
 
-# Copy mirakurun
-COPY --from=mirakurun /app/ /build/app/
+# Set environment variable
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Copy the startup script
+# Copy mirakurun and the startup script
+COPY --from=chinachu/mirakurun:latest /app/ /build/app/
 COPY ./container-init-debian.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
@@ -18,7 +19,7 @@ RUN <<EOF bash -ex
 
   # Update packages
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --no-install-recommends --no-install-suggests
 
   # Install requires
     apt-get install -y --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
@@ -60,7 +61,7 @@ VOLUME /var/run/ /opt/ /app-config/ /app-data/
 EXPOSE 40772
 
 # Set a command to be executed at startup
-CMD ["/usr/local/bin/container-init.sh"]
+CMD ["container-init.sh"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
@@ -74,7 +75,7 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests
   
   # Install
     apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0 libpcsclite1 pcscd libccid
@@ -84,6 +85,7 @@ RUN <<EOF bash -ex
     rm -rf /var/lib/apt/lists/*
 
   # Test
+    curl --version
     recisdb -V
 
 EOF

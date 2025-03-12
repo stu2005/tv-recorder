@@ -1,18 +1,19 @@
-# Get nodejs
-FROM library/node:18-slim AS node
-
-# Get epgstation
-FROM l3tnun/epgstation:debian AS epgstation
-COPY --from=node /usr/local/ /build/usr/local/
+# Latest image
+FROM library/debian:latest AS update
+COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
 RUN <<EOF bash -ex
 
-    cp -r /app /build/
+    mkdir /build/etc/
+    cp -r /etc/apt /build/etc/
 
 EOF
 
 
 # Final image
-FROM linuxserver/ffmpeg:latest
+FROM l3tnun/epgstation:debian
+
+# Update
+COPY --from=update /build/ /
 
 # Set the working directory
 WORKDIR /app/
@@ -35,26 +36,20 @@ CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
 
-# Copy apt settings and latest nodejs, epgstation
-COPY --from=epgstation /build/ /
-
 # Postinstall
 RUN <<EOF bash -ex
 
-  # Create user
-    groupadd --gid 1000 node
-    useradd --uid 1000 --gid node --shell /bin/bash --create-home node
-
   # Update
     apt-get update
-    apt-get full-upgrade -y --autoremove --purge
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests
 
   # Install curl
-    apt-get install -y --no-install-recommends --no-install-suggests curl
+    apt-get install -y --no-install-recommends --no-install-suggests curl ffmpeg
 
   # Test
     node -v
     ffmpeg -version
+    curl --version
 
   # Clean
     apt-get clean

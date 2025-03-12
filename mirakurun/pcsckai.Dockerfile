@@ -1,6 +1,3 @@
-# Get libpcsckai
-FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-
 # Build stage
 FROM node:18-alpine AS build
 
@@ -9,8 +6,8 @@ ARG DOCKER=YES
 ARG NODE_ENV=production
 
 # Copy libpcsckai
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
 
 # Copy the startup script
 COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh
