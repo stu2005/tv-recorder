@@ -53,8 +53,8 @@ RUN <<EOF bash -ex
     apt-get update
     apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ gh+ jq+
     curl -Lo/gh.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    curl -Lo/etc/apt/sources.list.d/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/github-cli.sources
-    curl -Lo/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh
+    curl -LO/etc/apt/sources.list.d/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/github-cli.sources
+    curl -LO/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh
     chmod +x /get_qsvencc.sh
     /get_qsvencc.sh
     apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
