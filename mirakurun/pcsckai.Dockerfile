@@ -5,9 +5,10 @@ FROM node:18-alpine AS build
 ARG DOCKER=YES
 ARG NODE_ENV=production
 
-# Copy libpcsckai
+# Copy mirakurun and libpcsckai
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
+COPY --from=chinachu/mirakurun:latest /app/ /build/app/
 
 # Copy the startup script
 COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh
@@ -46,18 +47,6 @@ RUN <<EOF ash -ex
     ./configure
     make -j$(nproc)
     make prefix=/build/usr/local install
-
-  # Build mirakurun
-    wget -qO /mirakurun.zip https://github.com/Chinachu/Mirakurun/archive/refs/heads/master.zip
-    cd /
-    unzip -qq mirakurun.zip
-    cd Mirakurun-master
-    npm install -s --production=false
-    npm run build
-    npm install -sg --unsafe-perm --production
-    cd /
-    mkdir -p /build/app/
-    mv /usr/local/lib/node_modules/mirakurun/* /build/app/
 
 EOF
 

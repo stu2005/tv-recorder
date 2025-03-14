@@ -1,32 +1,3 @@
-# Build stage
-FROM library/rust:latest AS build
-
-# Set environment variable
-ARG DEBIAN_FRONTEND=noninteractive
-
-# Copy startup script
-COPY ./container-init.sh /build/usr/local/bin/
-
-# Run the build script
-RUN <<EOF bash -ex
-
-  # Set startup script permission
-    chmod +x /build/usr/local/bin/container-init.sh
-
-  # Update and install packages
-    apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests cmake+ git+ libclang-dev+ libdvbv5-dev+ libudev-dev+ pkg-config+ libpcsclite-dev+
-
-  # Build recisdb
-    git clone -q --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
-    cd /recisdb/
-    cargo build -F dvb --release
-    mkdir -p /build/usr/local/bin/
-    install -m 755 target/release/recisdb /build/usr/local/bin/
-    
-EOF
-
-
 # Final image
 FROM mirakc/mirakc:debian
 
@@ -45,19 +16,21 @@ CMD ["container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:40772/api/status || exit 1
 
-# Copy build stage artifacts
-COPY --from=build /build/ /
-
 # Install requires
 RUN <<EOF bash -ex
+  
+  # Download startup script
+    curl -Lo/usr/local/bin/container-init.sh https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/container-init.sh
+    chmod +x /usr/local/bin/container-init.sh
 
   # Update and install
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/get_recisdb.sh | bash
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests libpcsclite1+ pcscd+ libccid+ 
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests /recisdb.deb+ libpcsclite1+ pcscd+ libccid+ 
 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /recisdb.deb
 
   # Test
     recisdb -V

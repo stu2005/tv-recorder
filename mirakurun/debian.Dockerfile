@@ -1,36 +1,3 @@
-# Build stage
-FROM rust:latest AS build
-
-# Set environment variable
-ARG DEBIAN_FRONTEND=noninteractive
-
-# Copy mirakurun and the startup script
-COPY --from=chinachu/mirakurun:latest /app/ /build/app/
-COPY ./container-init-debian.sh /build/usr/local/bin/container-init.sh
-
-# Run the build script
-RUN <<EOF bash -ex
-
-  # Set startup scrtipt permission
-    chmod +x /build/usr/local/bin/container-init.sh
-
-  # Update packages
-    apt-get update -q
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests
-
-  # Install requires
-    apt-get install -qy --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
-
-  # Build recisdb
-    git clone -q --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
-    cd /recisdb/
-    cargo build -F dvb --release
-    mkdir -p /build/usr/local/bin/
-    install -m 755 target/release/recisdb /build/usr/local/bin/
-
-EOF
-
-
 # Final image
 FROM library/node:18-slim
 
@@ -64,22 +31,21 @@ CMD ["container-init.sh"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:40772/api/status || exit 1
 
-# Copy build stage artifacts
-COPY --from=build /build/ /
+# Copy mirakurun
+COPY --from=chinachu/mirakurun:latest /app/ /app/
 
 # Postinstall
 RUN <<EOF bash -ex
 
   # Update
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests
-  
-  # Install
-    apt-get install -qy --no-install-recommends --no-install-suggests curl libdvbv5-0 libpcsclite1 pcscd libccid
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ libdvbv5-0+ libpcsclite1+ pcscd+ libccid+    
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakurun/get_recisdb.sh | bash
+    apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb
 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /recisdb.deb
 
   # Test
     curl --version
