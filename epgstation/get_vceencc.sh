@@ -23,10 +23,10 @@ done
 if [ -z "$highest_version_url" ]; then
   echo "対応するUbuntu用のdebパッケージが見つかりませんでした。"
 else
-  curl -Lo/vceencc.deb $highest_version_url
+  curl -Lso/vceencc.deb $highest_version_url
 fi
 
-curl -Lo/rocm.gpg https://repo.radeon.com/rocm/rocm.gpg.key
+curl -Lso/rocm.gpg https://repo.radeon.com/rocm/rocm.gpg.key
 echo <<EOF
 Types: deb
 URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/

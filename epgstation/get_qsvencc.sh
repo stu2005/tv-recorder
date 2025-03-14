@@ -23,5 +23,5 @@ done
 if [ -z "$highest_version_url" ]; then
   echo "対応するUbuntu用のdebパッケージが見つかりませんでした。"
 else
-  curl -Lo/qsvencc.deb $highest_version_url
+  curl -Lso/qsvencc.deb $highest_version_url
 fi
