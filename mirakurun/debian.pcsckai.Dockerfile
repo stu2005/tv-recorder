@@ -21,7 +21,7 @@ RUN <<EOF bash -ex
     apt-get install -qy --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
-    git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/
+    git clone -q --recursive https://github.com/stu2005/recisdb-rs /recisdb/
     cd /recisdb/
     cargo build -F dvb --release
     mkdir -p /build/usr/local/bin/
