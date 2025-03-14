@@ -21,8 +21,11 @@ RUN <<EOF bash -ex
     apt-get install -qy --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
-    git clone -q --recursive https://github.com/stu2005/recisdb-rs /recisdb/
+    git clone -q https://github.com/kazuki0824/recisdb-rs /recisdb/
     cd /recisdb/
+    sed -i -e 's/kazuki0824/stu2005/g' .gitmodules
+    git submodule init
+    git submodule update
     cargo build -F dvb --release
     mkdir -p /build/usr/local/bin/
     install -m 755 target/release/recisdb /build/usr/local/bin/
@@ -57,7 +60,7 @@ VOLUME /var/run/ /opt/ /app-config/ /app-data/
 EXPOSE 40772
 
 # Set a command to be executed at startup
-CMD ["/usr/local/bin/container-init.sh"]
+CMD ["container-init.sh"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
