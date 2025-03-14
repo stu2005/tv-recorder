@@ -26,7 +26,7 @@ else
   curl -Lso/vceencc.deb $highest_version_url
 fi
 
-curl -Lso/rocm.gpg https://repo.radeon.com/rocm/rocm.gpg.key
+curl -Lso/rocm.gpg https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/rocm.gpg
 
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
