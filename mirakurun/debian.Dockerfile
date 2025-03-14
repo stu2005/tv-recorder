@@ -82,7 +82,7 @@ RUN <<EOF bash -ex
 
   # Clean
     apt-get clean
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
   # Test
     curl --version

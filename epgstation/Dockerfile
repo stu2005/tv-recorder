@@ -45,14 +45,15 @@ RUN <<EOF bash -ex
       vceencc -v
     fi
 
-
   # Test
     node -v
     ffmpeg -version
+    qsvencc -v
+    vceencc -v
     curl --version
 
   # Clean
     apt-get clean
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /qsvencc.deb /vceencc.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
 
 EOF
