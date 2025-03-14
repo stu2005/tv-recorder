@@ -49,14 +49,16 @@ RUN <<EOF bash -ex
     npm install pm2 -sg
     apt-get update
     apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh | bash
-    apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
+    if [[ "$(uname -m)" == "x86_64" ]]; then
+      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh | bash
+      apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
+      qsvencc -v  
+    fi
 
   # Test
     node -v
     pm2 -v
     ffmpeg -version
-    qsvencc -v
     curl --version
 
   # Clean
