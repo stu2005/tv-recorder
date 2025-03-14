@@ -35,12 +35,12 @@ COPY --from=downloads /build/ /
 RUN <<EOF bash -ex
 
   # Update and install
-    apt-get update
-    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
+    apt-get update -q
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
     if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
-      apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb
+      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb
       qsvencc -v
       vceencc -v
     fi
@@ -53,7 +53,7 @@ RUN <<EOF bash -ex
     curl --version
 
   # Clean
-    apt-get clean
+    apt-get clean -q
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /qsvencc.deb /vceencc.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
 
 EOF

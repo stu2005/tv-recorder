@@ -14,11 +14,11 @@ RUN <<EOF bash -ex
     chmod +x /build/usr/local/bin/container-init.sh
 
   # Update packages
-    apt-get update
-    apt-get full-upgrade -y
+    apt-get update -q
+    apt-get full-upgrade -qy
 
   # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+    apt-get install -qy --no-install-recommends --no-install-suggests curl cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
 
   # Build recisdb
     git clone --recursive https://github.com/stu2005/recisdb-rs /recisdb/
@@ -71,13 +71,13 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests
   
   # Install
-    apt-get install -y --no-install-recommends --no-install-suggests curl libdvbv5-0
+    apt-get install -qy --no-install-recommends --no-install-suggests curl libdvbv5-0
 
   # Clean
-    apt-get clean
+    apt-get clean -q
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
   # Test

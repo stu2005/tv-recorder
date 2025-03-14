@@ -13,15 +13,12 @@ RUN <<EOF bash -ex
   # Set startup script permission
     chmod +x /build/usr/local/bin/container-init.sh
 
-  # Update packages
-    apt-get update
-    apt-get full-upgrade -y
-
-  # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests cmake git libclang-dev libdvbv5-dev libudev-dev pkg-config libpcsclite-dev
+  # Update and install packages
+    apt-get update -q
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests cmake+ git+ libclang-dev+ libdvbv5-dev+ libudev-dev+ pkg-config+ libpcsclite-dev+
 
   # Build recisdb
-    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
+    git clone -q --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
     cd /recisdb/
     cargo build -F dvb --release
     mkdir -p /build/usr/local/bin/
@@ -42,7 +39,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 VOLUME /var/lib/mirakc/epg/
 
 # Set a command to be executed at startup
-CMD ["/usr/local/bin/container-init.sh"]
+CMD ["container-init.sh"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
@@ -54,15 +51,12 @@ COPY --from=build /build/ /
 # Install requires
 RUN <<EOF bash -ex
 
-  # Update
-    apt-get update
-    apt-get full-upgrade -y --no-install-recommends --no-install-suggests
-
-  # Install
-    apt-get install -y --no-install-recommends --no-install-suggests libpcsclite1 pcscd libccid
+  # Update and install
+    apt-get update -q
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests libpcsclite1+ pcscd+ libccid+ 
 
   # Clean
-    apt-get clean
+    apt-get clean -q
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
   # Test

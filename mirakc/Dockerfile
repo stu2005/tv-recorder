@@ -11,13 +11,13 @@ RUN <<EOF ash -ex
     chmod +x /build/usr/local/bin/container-init.sh
 
   # Update packages
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Install requires
-    apk add -U --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
+    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
 
   # Build libaribb25
-    wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
+    wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip
     cd /libaribb25-master/
@@ -29,7 +29,7 @@ RUN <<EOF ash -ex
     ninja install
 
   # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
+    wget -qO /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
@@ -65,10 +65,10 @@ COPY --from=build /build/ /
 RUN <<EOF ash -ex
   
   # Update
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Install
-    apk add -U --no-cache pcsc-lite-libs pcsc-lite ccid
+    apk add -qU --no-cache pcsc-lite-libs pcsc-lite ccid
 
   # Test
     b25 || true

@@ -1,24 +1,21 @@
-# Get libpcsckai
-FROM ghcr.io/stu2005/libpcsckai:latest AS libpcsckai
-
 # Build stage
 FROM library/alpine:latest AS build
 
 # Copy libpcsckai
-COPY --from=libpcsckai / /
-COPY --from=libpcsckai / /build/
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
 
 # Run the build script
 RUN <<EOF ash -ex
 
   # Update packages
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Install requires
-    apk add -U --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
+    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
 
   # Build libaribb25
-    wget -O /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
+    wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip
     cd /libaribb25-master/
@@ -30,7 +27,7 @@ RUN <<EOF ash -ex
     ninja install
 
   # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
+    wget -qO /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
@@ -64,7 +61,7 @@ COPY --from=build /build/ /
 RUN <<EOF ash -ex
 
   # Update
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Test
     b25 || true

@@ -35,4 +35,4 @@ Components: main
 Architectures: amd64
 Signed-By: /rocm.gpg
 EOF > /etc/apt/sources.list.d/amdgpu.sources
-apt-get update
+apt-get update -q

@@ -5,13 +5,13 @@ FROM library/alpine:latest AS build
 RUN <<EOF ash -ex
 
   # Update packages
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Install requires
-    apk add -U --no-cache alpine-sdk make gcc musl-dev linux-headers autoconf automake g++
+    apk add -qU --no-cache alpine-sdk make gcc musl-dev linux-headers autoconf automake g++
 
   # Build recpt1
-    wget -O /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
+    wget -qO /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
@@ -41,7 +41,7 @@ COPY --from=build /build/ /
 RUN <<EOF ash -ex
 
   # Update
-    apk upgrade -U --no-cache
+    apk upgrade -qU --no-cache
 
   # Test
     recpt1 -v
