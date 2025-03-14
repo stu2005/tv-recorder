@@ -27,6 +27,7 @@ else
 fi
 
 curl -Lso/rocm.gpg https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/rocm.gpg
+
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
@@ -34,7 +35,23 @@ Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
 Components: main proprietary
 Architectures: amd64
 Signed-By: /rocm.gpg
+
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: jammy jammy-updates jammy-backports
+Components: main universe restricted multiverse
+Architectures: amd64
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 EOF
 )
+
+JAMMY_PREFERENCE=$(cat <<EOF
+Package: *
+Pin: release jammy*
+Pin-Priority: 100
+EOF
+)
+
 echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/amdgpu.sources
+echo "$JAMMY_PREFERENCE" >/etc/apt/preferences.d/jammy.pref
 apt-get update -q
