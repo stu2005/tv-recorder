@@ -38,5 +38,3 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/chinachu:latest
-          build-args: |
-            CLI_TOKEN=${{ secrets.CLI_TOKEN }}

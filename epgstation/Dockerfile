@@ -1,19 +1,11 @@
-# Latest image
-FROM library/debian:latest AS update
+# Get nodejs and epgstation
+FROM scratch AS downloads
 COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
-RUN <<EOF bash -ex
-
-    mkdir /build/etc/
-    cp -r /etc/apt /build/etc/
-
-EOF
+COPY --from=l3tnun/epgstation:debian /app/ /build/app/
 
 
 # Final image
-FROM l3tnun/epgstation:debian
-
-# Update
-COPY --from=update /build/ /
+FROM library/ubuntu:latest
 
 # Set the working directory
 WORKDIR /app/
@@ -36,19 +28,22 @@ CMD ["dist/index.js"]
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
 
+# Copy downloads
+COPY --from=downloads /build/ /
+
 # Postinstall
 RUN <<EOF bash -ex
 
-  # Update
+  # Update and install
     apt-get update
-    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests
-
-  # Install curl
-    apt-get install -y --no-install-recommends --no-install-suggests curl ffmpeg
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh | bash
+    apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
 
   # Test
     node -v
     ffmpeg -version
+    qsvencc -v
     curl --version
 
   # Clean

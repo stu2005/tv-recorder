@@ -1,15 +1,12 @@
-# Get nodejs 14
-FROM library/node:14-slim AS node
-
-# Latest image
-FROM library/ubuntu:jammy AS chinachu
+# Build stage
+FROM library/ubuntu:jammy AS build
 
 # Set environment in build stage
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Copy nodejs
-COPY --from=node /usr/local/ /usr/local/
-COPY --from=node /usr/local/ /build/usr/local/
+COPY --from=library/node:14-slim /usr/local/ /usr/local/
+COPY --from=library/node:14-slim /usr/local/ /build/usr/local/
 
 # Run the build script
 RUN <<EOF bash -ex
@@ -23,9 +20,9 @@ RUN <<EOF bash -ex
   # Build
     git clone --recursive https://github.com/stu2005/chinachu /build/app/
     cd /build/app/
-    npm install
-    npm update
-    npm audit fix
+    npm install -s
+    npm update -s
+    npm audit fix -s
 
 EOF
 
@@ -43,26 +40,28 @@ EXPOSE 20772
 VOLUME /app/recorded/
 
 # Copy build stage artifacts
-COPY --chown=node:node --from=chinachu /build/ /
+COPY --chown=ubuntu:ubuntu --from=build /build/ /
 
 # Install requires
 RUN <<EOF bash -ex
 
   # Update and install
-    npm install pm2 -g
+    npm install pm2 -sg
     apt-get update
-    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ gh+ jq+
-    curl -Lo/gh.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    curl -LO/etc/apt/sources.list.d/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/github-cli.sources
-    curl -LO/ https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh
-    chmod +x /get_qsvencc.sh
-    /get_qsvencc.sh
+    apt-get full-upgrade -y --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh | bash
     apt-get install -y --no-install-recommends --no-install-suggests /qsvencc.deb
 
   # Test
     node -v
     pm2 -v
     ffmpeg -version
+    qsvencc -v
+    curl --version
+
+  # Clean
+    apt-get clean
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /qsvencc.deb
 
 EOF
 
