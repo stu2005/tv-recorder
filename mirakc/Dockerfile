@@ -52,7 +52,7 @@ ENV RUST_LOG=info
 VOLUME /var/lib/mirakc/epg/
 
 # Set a command to be executed at startup
-CMD ["/usr/local/bin/container-init.sh"]
+CMD ["container-init.sh"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \

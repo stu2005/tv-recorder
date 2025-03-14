@@ -22,7 +22,7 @@ VOLUME /app/data/ /app/thumbnail/ /app/recorded/
 
 # Set a command to be executed at startup
 ENTRYPOINT ["node"]
-CMD ["dist/index.js"]
+CMD ["./dist/index.js"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
