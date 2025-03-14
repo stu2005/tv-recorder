@@ -41,7 +41,6 @@ RUN <<EOF bash -ex
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb
       qsvencc -v
-      vceencc -v
     fi
 
   # Test
