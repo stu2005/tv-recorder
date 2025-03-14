@@ -27,12 +27,12 @@ else
 fi
 
 curl -Lso/rocm.gpg https://repo.radeon.com/rocm/rocm.gpg.key
-echo <<EOF
+echo <<EOF >/etc/apt/sources.list.d/amdgpu.sources
 Types: deb
 URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
 Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
 Components: main
 Architectures: amd64
 Signed-By: /rocm.gpg
-EOF > /etc/apt/sources.list.d/amdgpu.sources
+EOF
 apt-get update -q
