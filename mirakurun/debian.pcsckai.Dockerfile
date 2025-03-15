@@ -72,12 +72,9 @@ COPY --from=build /build/ /
 # Install requires
 RUN <<EOF bash -ex
 
-  # Update
+  # Update and install
     apt-get update
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests
-  
-  # Install
-    apt-get install -qy --no-install-recommends --no-install-suggests curl libdvbv5-0
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ libdvbv5-0+ libpcsclite1+
 
   # Clean
     apt-get clean -q

@@ -48,9 +48,9 @@ COPY --from=build /build/ /
 # Update packages
 RUN <<EOF bash -ex
 
-  # Update
+  # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests libpcsclite1+
 
   # Clean
     apt-get clean -q
