@@ -39,9 +39,9 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ libdvbv5-0+ libpcsclite1+ pcscd+ libccid+    
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ jq+ libdvbv5-0+ libpcsclite1+ pcscd+ libccid+    
     curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakurun/get_recisdb.sh | bash
-    apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb
+    apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb --autoremove --purge jq-
 
   # Clean
     apt-get clean -q

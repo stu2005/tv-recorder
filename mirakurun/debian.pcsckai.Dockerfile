@@ -23,7 +23,7 @@ RUN <<EOF bash -ex
   # Build recisdb
     git clone -q https://github.com/kazuki0824/recisdb-rs /recisdb/
     cd /recisdb/
-    sed -i -e 's/kazuki0824/stu2005/g' .gitmodules
+    sed -i -e 's/tsukumijima/stu2005/g' .gitmodules
     git submodule init
     git submodule update
     cargo build -F dvb --release

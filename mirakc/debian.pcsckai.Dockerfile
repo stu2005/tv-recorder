@@ -16,9 +16,9 @@ RUN <<EOF bash -ex
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests cmake+ git+ libclang-dev+ libdvbv5-dev+ libudev-dev+ pkg-config+ libpcsclite-dev+
 
   # Build recisdb
-    git clone -q https://github.com/stu2005/recisdb-rs /recisdb/
+    git clone -q https://github.com/kazuki0824/recisdb-rs /recisdb/
     cd /recisdb/
-    sed -i -e 's/kazuki0824/stu2005/g' .gitmodules
+    sed -i -e 's/tsukumijima/stu2005/g' .gitmodules
     git submodule init -q
     git submodule update -q
     cargo build -F dvb --release

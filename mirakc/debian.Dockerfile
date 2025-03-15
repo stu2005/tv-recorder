@@ -27,7 +27,7 @@ RUN <<EOF bash -ex
     curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/get_recisdb.sh | bash
     apt-get update -q
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests
-    apt-get install -y --no-install-recommends --no-install-suggests /recisdb.deb libpcsclite1 pcscd libccid 
+    apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb libpcsclite1 pcscd libccid 
 
   # Clean
     apt-get clean -q
