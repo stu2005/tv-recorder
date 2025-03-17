@@ -78,6 +78,6 @@ jobs:
           context: ./mirakc/
           file: ./mirakc/debian.pcsckai.Dockerfile
           #platforms: linux/amd64,linux/arm64
-          platforms: linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/mirakc:debian_pcsckai
