@@ -16,11 +16,11 @@ RUN <<EOF bash -ex
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests cmake+ git+ libclang-dev+ libdvbv5-dev+ libudev-dev+ pkg-config+ libpcsclite-dev+
 
   # Build recisdb
-    git clone -q https://github.com/kazuki0824/recisdb-rs /recisdb/
+    git clone --recursive https://github.com/kazuki0824/recisdb-rs /recisdb/
     cd /recisdb/
-    sed -i -e 's/tsukumijima/stu2005/g' .gitmodules
-    git submodule init -q
-    git submodule update -q
+    sed -i -e 's/pcsclite/pcsckai/g' ./b25-sys/build.rs
+    sed -i -e 's/pcsclite/pcsckai/g' ./b25-sys/externals/libaribb25/CMakeLists.txt
+    sed -i -e 's/pcsclite/pcsckai/g' ./b25-sys/externals/libaribb25/cmake/FindPCSC.cmake
     cargo build -F dvb --release
     mkdir -p /build/usr/local/bin/
     install -m 755 target/release/recisdb /build/usr/local/bin/
@@ -50,7 +50,7 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests libpcsclite1+
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge
 
   # Clean
     apt-get clean -q
