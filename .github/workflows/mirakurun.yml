@@ -18,8 +18,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      #- name: Set up QEMU
+      #  uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -43,7 +43,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./mirakurun/
-          platforms: linux/amd64,linux/arm64
+          #platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/mirakurun:latest
 
@@ -52,7 +53,8 @@ jobs:
         with:
           context: ./mirakurun/
           file: ./mirakurun/pcsckai.Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          #platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/mirakurun:pcsckai
 
@@ -61,7 +63,8 @@ jobs:
         with:
           context: ./mirakurun/
           file: ./mirakurun/debian.Dockerfile
-          platforms: linux/amd64,linux/arm64
+          #platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/mirakurun:debian
 
@@ -70,7 +73,8 @@ jobs:
         with:
           context: ./mirakurun/
           file: ./mirakurun/debian.pcsckai.Dockerfile
-          platforms: linux/amd64,linux/arm64
+          #platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/mirakurun:debian_pcsckai
       
