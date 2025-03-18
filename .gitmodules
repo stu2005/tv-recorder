@@ -1,3 +1,6 @@
 [submodule "./edcb/"]
   path = ./edcb/
   url = https://github.com/tsukumijima/edcb-wine.git
+[submodule "edcb"]
+	path = edcb
+	url = https://github.com/tsukumijima/edcb-wine

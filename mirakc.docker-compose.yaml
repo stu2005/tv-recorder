@@ -88,6 +88,29 @@ services:
         max-file: "2"
         compress: "true"
 
+  edcb:
+    image: tsukumijima/edcb:latest
+    build:
+      context: ./edcb/
+    restart: always
+    privileged: true
+    volumes:
+      - type: bind
+        source: './edcb/EDCB/'
+        target: '/EDCB/'
+      - type: bind
+        source: '/mnt/hdd/'
+        target: '/mnt/'
+    depends_on:
+      mirakc:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
 volumes:
   mirakc:
     driver: "local"

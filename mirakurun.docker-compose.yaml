@@ -71,7 +71,7 @@ services:
         source: epgstation
         target: /app/thumbnail/
       - type: bind
-        source: /hdd/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
@@ -114,7 +114,7 @@ services:
         source: chinachu
         target: /app/data/
       - type: bind
-        source: /hdd/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
@@ -129,17 +129,28 @@ services:
         max-size: "5m"
         compress: "true"
 
-  edcb-wine:
-    image: ghcr.io/stu2005/edcb-wine:latest
+  edcb:
+    image: tsukumijima/edcb:latest
+    build:
+      context: ./edcb/
     restart: always
     privileged: true
     volumes:
       - type: bind
-        source: './EDCB/'
+        source: './edcb/EDCB/'
         target: '/EDCB/'
       - type: bind
-        source: '/mnt/'
+        source: '/mnt/hdd/'
         target: '/mnt/'
+    depends_on:
+      mirakurun:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
 
 volumes:
   mirakurun:
