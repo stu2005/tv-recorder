@@ -129,6 +129,18 @@ services:
         max-size: "5m"
         compress: "true"
 
+  edcb-wine:
+    image: ghcr.io/stu2005/edcb-wine:latest
+    restart: always
+    privileged: true
+    volumes:
+      - type: bind
+        source: './EDCB/'
+        target: '/EDCB/'
+      - type: bind
+        source: '/mnt/'
+        target: '/mnt/'
+
 volumes:
   mirakurun:
     name: "mirakurun"
