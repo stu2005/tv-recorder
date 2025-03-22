@@ -4,12 +4,14 @@ COPY --from=library/node:18-slim /usr/local/ /usr/local/
 COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
 COPY --from=l3tnun/epgstation:debian /app/ /build/app/
 
-# Build jls
+# Set environment variable
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN <<EOF bash -ex 
 
   # Install requires for build
     apt-get update -q
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge zip+ unzip+ libboost-all-dev+ gcc+ g+++ make+ git+ curl+ ca-certificates+ ninja-build+ cmake+    
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge build-essential+ zip+ unzip+ libboost-all-dev+ gcc+ g+++ make+ git+ curl+ ca-certificates+ ninja-build+ cmake+
     curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/add_dmosource.sh | bash
     apt-get install -qy --no-install-recommends --no-install-suggests avisynth+-dev
 
