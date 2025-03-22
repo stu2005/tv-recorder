@@ -14,7 +14,6 @@ mysql:
     user: epgstation
     password: epgstation
     database: epgstation
-    charset: utf8mb4
 
 epgUpdateIntervalTime: 10
 
@@ -31,14 +30,19 @@ thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
 
-ffmpeg: /usr/bin/qsvencc
+ffmpeg: /usr/bin/ffmpeg
 ffprobe: /usr/bin/ffprobe
+streamFilePath: /tmp/epgstation/
 
 encodeProcessNum: 4
 concurrentEncodeNum: 1
 encode:
-    - name: QSV
-      cmd: '/usr/bin/qsvencc --avhw -i- -o"%YEAR%年%MONTH%月%DAY%日%HOUR%時%MIN%分%SEC%秒-%TITLE%"'
+    - name: '通常'
+      cmd: '%NODE% %ROOT%/config/enc.js'
+      suffix: .mp4
+      rate: 4.0
+    - name: 'CMカット'
+      cmd: '%NODE% %ROOT%/config/jlse.js'
       suffix: .mp4
       rate: 4.0
 
@@ -55,183 +59,219 @@ urlscheme:
 stream:
     live:
         ts:
-            qsv:
+            m2ts:
                 - name: 無変換
-                - name: HEVC
+                - name: 1080p
                   cmd:
-                      '%FFMPEG 
-                        --input-format mpegts 
-                        --fps 30000/1001 
-                        --input - 
-                        --avhw 
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3
-                        -m avioflags:direct 
-                        -m fflags:nobuffer+flush_packets 
-                        -m flush_packets:1 
-                        -m max_delay:250000
-                        --output-thread 0 
-                        --lowlatency
-                        --disable-opencl
-                        --codec hevc
-                        --fallback-rc
-                        --qvbr-quality 30
-                        --quality balanced
-                        --profile main
-                        --dar 16:9
-                        --interlace tff
-                        --vpp-deinterlace normal
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'
-                - name: H264
-                  cmd: 
-                      '%FFMPEG%
-                        --input-format mpegts
-                        --fps 30000/1001
-                        --input -
-                        --avhw
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3
-                        -m avioflags:direct 
-                        -m fflags:nobuffer+flush_packets 
-                        -m flush_packets:1 
-                        -m max_delay:250000
-                        --output-thread 0 
-                        --lowlatency
-                        --disable-opencl
-                        --codec h264
-                        --quality balanced
-                        --profile high
-                        --dar 16:9
-                        --interlace tff
-                        --vpp-deinterlace normal
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -preset veryfast -y -f mpegts pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -preset veryfast -y -f mpegts pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -preset veryfast -y -f mpegts pipe:1'
+
+            m2tsll:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -f mpegts -analyzeduration 500000 -i pipe:0 -map 0 -c:s copy -c:d
+                      copy -ignore_unknown -fflags nobuffer -flags low_delay -max_delay 250000 -max_interleave_delta 1
+                      -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -flags +cgop -vf bwdif=1:-1:0,scale=-2:1080
+                      -b:v 6000k -preset veryfast -y -f mpegts pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -f mpegts -analyzeduration 500000 -i pipe:0 -map 0 -c:s copy -c:d
+                      copy -ignore_unknown -fflags nobuffer -flags low_delay -max_delay 250000 -max_interleave_delta 1
+                      -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -flags +cgop -vf bwdif=1:-1:0,scale=-2:720
+                      -b:v 3000k -preset veryfast -y -f mpegts pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -f mpegts -analyzeduration 500000 -i pipe:0 -map 0 -c:s copy -c:d
+                      copy -ignore_unknown -fflags nobuffer -flags low_delay -max_delay 250000 -max_interleave_delta 1
+                      -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v libx264 -flags +cgop -vf bwdif=1:-1:0,scale=-2:480
+                      -b:v 1500k -preset veryfast -y -f mpegts pipe:1'
+
+            webm:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 3 -c:a libvorbis -ar 48000 -b:a 192k -ac
+                      2 -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 3 -c:a libvorbis -ar 48000 -b:a 192k -ac
+                      2 -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 2 -c:a libvorbis -ar 48000 -b:a 128k -ac
+                      2 -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+
+            mp4:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
+                      -c:v libx264 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -re -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
     recorded:
         ts:
-            qsv:
-                - name: HEVC
+            webm:
+                - name: 1080p
                   cmd:
-                      '%FFMPEG%
-                        --input-format mpegts
-                        --input -
-                        --avhw
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3
-                        -m avioflags:direct 
-                        -m fflags:nobuffer+flush_packets 
-                        -m flush_packets:1 
-                        -m max_delay:0
-                        --disable-opencl
-                        --codec hevc
-                        --fallback-rc
-                        --qvbr-quality 30
-                        --strict-gop
-                        --quality balanced
-                        --profile main
-                        --dar 16:9
-                        --vpp-deinterlace bob
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'
-                - name: H264
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 3 -c:a libvorbis -ar 48000 -b:a 192k -ac 2
+                      -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+                - name: 720p
                   cmd:
-                      '%FFMPEG
-                        --input-format mpegts
-                        --input -
-                        --avhw
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3%
-                        --disable-opencl
-                        --codec h264
-                        --strict-gop
-                        --quality balanced
-                        --dar 16:9
-                        --interlace tff
-                        --vpp-deinterlace bob
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 3 -c:a libvorbis -ar 48000 -b:a 192k -ac 2
+                      -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 3 -c:a libvorbis -ar 48000 -b:a 128k -ac 2
+                      -c:v libvpx-vp9 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -deadline realtime -speed 4 -cpu-used -8 -y -f
+                      webm pipe:1'
+
+            mp4:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
+                      libx264 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
+                      libx264 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v
+                      libx264 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:1080 -b:v 6000k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:720 -b:v 3000k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -i pipe:0 -sn -map 0 -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v libx264 -vf bwdif=1:-1:0,scale=-2:480 -b:v 1500k -preset veryfast
+                      -flags +loop-global_header %OUTPUT%'
 
         encoded:
-            qsv:
-                - name: HEVC
+            webm:
+                - name: 1080p
                   cmd:
-                      '%FFMPEG%
-                        --input-format mpegts
-                        --input -
-                        --avhw
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3
-                        -m avioflags:direct 
-                        -m fflags:nobuffer+flush_packets 
-                        -m flush_packets:1 
-                        -m max_delay:0
-                        --disable-opencl
-                        --codec hevc
-                        --fallback-rc
-                        --qvbr-quality 30
-                        --strict-gop
-                        --quality balanced
-                        --profile main
-                        --dar 16:9
-                        --vpp-deinterlace bob
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'
-                - name: H264
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 3 -c:a libvorbis -ar 48000 -b:a
+                      192k -ac 2 -c:v libvpx-vp9 -vf scale=-2:1080 -b:v 6000k -deadline realtime -speed 4 -cpu-used -8 -y
+                      -f webm pipe:1'
+                - name: 720p
                   cmd:
-                      '%FFMPEG
-                        --input-format mpegts
-                        --input -
-                        --avhw
-                        --audio-stream 1?:stereo 
-                        --audio-stream 2?:stereo 
-                        --data-copy timed_id3%
-                        --disable-opencl
-                        --codec h264
-                        --strict-gop
-                        --quality balanced
-                        --dar 16:9
-                        --interlace tff
-                        --vpp-deinterlace bob
-                        --avsync vfr
-                        --output-res 1920x1080
-                        --audio-codec aac:aac_coder=twoloop
-                        --audio-samplerate 48000 
-                        --audio-filter volume=2.0 
-                        --audio-ignore-decode-error 30
-                        --output-format mpegts
-                        --output -'                
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 3 -c:a libvorbis -ar 48000 -b:a
+                      192k -ac 2 -c:v libvpx-vp9 -vf scale=-2:720 -b:v 3000k -deadline realtime -speed 4 -cpu-used -8 -y
+                      -f webm pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 3 -c:a libvorbis -ar 48000 -b:a
+                      128k -ac 2 -c:v libvpx-vp9 -vf scale=-2:480 -b:v 1500k -deadline realtime -speed 4 -cpu-used -8 -y
+                      -f webm pipe:1'
+
+            mp4:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
+                      2 -c:v libx264 -vf scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
+                      2 -c:v libx264 -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac
+                      2 -c:v libx264 -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
+
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf scale=-2:1080 -b:v 6000k -preset veryfast -flags
+                      +loop-global_header %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 192k -ac 2 -c:v libx264 -vf scale=-2:720 -b:v 3000k -preset veryfast -flags
+                      +loop-global_header %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -i %INPUT% -sn -threads 0 -ignore_unknown
+                      -max_muxing_queue_size 1024 -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1
+                      -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments -c:a
+                      aac -ar 48000 -b:a 128k -ac 2 -c:v libx264 -vf scale=-2:480 -b:v 3000k -preset veryfast -flags
+                      +loop-global_header %OUTPUT%'

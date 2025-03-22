@@ -32,16 +32,14 @@ const getDuration = filePath => {
     });
 };
 
-// Intel QSV
-Array.prototype.push.apply(args, ['-hwaccel qsv']);
 // 字幕用
 Array.prototype.push.apply(args, ['-fix_sub_duration']);
 // input 設定
-Array.prototype.push.apply(args, ['-c:v', 'mpeg2_qsv', '-i', input]);
+Array.prototype.push.apply(args, ['-i', input]);
 // ビデオストリーム設定
-Array.prototype.push.apply(args, ['-map', '0:v', '-c:v', 'h264_qsv']);
+Array.prototype.push.apply(args, ['-map', '0:v', '-c:v', 'libx264']);
 // インターレス解除
-Array.prototype.push.apply(args, ['-vf', 'yadif']);
+Array.prototype.push.apply(args, ['-vf', 'bwdif=1:-1:0']);
 // オーディオストリーム設定
 if (isDualMono) {
     Array.prototype.push.apply(args, [

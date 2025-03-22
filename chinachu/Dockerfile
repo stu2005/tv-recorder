@@ -1,24 +1,21 @@
-# Build stage
-FROM library/ubuntu:jammy AS build
+# Latest image
+FROM library/alpine:latest AS build
 
-# Set environment in build stage
-ARG DEBIAN_FRONTEND=noninteractive
-
-# Copy nodejs
-COPY --from=library/node:14-slim /usr/local/ /usr/local/
-COPY --from=library/node:14-slim /usr/local/ /build/usr/local/
+# Get nodejs
+COPY --from=library/node:14-alpine /usr/local/ /usr/local/
+COPY --from=library/node:14-alpine /usr/local/ /build/usr/local/
 
 # Run the build script
-RUN <<EOF bash -ex
+RUN <<EOF ash -ex
 
   # Update packages
-    apt-get update
+    apk upgrade -qU --no-cache
 
   # Install requires
-    apt-get install -y --no-install-recommends --no-install-suggests ca-certificates python2 git make g++
+    apk add -qU --no-cache python3 git bash make g++
 
   # Build
-    git clone --recursive https://github.com/stu2005/chinachu /build/app/
+    git clone -q --recursive https://github.com/stu2005/chinachu /build/app/
     cd /build/app/
     npm install -s
     npm update -s
@@ -28,7 +25,7 @@ EOF
 
 
 # Final image
-FROM library/ubuntu:latest
+FROM library/alpine:latest
 
 # Set the working directory
 WORKDIR /app/
@@ -36,39 +33,8 @@ WORKDIR /app/
 # Open port
 EXPOSE 20772
 
-# Directory that need to be mounted to run
-VOLUME /app/recorded/
-
-# Copy build stage artifacts
-COPY --chown=ubuntu:ubuntu --from=build /build/ /
-
-# Install requires
-RUN <<EOF bash -ex
-
-  # Update and install
-    npm install pm2 -sg
-    apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+
-    if [[ "$(uname -m)" == "x86_64" ]]; then
-      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/get_qsvencc.sh | bash
-      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb
-      qsvencc -v  
-    fi
-
-  # Test
-    node -v
-    pm2 -v
-    ffmpeg -version
-    curl --version
-
-  # Clean
-    apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /qsvencc.deb
-
-EOF
-
 # Set execution user
-USER ubuntu:ubuntu
+USER node:node
 
 # Set a command to be executed at startup
 ENTRYPOINT ["pm2-runtime"]
@@ -77,3 +43,22 @@ CMD ["./processes.json"]
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
+
+# Copy build stage artifacts
+COPY --chown=node:node --from=build /build/ /
+
+# Install requires
+RUN <<EOF ash -ex
+
+  # Create user
+    addgroup -g 1000 node
+    adduser -u 1000 -G node -s /bin/sh -D node
+
+  # Update
+    apk upgrade -qU --no-cache
+
+  # Install
+    apk add -qU --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates
+    npm install pm2 -sg
+
+EOF
