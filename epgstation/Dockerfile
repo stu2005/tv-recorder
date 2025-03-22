@@ -40,7 +40,8 @@ RUN <<EOF bash -ex
     cd /delogo-AviSynthPlus-Linux-master/src/
     sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     make -j$(nproc)
-    cp libdelogo.so /usr/local/bin/avisynth
+    mkdir -p /usr/local/lib/avisynth/
+    cp libdelogo.so /usr/local/lib/avisynth/
 
   # Install
     rm -rf /src/
@@ -99,6 +100,10 @@ RUN <<EOF bash -ex
     node -v
     ffmpeg -version
     curl --version
+    chapter_exe || true
+    jlse --version
+    logoframe || true
+    tsdivider --version
 
   # Clean
     apt-get clean -q
