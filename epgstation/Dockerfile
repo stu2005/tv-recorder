@@ -1,7 +1,5 @@
 # Build jls
-FROM library/ubuntu:latest AS build
-COPY --from=library/node:18-slim /usr/local/ /usr/local/
-COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
+FROM library/node:18-slim AS build
 COPY --from=l3tnun/epgstation:debian /app/ /build/app/
 
 # Set environment variable
@@ -19,7 +17,7 @@ RUN <<EOF bash -ex
     mkdir -p /build/usr/local/bin/
     git clone -q --recursive https://github.com/tobitti0/JoinLogoScpTrialSetLinux /src
     cd /src/
-    git submodule -q foreach git pull origin master
+    git submodule -q foreach git pull -q origin master
     cd ./modules/chapter_exe/src/
     sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     make -j$(nproc)
@@ -35,7 +33,7 @@ RUN <<EOF bash -ex
     cmake . -GNinja -DCMAKE_BUILD_TYPE=Release
     ninja -j$(nproc)
     mv ./tsdivider ../join_logo_scp_trial/bin/
-    cp ../join_logo_scp_trial/bin/* /usr/local/bin/
+    mv ../join_logo_scp_trial/bin/* /usr/local/bin/
     cd /
     curl -Lo/delogo.zip https://github.com/tobitti0/delogo-AviSynthPlus-Linux/archive/refs/heads/master.zip
     unzip -qq delogo.zip
@@ -43,19 +41,15 @@ RUN <<EOF bash -ex
     sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     make -j$(nproc)
     mkdir -p /usr/local/lib/avisynth/
-    cp libdelogo.so /usr/local/lib/avisynth/
-
-  # Install
-    rm -rf /src/
-    git clone https://github.com/tobitti0/join_logo_scp_trial /src
-    cd /src/
-    yarn add -s
-    yarn audit fix -s
-    yarn link
-    cp -r /usr/local /build/usr/local
+    mv libdelogo.so /usr/local/lib/avisynth/
+    yarn global add -s https://github.com/tobitti0/join_logo_scp_trial
 
 EOF
 
+FROM scratch AS downloads
+COPY --from=build /build/ /build/
+COPY --from=build /usr/local/ /build/usr/local/
+COPY --from=build /opt/ /build/opt/
 
 # Final image
 FROM library/ubuntu:latest
@@ -82,14 +76,14 @@ HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:8888/api/status || exit 1
 
 # Copy downloads
-COPY --from=build /build/ /
+COPY --from=downloads /build/ /
 
 # Postinstall
 RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests libboost-filesystem1.74-dev+ libboost-program-options1.74-dev+ curl+ ca-certificates+ ffmpeg+ 
     if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash

@@ -77,19 +77,19 @@ services:
           create_host_path: true
       - type: bind
         source: ./jls/JL/
-        target: /usr/local/lib/node_modules/join_logo_scp_trial/JL/
+        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/JL/
       - type: bind
         source: ./jls/logo/
-        target: /usr/local/lib/node_modules/join_logo_scp_trial/logo/
+        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/logo/
       - type: bind
         source: ./jls/result/
-        target: /usr/local/lib/node_modules/join_logo_scp_trial/result/
+        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/result/
       - type: bind
         source: ./jls/setting/
-        target: /usr/local/lib/node_modules/join_logo_scp_trial/setting/
+        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/setting/
       - type: bind
         source: ./jls/src/
-        target: /usr/local/lib/node_modules/join_logo_scp_trial/src/      
+        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/src/      
     depends_on:
       mirakurun:
         condition: service_healthy
