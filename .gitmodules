@@ -4,3 +4,6 @@
 [submodule "edcb"]
 	path = edcb
 	url = https://github.com/tsukumijima/edcb-wine
+[submodule "join_logo_scp_trial"]
+	path = join_logo_scp_trial
+	url = https://github.com/tobitti0/join_logo_scp_trial
