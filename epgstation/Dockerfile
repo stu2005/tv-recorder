@@ -1,6 +1,7 @@
 # Build jls
 FROM library/ubuntu:latest AS build
 COPY --from=library/node:18-slim /usr/local/ /usr/local/
+COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
 COPY --from=l3tnun/epgstation:debian /app/ /build/app/
 
 # Build jls
