@@ -19,5 +19,13 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
 )
 
+PREFERENCE=$(cat <<EOF
+Package: *
+Pin: origin www.deb-multimedia.org
+Pin-Priority: 500
+EOF
+)
+
 echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/dmo.sources
+echo "$PREFERENCE" >/etc/apt/preferences.d/dmo.pref
 apt-get update -q
