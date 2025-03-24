@@ -6,7 +6,7 @@ apt-get install -qy --no-install-recommends --no-install-suggests /dmo-keyring.d
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://www.deb-multimedia.org
-Suites: stable bullseye buster
+Suites: stable bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
