@@ -25,4 +25,4 @@ if [ -z "$DEB_URL" ]; then
 fi
 
 # 見つかったdebパッケージのURLを出力
-curl -Lo/recisdb.deb "$DEB_URL"
+curl -Lso/recisdb.deb "$DEB_URL"
