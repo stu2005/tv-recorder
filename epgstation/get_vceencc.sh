@@ -42,16 +42,17 @@ Suites: jammy jammy-updates jammy-backports
 Components: main universe restricted multiverse
 Architectures: amd64
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Enabled: no
 EOF
 )
 
-JAMMY_PREFERENCE=$(cat <<EOF
-Package: *
-Pin: release jammy*
-Pin-Priority: 100
-EOF
-)
+#JAMMY_PREFERENCE=$(cat <<EOF
+#Package: *
+#Pin: release jammy*
+#Pin-Priority: 100
+#EOF
+#)
 
 echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/amdgpu.sources
-echo "$JAMMY_PREFERENCE" >/etc/apt/preferences.d/jammy.pref
+#echo "$JAMMY_PREFERENCE" >/etc/apt/preferences.d/jammy.pref
 apt-get update -q

@@ -5,13 +5,13 @@ apt-get install -qy --no-install-recommends --no-install-suggests /dmo-keyring.d
 rm -rf /dmo-keyring.deb
 
 SOURCES_CONTENT=$(cat <<EOF
-Types: deb deb-src
+Types: deb
 URIs: https://www.deb-multimedia.org
 Suites: stable bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
-Types: deb deb-src
+Types: deb
 URIs: https://www.deb-multimedia.org
 Suites: stable-backports bullseye-backports
 Components: main
