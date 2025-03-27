@@ -16,14 +16,6 @@ URIs: https://www.deb-multimedia.org/
 Suites: stable-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-
-Types: deb
-URIs: http://archive.ubuntu.com/ubuntu/
-Suites: jammy jammy-updates jammy-backports
-Components: main universe restricted multiverse
-Architectures: amd64
-Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-EOF
 )
 
 PREFERENCE=$(cat <<EOF
