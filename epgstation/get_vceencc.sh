@@ -31,7 +31,7 @@ curl -Lso/rocm.gpg https://raw.githubusercontent.com/stu2005/tv-recorder/refs/he
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
-Suites: jammy
+Suites: noble
 Components: main proprietary
 Architectures: amd64
 Signed-By: /rocm.gpg
