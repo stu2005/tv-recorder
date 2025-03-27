@@ -19,7 +19,7 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: http://deb.debian.org/debian/
-Suites: bullseye
+Suites: bookworm bullseye
 Components: main
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
