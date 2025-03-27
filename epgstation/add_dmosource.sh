@@ -16,6 +16,7 @@ URIs: https://www.deb-multimedia.org/
 Suites: stable-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
+EOF
 )
 
 PREFERENCE=$(cat <<EOF
