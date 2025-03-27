@@ -19,8 +19,14 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: http://deb.debian.org/debian/
-Suites: testing bullseye
+Suites: bullseye
 Components: main non-free
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: testing
+Components: non-free
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
