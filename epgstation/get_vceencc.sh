@@ -35,7 +35,6 @@ Suites: noble
 Components: main proprietary
 Architectures: amd64
 Signed-By: /rocm.gpg
-Enabled: no
 
 Types: deb
 URIs: http://archive.ubuntu.com/ubuntu/
