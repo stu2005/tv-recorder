@@ -19,8 +19,8 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: http://deb.debian.org/debian/
-Suites: bookworm bullseye
-Components: main
+Suites: testing bullseye
+Components: main non-free
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
