@@ -10,7 +10,6 @@ URIs: https://www.deb-multimedia.org/
 Suites: bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-Enabled: no
 
 Types: deb
 URIs: https://www.deb-multimedia.org/
