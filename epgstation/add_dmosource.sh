@@ -7,7 +7,7 @@ rm -rf /dmo-keyring.deb
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: testing bullseye
+Suites: stable bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
@@ -16,18 +16,6 @@ URIs: https://www.deb-multimedia.org/
 Suites: bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-
-Types: deb
-URIs: http://deb.debian.org/debian/
-Suites: bullseye
-Components: main non-free
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
-Types: deb
-URIs: http://deb.debian.org/debian/
-Suites: testing
-Components: non-free
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
 
