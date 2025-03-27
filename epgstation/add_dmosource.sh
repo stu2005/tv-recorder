@@ -13,13 +13,13 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: testing-backports bullseye-backports
+Suites: bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: http://deb.debian.org/debian/
-Suites: bullseye bullseye-backports
+Suites: bullseye
 Components: main
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
