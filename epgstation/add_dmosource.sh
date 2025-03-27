@@ -13,7 +13,7 @@ Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: bullseye-backports
+Suites: stable-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
