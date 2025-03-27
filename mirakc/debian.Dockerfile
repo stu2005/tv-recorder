@@ -20,7 +20,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
 RUN <<EOF bash -ex
   
   # Download startup script
-    curl -Lo/usr/local/bin/container-init.sh https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/container-init.sh
+    curl -Lso/usr/local/bin/container-init.sh https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/container-init.sh
     chmod +x /usr/local/bin/container-init.sh
 
   # Update and install

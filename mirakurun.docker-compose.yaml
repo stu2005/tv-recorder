@@ -167,6 +167,51 @@ services:
         max-size: "5m"
         compress: "true"
 
+  plex:
+    container_name: plex
+    devices:
+      - "/dev/dri:/dev/dri"
+    image: plexinc/pms-docker:latest
+    restart: unless-stopped
+    ports:
+      - target: 32400
+        published: 32400
+      - target: 8324
+        published: 8324
+      - target: 32469
+        published: 32469
+      - target: 1900
+        published: 1900
+      - target: 32410
+        published: 32410
+      - target: 32412
+        published: 32412
+      - target: 32413
+        published: 32413
+      - target: 32414
+        published: 32414
+    environment:
+      TZ: "Asia/Tokyo"
+      PLEX_CLAIM: claim-Q6Qv5pqBE8q5Xd6KwSEL
+    volumes:
+      - type: volume
+        source: plex
+        target: /config/
+      - type: tmpfs
+        target: /transcode/
+      - type: bind
+        source: /mnt/hdd/
+        target: /data/
+    depends_on:
+      mirakurun:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
 volumes:
   mirakurun:
     name: "mirakurun"

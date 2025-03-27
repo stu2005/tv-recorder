@@ -1,9 +1,5 @@
-# Latest image
-FROM library/alpine:latest AS build
-
-# Get nodejs
-COPY --from=library/node:14-alpine /usr/local/ /usr/local/
-COPY --from=library/node:14-alpine /usr/local/ /build/usr/local/
+# Build stage
+FROM library/node:14-alpine AS build
 
 # Run the build script
 RUN <<EOF ash -ex
@@ -23,6 +19,14 @@ RUN <<EOF ash -ex
 
 EOF
 
+FROM scratch AS downloads
+
+# Copy build stage artifacts
+COPY --from=build /build/ /build/
+
+# Copy nodejs
+COPY --from=library/node:14-alpine /usr/local/ /build/usr/local/
+
 
 # Final image
 FROM library/alpine:latest
@@ -33,19 +37,12 @@ WORKDIR /app/
 # Open port
 EXPOSE 20772
 
-# Set execution user
-USER node:node
-
-# Set a command to be executed at startup
-ENTRYPOINT ["pm2-runtime"]
-CMD ["./processes.json"]
-
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
 
 # Copy build stage artifacts
-COPY --chown=node:node --from=build /build/ /
+COPY --chown=node:node --from=downloads /build/ /
 
 # Install requires
 RUN <<EOF ash -ex
@@ -62,3 +59,10 @@ RUN <<EOF ash -ex
     npm install pm2 -sg
 
 EOF
+
+# Set execution user
+USER node:node
+
+# Set a command to be executed at startup
+ENTRYPOINT ["pm2-runtime"]
+CMD ["./processes.json"]
