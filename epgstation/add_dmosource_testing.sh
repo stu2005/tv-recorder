@@ -16,6 +16,12 @@ URIs: https://www.deb-multimedia.org/
 Suites: bookworm-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
+
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: bookworm bookworm-updates
+Components: main non-free
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
 
