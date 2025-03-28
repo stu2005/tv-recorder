@@ -36,7 +36,7 @@ Package: *
 Pin: release a=testing*
 Pin-Priority: 100
 
-Package: libc6 libc-bin libstdc++6 base-files cmake* 
+Package: libc6 libc-bin libstdc++6 base-files
 Pin: release a=testing
 Pin-Priority: 500
 
