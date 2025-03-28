@@ -1,5 +1,5 @@
 # Build ffmpeg, jls
-FROM library/buildpack-deps:stable-scm AS build
+FROM library/buildpack-deps:stable AS build
 
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
@@ -13,11 +13,20 @@ RUN <<EOF bash -ex
       avisynth+-dev+ \
       ninja-build+ \
       cmake+ \
-      unzip+ \
       libboost-all-dev+ \
-      make+ \
-      gcc+ \
-      g+++
+      ffmpeg+ \
+      pkg-config+ \
+      libavutil-dev+ \
+      libavcodec-dev+ \
+      libavformat-dev+ \
+      libavfilter-dev+ \
+      libavdevice-dev+ \
+      libswresample-dev+ \
+      libdav1d-dev+ \
+      libmfx-dev+ \
+      libvpx-dev+ \
+      libxxhash-dev+ \
+      liblsmash-dev+
 
   # Clone
     mkdir -p /build/usr/local/bin/
@@ -60,6 +69,25 @@ RUN <<EOF bash -ex
     make -j$(nproc)
     mkdir -p /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
     mv libdelogo.so /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
+
+  # Build obuparse
+    cd /
+    curl -Lso/obuparse.zip https://github.com/dwbuiten/obuparse/archive/refs/heads/master.zip
+    unzip -qq /obuparse.zip
+    cd /obuparse-master/
+    make -j$(nproc)
+    make install
+    make PREFIX=/build/usr/local install
+
+  # Build l-smash-works
+    cd /
+    curl -Lso/lsmashworks.zip https://github.com/stu2005/L-SMASH-Works/archive/refs/heads/master.zip
+    unzip -qq lsmashworks.zip
+    cd /L-SMASH-Works-master/
+    cmake . -GNinja -DBUILD_VS_PLUGIN=OFF
+    ninja -j$(nproc)
+    mkdir -p /build/usr/lib/$(uname -m)/avisynth/
+    mv liblsmashsource.so /build/usr/lib/$(uname -m)/avisynth/
 
 EOF
 
@@ -159,12 +187,13 @@ RUN <<EOF bash -ex
       libpng-tools+ \
       libaribb24-0+ \
       avisynth++ \
+      avisynth+-ffms2+ \
       ffmpeg+ \
       l-smash+ \
-      vapoursynth-l-smash-source+ \
       libboost-program-options1.74.0+ \
       libboost-filesystem1.74.0+     
-    if [[ "$(uname -m)" == "x86_64" ]]; then
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libavisynth.so.10 /usr/lib/$(uname -m)-linux-gnu/libavisynth.so
+      if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash
       apt-get install -qy --no-install-recommends --no-install-suggests \
