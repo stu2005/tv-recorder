@@ -16,12 +16,24 @@ URIs: https://www.deb-multimedia.org/
 Suites: stable-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
+
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: stable stable-updates stable-backports
+Components: contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: testing testing-updates testing-backports
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
 
 PREFERENCE=$(cat <<EOF
 Package: *
-Pin: release a=testing
+Pin: release a=testing*
 Pin-Priority: 100
 
 Package: *
