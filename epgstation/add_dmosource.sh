@@ -36,12 +36,12 @@ Package: *
 Pin: release a=testing*
 Pin-Priority: 100
 
-Package: libc6 libc-bin base-files
+Package: libc6 libc-bin libstdc++6 base-files
 Pin: release a=testing
 Pin-Priority: 500
 
 Package: *
-Pin: release o="Unofficial Multimedia Packages", a=*backports
+Pin: release o=Unofficial Multimedia Packages, a=*backports
 Pin-Priority: 500
 EOF
 )
