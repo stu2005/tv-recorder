@@ -7,13 +7,13 @@ rm -rf /dmo-keyring.deb
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: testing bullseye
+Suites: testing bookworm bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: bullseye-backports
+Suites: bookworm-backports bullseye-backports
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
