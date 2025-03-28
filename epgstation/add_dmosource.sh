@@ -36,6 +36,10 @@ Package: *
 Pin: release a=testing*
 Pin-Priority: 100
 
+Package: libc6
+Pin: release a=testing
+Pin-Priority: 500
+
 Package: *
 Pin: release o="Unofficial Multimedia Packages", a=*backports
 Pin-Priority: 500
