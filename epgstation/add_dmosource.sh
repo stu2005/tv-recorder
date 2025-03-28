@@ -7,13 +7,13 @@ rm -rf /dmo-keyring.deb
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: stable
+Suites: testing stable bullseye
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
 URIs: https://www.deb-multimedia.org/
-Suites: stable-backports
+Suites: stable-backports bullseye
 Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
@@ -23,6 +23,10 @@ PREFERENCE=$(cat <<EOF
 Package: *
 Pin: origin www.deb-multimedia.org
 Pin-Priority: 500
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 100
 EOF
 )
 
