@@ -86,8 +86,8 @@ RUN <<EOF bash -ex
     cd /L-SMASH-Works-master/
     cmake . -GNinja -DBUILD_VS_PLUGIN=OFF
     ninja -j$(nproc)
-    mkdir -p /build/usr/lib/$(uname -m)/avisynth/
-    mv liblsmashsource.so /build/usr/lib/$(uname -m)/avisynth/
+    mkdir -p /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
+    mv liblsmashsource.so /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
 
 EOF
 
