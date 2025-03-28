@@ -115,6 +115,12 @@ COPY --from=artifacts /build/ /
 # Postinstall
 RUN <<EOF bash -ex
 
+  # Link artifacts
+    ln -s /usr/local/bin/chapter_exe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/chapter_exe
+    ln -s /usr/local/bin/logoframe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/logoframe
+    ln -s /usr/local/bin/join_logo_scp /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/join_logo_scp
+    ln -s /usr/local/bin/tsdivider /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/tsdivider
+
   # Update and install
     apt-get update -q
     apt-get install -qy --no-install-recommends --no-install-suggests curl ca-certificates
