@@ -41,10 +41,6 @@ encode:
       cmd: '%NODE% %ROOT%/config/enc.js'
       suffix: .mp4
       rate: 4.0
-    - name: 'CMカット'
-      cmd: '%NODE% %ROOT%/config/jlse.js'
-      suffix: .mp4
-      rate: 4.0
 
 urlscheme:
     m2ts:
