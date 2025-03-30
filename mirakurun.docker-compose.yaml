@@ -94,8 +94,6 @@ services:
   chinachu:
     image: ghcr.io/stu2005/chinachu:latest
     container_name: chinachu
-    devices:
-      - "/dev/dri:/dev/dri"
     ports:
       - target: 20772
         published: 20772

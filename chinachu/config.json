@@ -1,6 +1,6 @@
 {
-  "uid": "ubuntu",
-  "gid": "video",
+  "uid": "node",
+  "gid": "node",
   "mirakurunPath": "http://mirakurun:40772",
 
   "recordedDir" : "./recorded/",
