@@ -41,9 +41,6 @@ EXPOSE 20772
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
 
-# Copy build stage artifacts
-COPY --chown=node:node --from=downloads /build/ /
-
 # Install requires
 RUN <<EOF ash -ex
 
@@ -59,6 +56,9 @@ RUN <<EOF ash -ex
     npm install pm2 -sg
 
 EOF
+
+# Copy build stage artifacts
+COPY --chown=node:node --from=downloads /build/ /
 
 # Set execution user
 USER node:node
