@@ -13,9 +13,11 @@ RUN <<EOF ash -ex
   # Build
     git clone -q --recursive https://github.com/chinachu/chinachu /build/app
     cd /build/app/
+    rm -rf processes.json
+    wget -q https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/processes.json
     wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/resource-iptv.json
     wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/script-iptv.vm.js
-    mkdir log
+    mkdir log run
     npm install -s
     npm update -s
     npm audit fix -s
