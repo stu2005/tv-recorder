@@ -1,0 +1,35 @@
+{
+    "apps": [
+      {
+        "name": "chinachu-wui",
+        "script": "app-wui.js",
+        "error_file": "./log/chinachu-wui.stderr.log",
+        "out_file": "./log/chinachu-wui.stdout.log",
+        "merge_logs": true,
+        "pid_file": "./run/chinachu-wui.pid",
+        "exec_mode": "fork",
+        "autorestart": true,
+        "env": {
+          "NODE_ENV": "production",
+          "LOG_STDOUT": "./log/chinachu-wui.stdout.log",
+          "LOG_STDERR": "./log/chinachu-wui.stderr.log"
+        }
+      },
+      {
+        "name": "chinachu-operator",
+        "script": "app-operator.js",
+        "error_file": "./log/chinachu-operator.stderr.log",
+        "out_file": "./log/chinachu-operator.stdout.log",
+        "merge_logs": true,
+        "pid_file": "./run/chinachu-operator.pid",
+        "exec_mode": "fork",
+        "autorestart": true,
+        "env": {
+          "NODE_ENV": "production",
+          "LOG_STDOUT": "./log/chinachu-operator.stdout.log",
+          "LOG_STDERR": "./log/chinachu-operator.stderr.log"
+        }
+      }
+    ]
+  }
+  
