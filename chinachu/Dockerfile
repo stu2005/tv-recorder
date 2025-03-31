@@ -11,8 +11,11 @@ RUN <<EOF ash -ex
     apk add -qU --no-cache python3 git bash make g++
 
   # Build
-    git clone -q --recursive https://github.com/stu2005/chinachu /build/app/
+    git clone -q --recursive https://github.com/chinachu/chinachu /build/app
     cd /build/app/
+    wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/resource-iptv.json
+    wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/script-iptv.vm.js
+    mkdir log
     npm install -s
     npm update -s
     npm audit fix -s
