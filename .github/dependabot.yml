@@ -12,9 +12,9 @@ updates:
       - "/epgstation/"
     schedule:
       interval: "daily"
-    allow:
+    ignore:
       - dependency-name: "library/node"
-        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "docker-compose"
     directory: "/"
