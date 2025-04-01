@@ -15,6 +15,11 @@ updates:
     ignore:
       - dependency-name: "library/node"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "library/buildpack-deps"
+        versions: ["> 24.04", "< 25.0"]
+      - dependency-name: "library/buildpack-deps"
+        versions: [">= 25.0"]
+
       
   - package-ecosystem: "docker-compose"
     directory: "/"
