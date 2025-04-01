@@ -1,0 +1,19 @@
+version: 2
+
+
+updates:
+
+  - package-ecosystem: "docker"
+    directories:
+      - "/tvchannels-scan/"
+      - "/mirakc/"
+      - "/mirakurun/"
+      - "/chinachu/"
+      - "/epgstation/"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "daily"
