@@ -1,5 +1,5 @@
 # Build stage
-FROM library/node:14.21.3-alpine3.17 AS build
+FROM library/node:21.4.0-alpine3.17 AS build
 
 # Run the build script
 RUN <<EOF ash -ex
