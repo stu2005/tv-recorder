@@ -31,7 +31,7 @@ EOF
 
 
 # Final image
-FROM node:18-slim
+FROM node:23-slim
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
