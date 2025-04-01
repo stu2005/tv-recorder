@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - './mirakc/'  
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '29 16 * * *'
