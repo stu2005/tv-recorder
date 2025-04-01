@@ -1,5 +1,5 @@
 # Build stage
-FROM library/node:22.14.0-alpine3.21 AS build
+FROM library/node:23.10.0-alpine3.21 AS build
 
 # Set environment variables in a build stage
 ARG DOCKER=YES
@@ -47,7 +47,7 @@ EOF
 
 
 # Final image
-FROM library/node:22.14.0-alpine3.21
+FROM library/node:23.10.0-alpine3.21
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
