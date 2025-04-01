@@ -32,7 +32,7 @@ jobs:
         run: |
           docker buildx prune --all --force --verbose
       - name: Build and push EPGStation for multiarch
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./epgstation/
           #platforms: linux/amd64,linux/arm64
