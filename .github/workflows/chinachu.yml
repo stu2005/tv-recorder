@@ -32,7 +32,7 @@ jobs:
         run: |
             docker buildx prune --all --force --verbose
       - name: Build and push Chinachu
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./chinachu/
           #platforms: linux/amd64, linux/arm64

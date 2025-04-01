@@ -44,7 +44,7 @@ jobs:
           docker buildx prune --all --force --verbose
 
       - name: Build and push mirakc
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./mirakc/
           #platforms: linux/amd64,linux/arm64
@@ -53,7 +53,7 @@ jobs:
           tags: ghcr.io/stu2005/mirakc:latest
 
       - name: Build and push mirakc(PCSCkai)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./mirakc/
           file: ./mirakc/pcsckai.Dockerfile
@@ -63,7 +63,7 @@ jobs:
           tags: ghcr.io/stu2005/mirakc:pcsckai
 
       - name: Build and push mirakc(Debian)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./mirakc/
           file: ./mirakc/debian.Dockerfile
@@ -73,7 +73,7 @@ jobs:
           tags: ghcr.io/stu2005/mirakc:debian
 
       - name: Build and push mirakc(debian*PCSCkai)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./mirakc/
           file: ./mirakc/debian.pcsckai.Dockerfile
