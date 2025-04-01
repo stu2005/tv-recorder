@@ -5,7 +5,7 @@ COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM library/buildpack-deps:25.04-curl
+FROM library/buildpack-deps:24.04-curl
 
 # Set the working directory
 WORKDIR /app/
