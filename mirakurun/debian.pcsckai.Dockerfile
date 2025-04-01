@@ -1,10 +1,10 @@
 # Build stage
-FROM rust:latest AS build
+FROM library/rust:1.85.1-bookworm AS build
 
 # Copy libpcsckai, mirakurun and the startup script
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /build/
-COPY --from=chinachu/mirakurun:latest /app/ /build/app/
+COPY --from=chinachu/mirakurun:4.0.0-beta.15 /app/ /build/app/
 COPY ./container-init-debian-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
@@ -31,7 +31,7 @@ EOF
 
 
 # Final image
-FROM node:18-slim
+FROM library/node:18.20.8-bookworm-slim
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 

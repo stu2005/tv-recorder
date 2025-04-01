@@ -1,5 +1,5 @@
 # Build stage
-FROM library/alpine:latest AS build
+FROM library/alpine:3.21.3 AS build
 
 # Run the build script
 RUN <<EOF ash -ex

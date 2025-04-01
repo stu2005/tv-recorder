@@ -29,19 +29,22 @@ services:
         compress: "true"
 
   mariadb:
-    image: docker.io/library/mariadb:latest
+    image: lscr.io/linuxserver/mariadb:11.4.5
     container_name: mariadb
     environment:
+      PUID: 1000
+      PGID: 1000
       TZ: Asia/Tokyo
       MYSQL_DATABASE: epgstation
       MYSQL_USER: epgstation
       MYSQL_PASSWORD: epgstation
       MYSQL_ROOT_PASSWORD: epgstation
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --binlog_expire_logs_seconds=86400
     volumes:
-      - type: volume
-        source: mariadb
-        target: /var/lib/mysql
+      - type: bind
+        source: ./mariadb/
+        target: /config/
+        bind:
+          create_host_path: true
     restart: always
     logging:
       driver: "json-file"

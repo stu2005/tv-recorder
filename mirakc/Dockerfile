@@ -1,5 +1,5 @@
 # Build stage
-FROM library/alpine:latest AS build
+FROM library/alpine:3.21.3 AS build
 
 # Copy the startup script
 COPY ./container-init.sh /build/usr/local/bin/
@@ -42,7 +42,7 @@ EOF
 
 
 # Final image
-FROM mirakc/mirakc:alpine
+FROM mirakc/mirakc:3.4.10-alpine
 
 # Set environment variables
 ENV TZ=Asia/Tokyo 

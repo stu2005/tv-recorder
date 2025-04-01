@@ -1,5 +1,5 @@
 # Build stage
-FROM library/node:14-alpine AS build
+FROM library/node:14.21.3-alpine3.17 AS build
 
 # Run the build script
 RUN <<EOF ash -ex
@@ -30,11 +30,11 @@ FROM scratch AS downloads
 COPY --from=build /build/ /build/
 
 # Copy nodejs
-COPY --from=library/node:14-alpine /usr/local/ /build/usr/local/
+COPY --from=build /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM library/alpine:latest
+FROM library/alpine:3.21.3
 
 # Set the working directory
 WORKDIR /app/

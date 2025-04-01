@@ -1,11 +1,11 @@
 # Get nodejs and epgstation
 FROM scratch AS downloads
-COPY --from=library/node:18-slim /usr/local/ /build/usr/local/
-COPY --from=l3tnun/epgstation:debian /app/ /build/app/
+COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
+COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM library/buildpack-deps:noble-curl
+FROM library/buildpack-deps:24.04-curl
 
 # Set the working directory
 WORKDIR /app/

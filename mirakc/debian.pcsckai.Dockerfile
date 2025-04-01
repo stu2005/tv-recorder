@@ -1,5 +1,5 @@
 # Build stage
-FROM library/rust:latest AS build
+FROM library/rust:1.85.1-bookworm AS build
 
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
@@ -29,7 +29,7 @@ EOF
 
 
 # Final image
-FROM mirakc/mirakc:debian
+FROM mirakc/mirakc:3.4.10-debian
 
 # Set environment variables
 ENV TZ=Asia/Tokyo

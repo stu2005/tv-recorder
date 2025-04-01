@@ -154,7 +154,7 @@ services:
     container_name: plex
     devices:
       - "/dev/dri:/dev/dri"
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:1.41.5.9522-a96edc606
     restart: unless-stopped
     ports:
       - target: 32400
@@ -175,7 +175,7 @@ services:
         published: 32414
     environment:
       TZ: "Asia/Tokyo"
-      PLEX_CLAIM: claim-Q6Qv5pqBE8q5Xd6KwSEL
+      PLEX_CLAIM:
     volumes:
       - type: volume
         source: plex

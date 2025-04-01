@@ -1,5 +1,5 @@
 # Final image
-FROM mirakc/mirakc:debian
+FROM mirakc/mirakc:3.4.10-debian
 
 # Set environment variables
 ENV TZ=Asia/Tokyo

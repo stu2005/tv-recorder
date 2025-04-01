@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine AS build
+FROM library/node:18.20.8-alpine3.21 AS build
 
 # Set environment variables in a build stage
 ARG DOCKER=YES
@@ -8,7 +8,7 @@ ARG NODE_ENV=production
 # Copy mirakurun and libpcsckai
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
-COPY --from=chinachu/mirakurun:latest /app/ /build/app/
+COPY --from=chinachu/mirakurun:4.0.0-beta.15 /app/ /build/app/
 
 # Copy the startup script
 COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh
@@ -52,7 +52,7 @@ EOF
 
 
 # Final image
-FROM node:18-alpine
+FROM library/node:18.20.8-alpine3.21
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
