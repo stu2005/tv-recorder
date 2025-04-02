@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - './chinachu/*'
+      - 'chinachu/**'
   schedule:
     - cron:  '29 16 * * *'
 

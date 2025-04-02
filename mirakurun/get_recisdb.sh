@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 依存パッケージがインストールされているか確認
 if ! command -v curl &> /dev/null || ! command -v jq &> /dev/null; then
