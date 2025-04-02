@@ -92,10 +92,11 @@ RUN <<EOF ash -ex
   # Update
     apk upgrade -qU --no-cache
 
-  # Install curl
+  # Install
     apk add -qU --no-cache curl
 
   # Test
+    curl --version
     b25 || true
     recpt1 -v
 
