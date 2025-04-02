@@ -93,7 +93,7 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install curl
-    apk add -U --no-cache curl
+    apk add -qU --no-cache curl
 
   # Test
     b25 || true
