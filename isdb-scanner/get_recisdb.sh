@@ -13,4 +13,4 @@ if [ -z "$DEB_URL" ]; then
     exit 1
 fi
 echo $DEB_URL
-curl -Lso/recisdb.deb "$DEB_URL"
+curl -Lo/recisdb.deb "$DEB_URL"
