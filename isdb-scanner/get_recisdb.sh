@@ -12,4 +12,5 @@ if [ -z "$DEB_URL" ]; then
     echo "該当するアーキテクチャのdebパッケージが見つかりませんでした。"
     exit 1
 fi
+echo $DEB_URL
 curl -Lso/recisdb.deb "$DEB_URL"
