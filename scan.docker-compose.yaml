@@ -23,8 +23,42 @@ services:
         target: /etc/localtime
         read_only: true
       - type: bind
-        source: ./tvchannels-scan
+        source: ./tvchannels-scan/
         target: /opt/tvchannels-scan
+        bind:
+          create_host_path: true
+    tty: true
+
+  isdb-scanner:
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+    init: true
+    restart: "no"
+    network_mode: "none"
+    devices:
+      - "/dev/px4video0:/dev/px4video0"
+      - "/dev/px4video1:/dev/px4video1"
+      - "/dev/px4video2:/dev/px4video2"
+      - "/dev/px4video3:/dev/px4video3"
+    container-name: isdb-scanner 
+    image: ghcr.io/stu2005/isdb-scanner:latest
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./mirakurun/
+        target: /app/scanned/Mirakurun/
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./mirakc/
+        target: /app/scanned/mirakc/
         bind:
           create_host_path: true
     tty: true

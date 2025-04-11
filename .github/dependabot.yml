@@ -10,6 +10,7 @@ updates:
       - "/mirakurun/"
       - "/chinachu/"
       - "/epgstation/"
+      - "/isdb-scanner/"
     schedule:
       interval: "daily"
     ignore:
