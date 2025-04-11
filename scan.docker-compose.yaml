@@ -28,7 +28,6 @@ services:
       - type: bind
         source: ./tvchannels-scan/scanner
         target: /opt/tvchannels-scan/scanner
-    tty: true
 
   isdb-scanner:
     logging:
@@ -71,4 +70,3 @@ services:
       - type: bind
         source: ./mirakc/config_recpt1.yml
         target: /app/scanned/mirakc/config_recpt1.yml
-    tty: true
