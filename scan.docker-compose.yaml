@@ -11,10 +11,7 @@ services:
     restart: "no"
     network_mode: "none"
     devices:
-      - "/dev/px4video0:/dev/px4video0"
-      - "/dev/px4video1:/dev/px4video1"
-      - "/dev/px4video2:/dev/px4video2"
-      - "/dev/px4video3:/dev/px4video3"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
     container_name: tvchannels-scan
     image: ghcr.io/stu2005/tvchannels-scan:latest
     volumes:
@@ -44,6 +41,7 @@ services:
       - "/dev/px4video1:/dev/px4video1"
       - "/dev/px4video2:/dev/px4video2"
       - "/dev/px4video3:/dev/px4video3"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
     container-name: isdb-scanner 
     image: ghcr.io/stu2005/isdb-scanner:latest
     volumes:
