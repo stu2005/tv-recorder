@@ -11,8 +11,8 @@ set -eu
 export LANG=C.UTF-8
 
 # example: recpt1
-readonly RECORD_COMMAND_GR='recpt1 --device /dev/px4video2 <channel> <record_second> <output>'
-readonly RECORD_COMMAND_BSCS='recpt1 --device /dev/px4video0 <channel> <record_second> <output>'
+readonly RECORD_COMMAND_GR='recpt1 --device /dev/pxm1urvideo0 <channel> <record_second> <output>'
+readonly RECORD_COMMAND_BSCS='recpt1 --device /dev/pxm1urvideo0 <channel> <record_second> <output>'
 # example: dvbv5-zap
 #readonly RECORD_COMMAND_GR='dvbv5-zap -a 1 -c dvbv5_channels_isdbt.conf -s -r -P <channel> -t <record_second> -o <output>'
 #readonly RECORD_COMMAND_BSCS='dvbv5-zap -a 0 -c dvbv5_channels_isdbs.conf -s -r -P <channel> -t <record_second> -o <output>'

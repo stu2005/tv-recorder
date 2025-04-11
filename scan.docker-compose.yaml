@@ -20,10 +20,14 @@ services:
         target: /etc/localtime
         read_only: true
       - type: bind
-        source: ./tvchannels-scan/
-        target: /opt/tvchannels-scan
-        bind:
-          create_host_path: true
+        source: ./mirakc/channels_sample.yml
+        target: /opt/tvchannels-scan/channels_mirakc.yml
+      - type: bind
+        source: ./mirakurun/channels_sample.yml
+        target: /opt/tvchannels-scan/channels.yml
+      - type: bind
+        source: ./tvchannels-scan/scanner
+        target: /opt/tvchannels-scan/scanner
     tty: true
 
   isdb-scanner:
@@ -50,13 +54,21 @@ services:
         target: /etc/localtime
         read_only: true
       - type: bind
-        source: ./mirakurun/
-        target: /app/scanned/Mirakurun/
-        bind:
-          create_host_path: true
+        source: ./mirakurun/channels_sample.yml
+        target: /app/scanned/Mirakurun/channels.yml
       - type: bind
-        source: ./mirakc/
-        target: /app/scanned/mirakc/
-        bind:
-          create_host_path: true
+        source: ./mirakurun/channels_recpt1.yml
+        target: /app/scanned/Mirakurun/channels_recpt1.yml
+      - type: bind
+        source: ./mirakurun/tuners_sample.yml
+        target: /app/scanned/Mirakurun/tuners.yml
+      - type: bind
+        source: ./mirakurun/tuners_recpt1.yml
+        target: /app/scanned/Mirakurun/tuners_recpt1.yml
+      - type: bind
+        source: ./mirakc/config_sample.yml
+        target: /app/scanned/mirakc/config.yml
+      - type: bind
+        source: ./mirakc/config_recpt1.yml
+        target: /app/scanned/mirakc/config_recpt1.yml
     tty: true
