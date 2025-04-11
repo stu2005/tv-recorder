@@ -33,7 +33,7 @@ jobs:
       - name: Prune build cache
         run: |
           docker buildx prune --all --force --verbose
-      - name: Build and push tvchannels-scan
+      - name: Build and push isdb-scanner
         uses: docker/build-push-action@v6
         with:
           context: ./isdb-scanner/
