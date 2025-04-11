@@ -1,4 +1,4 @@
-name: tvchannels-scan
+name: isdb-scanner
 
 on:
   push:
