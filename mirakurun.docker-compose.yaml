@@ -204,3 +204,5 @@ volumes:
     name: "epgstation"
   chinachu:
     name: "chinachu"
+  plex:
+    name: "plex"

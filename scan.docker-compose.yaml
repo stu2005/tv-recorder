@@ -46,7 +46,7 @@ services:
       - "/dev/px4video2:/dev/px4video2"
       - "/dev/px4video3:/dev/px4video3"
       - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
-    container-name: isdb-scanner 
+    container_name: isdb-scanner 
     image: ghcr.io/stu2005/isdb-scanner:latest
     volumes:
       - type: bind
