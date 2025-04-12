@@ -52,9 +52,14 @@ RUN <<EOF bash -ex
     apt-get update -q
     apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge
 
+  # Miraview
+    curl -Lso/miraview.tar.gz https://github.com/maeda577/miraview/releases/download/v0.1.2/build.tar.gz
+    mkdir -p /var/www/miraview
+    tar -zx -C/var/www/miraview/ -f/miraview.tar.gz
+ 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /miraview.tar.gz
 
   # Test
     recisdb -V

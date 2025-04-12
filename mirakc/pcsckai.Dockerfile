@@ -63,6 +63,12 @@ RUN <<EOF ash -ex
   # Update
     apk upgrade -qU --no-cache
 
+  # Miraview
+    curl -Lso/miraview.tar.gz https://github.com/maeda577/miraview/releases/download/v0.1.2/build.tar.gz
+    mkdir -p /var/www/miraview
+    tar -zx -C/var/www/miraview/ -f/miraview.tar.gz
+    rm -rf /miraview.tar.gz
+  
   # Test
     b25 || true
     recpt1 -v
