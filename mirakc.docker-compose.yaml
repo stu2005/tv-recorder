@@ -1,7 +1,7 @@
 services:
 
   mirakc:
-    image: ghcr.io/stu2005/mirakc:debian_pcsckai
+    image: ghcr.io/stu2005/mirakc:pcsckai
     container_name: mirakc
     init: true
     restart: unless-stopped
@@ -94,6 +94,7 @@ services:
 
   edcb:
     image: tsukumijima/edcb:latest
+    container_name: edcb
     build:
       context: ./edcb/
     restart: always
@@ -169,3 +170,5 @@ volumes:
     name: mariadb
   epgstation:
     name: epgstation
+  plex:
+    name: plex
