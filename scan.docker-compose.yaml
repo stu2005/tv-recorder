@@ -23,7 +23,7 @@ services:
         source: ./mirakc/config_recpt1.yml
         target: /opt/tvchannels-scan/channels_mirakc.yml
       - type: bind
-        source: ./mirakurun/channels_sample.yml
+        source: ./mirakurun/channels_recpt1.yml
         target: /opt/tvchannels-scan/channels.yml
       - type: bind
         source: ./tvchannels-scan/scanner

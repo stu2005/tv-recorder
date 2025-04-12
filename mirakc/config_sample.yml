@@ -1,0 +1,90 @@
+server:
+  addrs:
+    - http: 0.0.0.0:40772
+epg:
+  cache-dir: /var/lib/mirakc/epg
+tuners:
+  - name: 'PLEX PX-W3PE5 (Terrestrial) #1'
+    types:
+      - GR
+    command: recisdb tune --device /dev/px4video2 --channel {{{channel}}} -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Terrestrial) #2'
+    types:
+      - GR
+    command: recisdb tune --device /dev/px4video3 --channel {{{channel}}} -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Satellite) #1'
+    types:
+      - BS
+    command: recisdb tune --device /dev/px4video0 --channel {{{channel}}} {{{extra_args}}} -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Satellite) #2'
+    types:
+      - BS
+    command: recisdb tune --device /dev/px4video1 --channel {{{channel}}} {{{extra_args}}} -
+    disabled: false
+  - name: 'PLEX PX-M1UR'
+    types:
+      - GR
+      - BS
+    command: recisdb tune --device /dev/pxm1urvideo0 --channel {{{channel}}} {{{extra_args}}} -
+    disabled: false
+channels:
+  - name: C14
+    type: GR
+    channel: C14
+  - name: C15
+    type: GR
+    channel: C15
+  - name: C16
+    type: GR
+    channel: C16
+  - name: C17
+    type: GR
+    channel: C17
+  - name: C18
+    type: GR
+    channel: C18
+  - name: C19
+    type: GR
+    channel: C19
+  - name: C20
+    type: GR
+    channel: C20
+  - name: BS01/TS0
+    type: BS
+    channel: BS01_0
+  - name: BS01/TS1
+    type: BS
+    channel: BS01_1
+  - name: BS01/TS2
+    type: BS
+    channel: BS01_2
+  - name: BS09/TS0
+    type: BS
+    channel: BS09_0
+  - name: BS09/TS1
+    type: BS
+    channel: BS09_1
+  - name: BS13/TS0
+    type: BS
+    channel: BS13_0
+  - name: BS13/TS1
+    type: BS
+    channel: BS13_1
+  - name: BS13/TS2
+    type: BS
+    channel: BS13_2
+  - name: BS15/TS0
+    type: BS
+    channel: BS15_0
+  - name: BS15/TS2
+    type: BS
+    channel: BS15_2
+  - name: BS23/TS1
+    type: BS
+    channel: BS23_1
+  - name: BS23/TS2
+    type: BS
+    channel: BS23_2

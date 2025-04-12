@@ -9,7 +9,8 @@ services:
       - "/dev/px4video0:/dev/px4video0"
       - "/dev/px4video1:/dev/px4video1"
       - "/dev/px4video2:/dev/px4video2"
-      - "/dev/px4video3:/dev/px4video3"      
+      - "/dev/px4video3:/dev/px4video3"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"     
     ports:
       - target: 40772
         published: 40772
@@ -104,6 +105,51 @@ services:
       - type: bind
         source: '/mnt/hdd/'
         target: '/mnt/'
+    depends_on:
+      mirakc:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  plex:
+    container_name: plex
+    devices:
+      - "/dev/dri:/dev/dri"
+    image: plexinc/pms-docker:1.41.6.9685-d301f511a
+    restart: unless-stopped
+    ports:
+      - target: 32400
+        published: 32400
+      - target: 8324
+        published: 8324
+      - target: 32469
+        published: 32469
+      - target: 1900
+        published: 1900
+      - target: 32410
+        published: 32410
+      - target: 32412
+        published: 32412
+      - target: 32413
+        published: 32413
+      - target: 32414
+        published: 32414
+    environment:
+      TZ: "Asia/Tokyo"
+      PLEX_CLAIM:
+    volumes:
+      - type: volume
+        source: plex
+        target: /config/
+      - type: tmpfs
+        target: /transcode/
+      - type: bind
+        source: /mnt/hdd/
+        target: /data/
     depends_on:
       mirakc:
         condition: service_healthy
