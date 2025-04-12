@@ -20,7 +20,7 @@ services:
         target: /etc/localtime
         read_only: true
       - type: bind
-        source: ./mirakc/channels_sample.yml
+        source: ./mirakc/config_recpt1.yml
         target: /opt/tvchannels-scan/channels_mirakc.yml
       - type: bind
         source: ./mirakurun/channels_sample.yml
