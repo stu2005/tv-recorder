@@ -162,7 +162,8 @@ services:
     restart: unless-stopped
     depends_on:
       mirakc:
-        condition: service_healthy   
+        condition: service_healthy
+        
   plex:
     container_name: plex
     devices:
