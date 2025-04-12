@@ -11,6 +11,7 @@ updates:
       - "/chinachu/"
       - "/epgstation/"
       - "/isdb-scanner/"
+      - "/epgrec/"
     schedule:
       interval: "daily"
     ignore:
