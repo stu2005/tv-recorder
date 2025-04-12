@@ -160,7 +160,9 @@ services:
         max-size: "5m"
         compress: "true"
     restart: unless-stopped
-   
+    depends_on:
+      mirakc:
+        condition: service_healthy   
   plex:
     container_name: plex
     devices:
