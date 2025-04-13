@@ -151,6 +151,8 @@ services:
         max-size: "5m"
         compress: "true"
     ports:
+      - target: 4510
+        published: 4510
       - target: 5510
         published: 5510
       - target: 6510
