@@ -116,6 +116,7 @@ services:
         max-size: "5m"
         compress: "true"
 
+<<<<<<< HEAD
   epgrec:
     image: ghcr.io/stu2005/epgrec:latest
     container_name: epgrec
@@ -164,6 +165,8 @@ services:
       mirakc:
         condition: service_healthy
         
+=======
+>>>>>>> d596ca6 (remove epgrec support)
   plex:
     container_name: plex
     devices:
