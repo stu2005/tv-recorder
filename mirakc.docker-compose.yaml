@@ -116,57 +116,6 @@ services:
         max-size: "5m"
         compress: "true"
 
-<<<<<<< HEAD
-  epgrec:
-    image: ghcr.io/stu2005/epgrec:latest
-    container_name: epgrec
-    ports:
-      - target: 8889
-        published: 80   
-    volumes:
-      - type: bind
-        source: ./epgrec/atd/
-        target: /var/spool/atd/
-        bind:
-          create_host_path: true
-      - type: bind
-        source: ./epgrec/crontabs/
-        target: /etc/crontabs/
-        bind:
-          create_host_path: true
-      - type: bind
-        source: ./epgrec/settings/
-        target: /var/www/localhost/settings/
-        bind:
-          create_host_path: true
-      - type: bind
-        source: ./epgrec/thumbs/
-        target: /var/www/localhost/thumbs/
-        bind:
-          create_host_path: true
-      - type: bind
-        source: ./epgrec/plogs/
-        target: /var/www/localhost/plogs/
-        bind:
-          create_host_path: true
-      - type: bind
-        source: /mnt/hdd/recorded/
-        target: /var/www/localhost/recorded/
-    environment:
-      S6_CMD_WAIT_FOR_SERVICES_MAXTIME: 0
-    logging:
-      driver: "json-file"
-      options:
-        max-file: "2"
-        max-size: "5m"
-        compress: "true"
-    restart: unless-stopped
-    depends_on:
-      mirakc:
-        condition: service_healthy
-        
-=======
->>>>>>> d596ca6 (remove epgrec support)
   plex:
     container_name: plex
     devices:
