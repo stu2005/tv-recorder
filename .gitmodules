@@ -1,6 +1,3 @@
 [submodule "edcb"]
 	path = edcb
 	url = https://github.com/tsukumijima/edcb-wine
-[submodule "mirakc/logos"]
-	path = mirakc/logos
-	url = https://gist.github.com/ec08f35fd958bee41c9bfdd10b8c8d5d.git
