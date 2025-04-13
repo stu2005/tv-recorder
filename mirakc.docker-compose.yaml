@@ -115,6 +115,11 @@ services:
         max-file: "2"
         max-size: "5m"
         compress: "true"
+    ports:
+      - target: 5510
+        published: 5510
+      - target: 6510
+        published: 6510
 
   plex:
     container_name: plex
