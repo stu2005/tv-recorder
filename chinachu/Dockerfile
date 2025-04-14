@@ -42,10 +42,6 @@ WORKDIR /app/
 # Open port
 EXPOSE 20772
 
-# Check if container is running
-HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -fsSL http://localhost:20772/api/status || exit 1
-
 # Copy build stage artifacts
 COPY --from=downloads /build/ /
 
@@ -61,7 +57,7 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install
-    apk add -qU --no-cache curl ffmpeg bash coreutils procps-ng ca-certificates
+    apk add -qU --no-cache ffmpeg bash coreutils procps-ng ca-certificates
     npm install pm2 -sg
 
 EOF

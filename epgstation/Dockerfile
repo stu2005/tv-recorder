@@ -5,7 +5,7 @@ COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM library/buildpack-deps:24.04-curl
+FROM library/ubuntu:24.04
 
 # Set the working directory
 WORKDIR /app/
@@ -24,10 +24,6 @@ VOLUME /app/data/ /app/thumbnail/ /app/recorded/
 ENTRYPOINT ["node"]
 CMD ["./dist/index.js"]
 
-# Check if container is running
-HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -fsSL http://localhost:8888/api/status || exit 1
-
 # Copy downloads
 COPY --from=downloads /build/ /
 
@@ -36,11 +32,11 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests ffmpeg+ 
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
     if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash
-      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb
+      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb --autoremove --purge curl- ca-certificates-
       qsvencc -v
       vceencc -v
     fi
@@ -48,7 +44,6 @@ RUN <<EOF bash -ex
   # Test
     node -v
     ffmpeg -version
-    curl --version
 
   # Clean
     apt-get clean -q
