@@ -86,7 +86,7 @@ services:
       mirakc:
         condition: service_healthy
       mariadb:
-        condition: service_started
+        condition: service_healthy
     ports:
       - target: 8888
         published: 8888
