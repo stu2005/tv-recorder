@@ -17,7 +17,7 @@ RUN <<EOF ash -ex
     wget -q https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/chinachu/processes.json
     wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/resource-iptv.json
     wget -qPapi https://raw.githubusercontent.com/mzyy94/Chinachu-IPTV-API-addon/refs/heads/master/api/script-iptv.vm.js
-    mkdir log run
+    mkdir log run data
     npm install -s
     npm update -s
     npm audit fix -s
@@ -55,7 +55,6 @@ RUN <<EOF ash -ex
   # Create user
     addgroup -g 1000 node
     adduser -u 1000 -G node -s /bin/sh -D node
-    chown -R node:node ./
 
   # Update
     apk upgrade -qU --no-cache
@@ -65,6 +64,9 @@ RUN <<EOF ash -ex
     npm install pm2 -sg
 
 EOF
+
+# Copy build stage artifacts
+COPY --chown=node:node --from=downloads /build/ /
 
 # Set execution user
 USER node:node

@@ -1,22 +1,31 @@
   - name: 'PLEX PX-W3PE5 (Terrestrial) #1'
     types:
       - GR
-    command: recisdb tune --device /dev/px4video2 --channel <channel> -
+    command: recpt1 --device /dev/px4video2 <channel> - -
+    decoder: arib-b25-stream-test
     isDisabled: false
   - name: 'PLEX PX-W3PE5 (Terrestrial) #2'
     types:
       - GR
-    command: recisdb tune --device /dev/px4video3 --channel <channel> -
+    command: recpt1 --device /dev/px4video3 <channel> - -
+    decoder: arib-b25-stream-test
     isDisabled: false
   - name: 'PLEX PX-W3PE5 (Satellite) #1'
     types:
       - BS
-      - CS
-    command: recisdb tune --device /dev/px4video0 --channel <channel> -
+    command: recpt1 --device /dev/px4video0 <channel> - -
+    decoder: arib-b25-stream-test
     isDisabled: false
   - name: 'PLEX PX-W3PE5 (Satellite) #2'
     types:
       - BS
-      - CS
-    command: recisdb tune --device /dev/px4video1 --channel <channel> -
+    command: recpt1 --device /dev/px4video1 <channel> - -
+    decoder: arib-b25-stream-test
+    isDisabled: false
+  - name: 'PLEX PX-M1UR'
+    types:
+      - GR
+      - BS
+    command: recpt1 --device /dev/pxm1urvideo0 <channel> - -
+    decoder: arib-b25-stream-test
     isDisabled: false

@@ -10,3 +10,7 @@ path: /var/run/mirakurun.sock
 # Use this in LAN or VPN.
 # `~` to disable TCP port listening.
 port: 40772
+
+# For tailscale
+allowIPv4CidrRanges: ["0.0.0.0/0"]
+allowIPv6CidrRanges: ["::/0"]
