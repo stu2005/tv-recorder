@@ -46,9 +46,6 @@ EXPOSE 20772
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:20772/api/status || exit 1
 
-# Copy build stage artifacts
-COPY --from=downloads /build/ /
-
 # Install requires
 RUN <<EOF ash -ex
 
