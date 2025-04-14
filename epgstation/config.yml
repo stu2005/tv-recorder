@@ -30,7 +30,9 @@ recordedFileExtension: .m2ts
 recorded:
     - name: recorded
       path: '%ROOT%/recorded'
-
+      limitThreshold: 100000
+      action: remove
+      
 thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
