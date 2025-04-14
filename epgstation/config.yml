@@ -26,7 +26,7 @@ conflictPriority: 1
 recPriority: 2
 
 recordedFormat: '%YEAR%年%MONTH%月%DAY%日%HOUR%時%MIN%分%SEC%秒-%TITLE%'
-recordedFileExtension: .m2ts
+recordedFileExtension: .ts
 recorded:
     - name: recorded
       path: '%ROOT%/recorded'
@@ -115,6 +115,8 @@ stream:
                       -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
+            webm: []
+            hls: []
 
     recorded:
         ts:
@@ -137,6 +139,8 @@ stream:
                       h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
+            webm: []
+            hls: []
 
         encoded:
             mp4:
@@ -152,3 +156,5 @@ stream:
                       2 -c:v h264_qsv -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
+            webm: []
+            hls: []
