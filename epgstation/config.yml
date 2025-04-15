@@ -18,7 +18,7 @@ mysql:
     user: epgstation
     password: epgstation
     database: epgstation
-    charset: utf8mb4
+    charset: utf8
 
 epgUpdateIntervalTime: 10
 
@@ -144,6 +144,12 @@ stream:
 
         encoded:
             mp4:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
+                      2 -c:v h264_qsv -vf scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
+                      pipe:1'
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
