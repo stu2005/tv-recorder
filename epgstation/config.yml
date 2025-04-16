@@ -1,5 +1,5 @@
 port: 8888
-mirakurunPath: http://mirakc:40772/
+mirakurunPath: http://mirakurun:40772/
 
 kodiHosts:
     - name: Fire TV Stick HD
@@ -18,7 +18,7 @@ mysql:
     user: epgstation
     password: epgstation
     database: epgstation
-    charset: utf8
+    charset: utf8mb4
 
 epgUpdateIntervalTime: 10
 

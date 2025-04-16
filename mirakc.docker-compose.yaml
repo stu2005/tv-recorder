@@ -28,6 +28,8 @@ services:
         max-size: "5m"
         max-file: "2"
         compress: "true"
+    environment:
+      MIRAKC_ARIB_LOG: debug
 
   mariadb:
     image: lscr.io/linuxserver/mariadb:11.4.5

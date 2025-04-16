@@ -17,7 +17,7 @@
 port            = 3306
 socket          = /run/mysqld/mysqld.sock
 
-default-character-set = utf8
+default-character-set = utf8mb4
 
 # Here is entries for some specific programs
 # The following values assume you have at least 32M ram
@@ -61,8 +61,8 @@ tmp_table_size          = 32M
 max_heap_table_size     = 32M
 
 #performance_schema = on
-character_set_server    = utf8
-collation_server        = utf8_unicode_ci
+character_set_server    = utf8mb4
+collation_server        = utf8mb4_unicode_ci
 transaction_isolation   = READ-COMMITTED
 binlog_format           = MIXED
 
