@@ -41,6 +41,7 @@ Array.prototype.push.apply(args, ['-vf', videoFilter]);
 Array.prototype.push.apply(args,[
     '-preset', preset,
     '-aspect', '16:9',
+    '-b:v', '6000k',
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
