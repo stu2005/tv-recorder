@@ -32,25 +32,11 @@ apt-get install -qy --no-install-recommends --no-install-suggests /dmo-keyring.d
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://www.deb-multimedia.org
-Suites: stable
+Suites: testing
 Components: main non-free
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-
-Types: deb
-URIs: https://www.deb-multimedia.org
-Suites: stable-backports
-Components: main
-Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-EOF
-)
-
-PREFERENCES=$(cat <<EOF
-Package: *
-Pin: origin www.deb-multimedia.org  
-Pin-Priority: 500
 EOF
 )
 
 echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/dmo.sources
-echo "$PREFERENCES" >/etc/apt/preferences.d/demo.pref
 apt-get update -q
