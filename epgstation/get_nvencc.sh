@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL="https://api.github.com/repos/rigaya/vceenc/releases/latest"
+API_URL="https://api.github.com/repos/rigaya/nvenc/releases/latest"
 response=$(curl -s $API_URL)
 if [ -z "$response" ]; then
   echo "GitHub APIからの応答がありません。"
@@ -23,20 +23,34 @@ done
 if [ -z "$highest_version_url" ]; then
   echo "対応するUbuntu用のdebパッケージが見つかりませんでした。"
 else
-  curl -Lso/vceencc.deb $highest_version_url
+  curl -Lso/ncencc.deb $highest_version_url
 fi
 
-curl -Lso/rocm.gpg https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/rocm.gpg
+curl -Lso/dmo-keyring.deb https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2024.9.1_all.deb
+apt-get -qy --no-install-recommends --no-install-suggests /dmo-keyring.deb
 
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
-URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
-Suites: noble
-Components: main proprietary
-Architectures: amd64
-Signed-By: /rocm.gpg
+URIs: https://www.deb-multimedia.org
+Suites: stable
+Components: main non-free
+Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
+
+Types: deb
+URIs: https://www.deb-multimedia.org
+Suites: stable-backports
+Components: main
+Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 EOF
 )
 
-echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/amdgpu.sources
+PREFERENCES=$(cat <<EOF
+Package: *
+Pin: origin www.deb-multimedia.org  
+Pin-Priority: 500
+EOF
+)
+
+echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/dmo.sources
+echo "$PREFERENCES" >/etc/apt/preferences.d/demo.pref
 apt-get update -q

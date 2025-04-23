@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL="https://api.github.com/repos/rigaya/QSVEnc/releases/latest"
+API_URL="https://api.github.com/repos/rigaya/qsvenc/releases/latest"
 response=$(curl -s $API_URL)
 if [ -z "$response" ]; then
   echo "GitHub APIからの応答がありません。"
