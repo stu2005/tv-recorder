@@ -25,18 +25,3 @@ if [ -z "$highest_version_url" ]; then
 else
   curl -Lso/nvencc.deb $highest_version_url
 fi
-
-curl -Lso/dmo-keyring.deb https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2024.9.1_all.deb
-apt-get install -qy --no-install-recommends --no-install-suggests /dmo-keyring.deb
-
-SOURCES_CONTENT=$(cat <<EOF
-Types: deb
-URIs: https://www.deb-multimedia.org
-Suites: testing
-Components: main non-free
-Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
-EOF
-)
-
-echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/dmo.sources
-apt-get update -q
