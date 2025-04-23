@@ -23,7 +23,7 @@ done
 if [ -z "$highest_version_url" ]; then
   echo "対応するUbuntu用のdebパッケージが見つかりませんでした。"
 else
-  curl -Lso/ncencc.deb $highest_version_url
+  curl -Lso/nvencc.deb $highest_version_url
 fi
 
 curl -Lso/dmo-keyring.deb https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2024.9.1_all.deb
