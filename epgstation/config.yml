@@ -37,8 +37,8 @@ thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
 
-ffmpeg: /usr/bin/ffmpeg
-ffprobe: /usr/bin/ffprobe
+ffmpeg: /usr/local/bin/ffmpeg
+ffprobe: /usr/local/bin/ffprobe
 
 encodeProcessNum: 4
 concurrentEncodeNum: 1
@@ -65,7 +65,7 @@ stream:
                 - name: 無変換
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -75,7 +75,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -85,7 +85,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -97,7 +97,7 @@ stream:
             m2tsll:
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -107,7 +107,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -117,7 +117,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/nvencc --input-format mpegts --input - --avhw 
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -129,19 +129,19 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
                       -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
+                      '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
                       -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
+                      '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
                       -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
@@ -154,19 +154,19 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
+                      '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
                       h264_qsv -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
+                      '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
                       h264_qsv -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -c:v mpeg2_qsv -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v
+                      '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v
                       h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
@@ -177,19 +177,19 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
                       2 -c:v h264_qsv -vf scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
                       2 -c:v h264_qsv -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac
                       2 -c:v h264_qsv -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'

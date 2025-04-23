@@ -2,10 +2,12 @@
 FROM scratch AS downloads
 COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
 COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
+COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /usr/local/ /build/usr/local/
+COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /etc/OpenCL/vendors/nvidia.icd /build/etc/OpenCL/vendors/
 
 
 # Final image
-FROM library/ubuntu:24.04
+FROM nvidia/cuda:12.8.1-base-ubuntu24.04
 
 # Set the working directory
 WORKDIR /app/
@@ -32,11 +34,12 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ffmpeg+ 
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ 
     if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
-      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash
-      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb --autoremove --purge curl- ca-certificates-
+      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
+      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_nvencc.sh | bash
+      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb /nvencc.deb v4l-utils --autoremove --purge curl- ca-certificates-
       qsvencc -v
       vceencc -v
     fi
@@ -47,6 +50,6 @@ RUN <<EOF bash -ex
 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /qsvencc.deb /vceencc.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources /etc/apt/preferences.d/jammy.pref
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /*.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
 
 EOF
