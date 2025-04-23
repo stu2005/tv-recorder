@@ -27,7 +27,7 @@ else
 fi
 
 curl -Lso/dmo-keyring.deb https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2024.9.1_all.deb
-apt-get -qy --no-install-recommends --no-install-suggests /dmo-keyring.deb
+apt-get install -qy --no-install-recommends --no-install-suggests /dmo-keyring.deb
 
 SOURCES_CONTENT=$(cat <<EOF
 Types: deb
