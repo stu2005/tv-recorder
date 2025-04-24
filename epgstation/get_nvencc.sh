@@ -25,3 +25,4 @@ if [ -z "$highest_version_url" ]; then
 else
   curl -Lso/nvencc.deb $highest_version_url
 fi
+ubuntu-drivers autoinstall
