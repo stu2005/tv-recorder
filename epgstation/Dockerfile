@@ -34,12 +34,12 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ 
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ ubuntu-drivers-common+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_nvencc.sh | bash
-      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb /nvencc.deb v4l-utils --autoremove --purge curl- ca-certificates-
+      apt-get install -qy --no-install-recommends --no-install-suggests /qsvencc.deb /vceencc.deb /nvencc.deb v4l-utils --autoremove --purge curl- ca-certificates- ubuntu-drivers-common-
       qsvencc -v
       vceencc -v
     fi
