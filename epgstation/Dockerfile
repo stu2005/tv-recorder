@@ -34,8 +34,9 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests curl+ ca-certificates+ nvidia-driver-570+ v4l-utils+
+    apt-get full-upgrade -qy --autoremove --purge
     if [[ "$(uname -m)" == "x86_64" ]]; then
+      apt-get install -qy --no-install-recommends --no-install-suggests curl ca-certificates libnvidia-compute-570 v4l-utils
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_nvencc.sh | bash
@@ -43,6 +44,7 @@ RUN <<EOF bash -ex
       qsvencc -v
       vceencc -v
       nvencc -v
+      rm -rf /*.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
     fi
 
   # Test
@@ -51,6 +53,6 @@ RUN <<EOF bash -ex
 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /*.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EOF
