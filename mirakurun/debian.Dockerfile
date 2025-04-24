@@ -1,5 +1,5 @@
 # Final image
-FROM library/node:22.14.0-bookworm-slim
+FROM library/node:22.15.0-bookworm-slim
 
 # Set environment variables
 ENV SERVER_CONFIG_PATH=/app-config/server.yml 
