@@ -69,7 +69,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1920x1080 --output-format mpegts --output -'
@@ -79,7 +79,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1280x720 --output-format mpegts --output -'                
@@ -89,7 +89,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 854x480 --output-format mpegts --output -'
@@ -101,7 +101,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1920x1080 --output-format mpegts --output -'
@@ -111,7 +111,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1280x720 --output-format mpegts --output -'                
@@ -121,7 +121,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --codec hevc --fallback-rc
+                      --output-thread 0 --lowlatency --codec hevc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 854x480 --output-format mpegts --output -'
