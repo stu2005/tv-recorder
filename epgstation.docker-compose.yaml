@@ -168,7 +168,7 @@ services:
       - type: tmpfs
         target: /transcode/
       - type: bind
-        source: /mnt/hdd/
+        source: /home/sotaro/recorded/
         target: /data/
     logging:
       driver: "json-file"
