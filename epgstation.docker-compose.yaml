@@ -1,0 +1,188 @@
+services:
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: mariadb
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Tokyo
+      MYSQL_DATABASE: epgstation
+      MYSQL_USER: epgstation
+      MYSQL_PASSWORD: epgstation
+      MYSQL_ROOT_PASSWORD: epgstation
+    volumes:
+      - type: bind
+        source: ./mariadb/
+        target: /config/
+        bind:
+          create_host_path: true
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  epgstation:
+    image: ghcr.io/stu2005/epgstation:latest
+    container_name: epgstation
+    #devices:
+    #  - "/dev/dri:/dev/dri"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [compute, utility, video]
+    volumes:
+      - type: bind
+        source: ./epgstation/
+        target: /app/config/
+        bind:
+          create_host_path: true
+      - type: volume
+        source: epgstation
+        target: /app/data/
+      - type: volume
+        source: epgstation
+        target: /app/thumbnail/
+      - type: bind
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+        bind:
+          create_host_path: true
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - target: 8888
+        published: 8888
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  chinachu:
+    image: ghcr.io/stu2005/chinachu:latest
+    container_name: chinachu
+    ports:
+      - target: 20772
+        published: 20772
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./chinachu/config.json
+        target: /app/config.json
+      - type: bind
+        source: ./chinachu/rules.json
+        target: /app/rules.json
+      - type: volume
+        source: chinachu
+        target: /app/data/
+      - type: bind
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+        bind:
+          create_host_path: true
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  edcb:
+    image: tsukumijima/edcb:latest
+    build:
+      context: ./edcb/
+    container_name: edcb
+    restart: always
+    privileged: true
+    volumes:
+      - type: bind
+        source: './edcb/EDCB/'
+        target: '/EDCB/'
+      - type: bind
+        source: '/mnt/hdd/'
+        target: '/mnt/'
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+    ports:
+      - target: 4510
+        published: 4510
+      - target: 5510
+        published: 5510
+      - target: 6510
+        published: 6510
+
+  plex:
+    container_name: plex
+    devices:
+      - "/dev/dri:/dev/dri"
+    image: plexinc/pms-docker:1.41.6.9685-d301f511a
+    restart: unless-stopped
+    ports:
+      - target: 32400
+        published: 32400
+      - target: 8324
+        published: 8324
+      - target: 32469
+        published: 32469
+      - target: 1900
+        published: 1900
+      - target: 32410
+        published: 32410
+      - target: 32412
+        published: 32412
+      - target: 32413
+        published: 32413
+      - target: 32414
+        published: 32414
+    environment:
+      TZ: "Asia/Tokyo"
+      PLEX_CLAIM:
+    volumes:
+      - type: volume
+        source: plex
+        target: /config/
+      - type: tmpfs
+        target: /transcode/
+      - type: bind
+        source: /mnt/hdd/
+        target: /data/
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+volumes:
+  mariadb:
+    name: "mariadb"
+  epgstation:
+    name: "epgstation"
+  chinachu:
+    name: "chinachu"
+  plex:
+    name: "plex"

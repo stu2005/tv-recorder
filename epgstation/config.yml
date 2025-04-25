@@ -1,9 +1,9 @@
 port: 8888
-mirakurunPath: http://mirakurun:40772/
+mirakurunPath: http://lavie.tailff70c2.ts.net:40772/
 
 kodiHosts:
     - name: Fire TV Stick HD
-      host: http://192.168.1.101:8090
+      host: http://amazon-aftss.tailff70c2.ts.net:8090
 
 # dbtype: sqlite
 # sqlite:
@@ -69,7 +69,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1920x1080 --output-format mpegts --output -'
@@ -79,7 +79,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1280x720 --output-format mpegts --output -'                
@@ -89,7 +89,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 854x480 --output-format mpegts --output -'
@@ -101,7 +101,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1920x1080 --output-format mpegts --output -'
@@ -111,7 +111,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 1280x720 --output-format mpegts --output -'                
@@ -121,7 +121,7 @@ stream:
                       --audio-stream 1?:stereo --audio-stream 2?:stereo 
                       --sub-copy --data-copy timed_id3 
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --output-thread 0 --lowlatency --disable-opencl --codec hevc --fallback-rc
                       --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
                       --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
                       --output-res 854x480 --output-format mpegts --output -'
@@ -130,19 +130,19 @@ stream:
                 - name: 1080p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      -c:v hevc_nvenc -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      -c:v hevc_nvenc -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2
-                      -c:v h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      -c:v hevc_nvenc -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
 
@@ -155,19 +155,19 @@ stream:
                 - name: 1080p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
-                      h264_qsv -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      hevc_nvenc -vf bwdif=1:-1:1,scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -c:v
-                      h264_qsv -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      hevc_nvenc -vf bwdif=1:-1:1,scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel nvdec -i pipe:0 -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -c:v
-                      h264_qsv -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      hevc_nvenc -vf bwdif=1:-1:1,scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
             webm: []
@@ -178,19 +178,19 @@ stream:
                 - name: 1080p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
-                      2 -c:v h264_qsv -vf scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      2 -c:v hevc_nvenc -vf scale=-2:1080 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 192k -ac
-                      2 -c:v h264_qsv -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      2 -c:v hevc_nvenc -vf scale=-2:720 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel nvdec -i %INPUT% -sn -threads 0 -c:a aac -ar 48000 -b:a 128k -ac
-                      2 -c:v h264_qsv -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      2 -c:v hevc_nvenc -vf scale=-2:480 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
             webm: []
