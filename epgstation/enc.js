@@ -10,8 +10,7 @@ const dualMonoMode = 'main';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
-const preset = 'veryfast';
-const codec = 'hevc_nvenc';
+const codec = 'h264_nvenc';
 const crf = 23;
 
 const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
@@ -39,13 +38,12 @@ Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
 // その他設定
 Array.prototype.push.apply(args,[
-    '-preset', preset,
     '-aspect', '16:9',
     '-b:v', '6000k',
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
-    '-c:a', 'libfdk-aac',
+    '-c:a', 'libfdk_aac',
     '-ar', '48000',
     '-ab', audioBitrate,
     '-ac', '2',
