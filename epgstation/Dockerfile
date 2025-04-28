@@ -1,3 +1,18 @@
+# Build jls
+FROM library/node:18.20.8-bookworm-slim AS jls
+RUN <<EOF bash -ex
+
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/add_dmo.sh | bash
+    apt-get update -q
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests
+    apt-get install -qy --no-install-recommends --no-install-suggests avisynth+ git meson
+    git clone https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works.git /lsmashworks
+    cd /lsmashworks/AviSynth/
+    LDFLAGS="-Wl,-Bsymbolic" meson build
+    
+
+EOF
+
 # Get nodejs and epgstation
 FROM scratch AS downloads
 COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
