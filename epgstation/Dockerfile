@@ -76,7 +76,7 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+ libboost-program-options1.74.0+ libboost-filesystem1.74.0+
     cd /
     yarn global add git+https://github.com/tobitti0/join_logo_scp_trial.git
     if [[ "$(uname -m)" == "x86_64" ]]; then
@@ -94,6 +94,11 @@ RUN <<EOF bash -ex
   # Test
     node -v
     ffmpeg -version
+    chapter_exe || true
+    logoframe || true
+    join_logo_scp || true
+    tsdivider --version
+    jlse --version
 
   # Clean
     apt-get autoremove --purge -qy git ca-certificates
