@@ -1,48 +1,78 @@
 # Build jls
-FROM library/node:18.20.8-bookworm-slim AS jls
-COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /build/usr/local/
-COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /usr/local/
-COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /usr/local/ /build/usr/local/
-COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /etc/OpenCL/vendors/nvidia.icd /build/etc/OpenCL/vendors/
+FROM library/ubuntu:24.04 AS jls
 RUN <<EOF bash -ex
 
   # Update
     apt-get update -q
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests curl+ git+ ca-certificates+ build-essential+ make+ meson+ ninja-build+ gcc+ g+++ cmake+ libboost-all-dev+ libdevil-dev+ libsoundtouch-dev+ libavcodec-dev+ libavformat-dev+ libswscale-dev+ libxxhash-dev+ pkg-config+
 
-  # Install
-    apt-get install -qy --no-install-recommends --no-install-suggests curl git ca-certificates make ninja-build gcc g++ cmake libboost-all-dev
-  
+EOF
+RUN <<EOF bash -ex
+
+  # Build AviSynth+
+    git clone https://github.com/AviSynth/AviSynthPlus /avisynth+
+    cd /avisynth+/
+    cmake -Bbuild -GNinja
+    cd ./build/
+    ninja -j$(nproc)
+    ninja install
+    ldconfig
+
+EOF
+RUN <<EOF bash -ex
+
+  # Build l-smash
+    git clone https://github.com/l-smash/l-smash /l-smash
+    cd /l-smash/
+    ./configure --prefix="/usr/local" --enable-shared
+    make -j$(nproc)
+    make install
+
+EOF
+RUN <<EOF bash -ex
+
+  # Build l-smash-works
+    git clone https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works.git /lsmashworks
+    cd /lsmashworks/AviSynth
+    LDFLAGS="-Wl,-Bsymbolic" meson build
+    cd build
+    ninja -j$(nproc)
+    ninja install
+
+EOF
+RUN <<EOF bash -ex
+
   # Build jls
     git clone --recursive https://github.com/tobitti0/JoinLogoScpTrialSetLinux /JoinLogoScpTrialSetLinux
     cd /JoinLogoScpTrialSetLinux/modules/
     cd ./chapter_exe/src/
+    sed -i '/^\s*#ifndef\s\+__COMPAT__/a #include <cstdint>' compat.h
+    sed -i '/^\s*#ifndef\s\+__INPUT_H__/a #include <cstdint>' input.h
     make -j$(nproc)
-    install -m 755 ./chapter_exe /build/usr/local/bin/
+    install -m 755 ./chapter_exe /usr/local/bin/
     cd ../../logoframe/src/
     make -j$(nproc)
-    install -m 755 ./logoframe /build/usr/local/bin/
+    install -m 755 ./logoframe /usr/local/bin/
     cd ../../join_logo_scp/src/
     make -j$(nproc)
-    install -m 755 ./join_logo_scp /build/usr/local/bin/
+    install -m 755 ./join_logo_scp /usr/local/bin/
     cd ../../tsdivider/
     cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
     cd ./build/
     ninja -j$(nproc)
-    install -m 755 ./tsdivider /build/usr/local/bin/
+    install -m 755 ./tsdivider /usr/local/bin/
     git clone https://github.com/tobitti0/delogo-AviSynthPlus-Linux /delogo-AviSynthPlus-Linux
     cd /delogo-AviSynthPlus-Linux/src/
     make -j$(nproc)
-    install -m 755 ./libdelogo.so /build/usr/local/lib/avisynth/
+    install -m 755 ./libdelogo.so /usr/local/lib/avisynth/
 
 EOF
 
 # Get nodejs and epgstation
 FROM scratch AS downloads
-COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /build/usr/local/
 COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /usr/local/ /build/usr/local/
 COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /etc/OpenCL/vendors/nvidia.icd /build/etc/OpenCL/vendors/
-COPY --from=jls /build/ /build/
+COPY --from=jls /usr/local/ /build/usr/local/
 COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
 COPY --from=library/node:18.20.8-bookworm-slim /opt/ /build/opt/
 COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
@@ -76,7 +106,7 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+ libboost-program-options1.74.0+ libboost-filesystem1.74.0+
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+ libboost-program-options1.83.0+ libboost-filesystem1.83.0+
     cd /
     yarn global add git+https://github.com/tobitti0/join_logo_scp_trial.git
     ln -s /usr/local/bin/chapter_exe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/chapter_exe
