@@ -106,7 +106,7 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+ libboost-program-options1.83.0+ libboost-filesystem1.83.0+
+    apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests git+ ca-certificates+ libsoundtouch1+ libdevil1c2+ libboost-program-options1.83.0+ libboost-filesystem1.83.0+
     cd /
     yarn global add git+https://github.com/tobitti0/join_logo_scp_trial.git
     ln -s /usr/local/bin/chapter_exe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/chapter_exe
