@@ -62,19 +62,19 @@ services:
           create_host_path: true
       - type: bind
         source: ./epgstation/jls/JL/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/JL/
+        target: /jls/JL/
       - type: bind
         source: ./epgstation/jls/logo/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/logo/
+        target: /jls/logo/
       - type: bind
         source: ./epgstation/jls/result/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/result/
+        target: /jls/result/
       - type: bind
         source: ./epgstation/jls/setting/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/setting/
+        target: /jls/setting/
       - type: bind
         source: ./epgstation/jls/src/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/src/
+        target: /jls/src/
     depends_on:
       mariadb:
         condition: service_healthy

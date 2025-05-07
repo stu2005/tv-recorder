@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      #- name: Set up QEMU
-      #  uses: docker/setup-qemu-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -33,11 +33,19 @@ jobs:
       - name: Prune build cache
         run: |
           docker buildx prune --all --force --verbose
-      - name: Build and push EPGStation for multiarch
+      - name: Build and push EPGStation
         uses: docker/build-push-action@v6
         with:
           context: ./epgstation/
-          #platforms: linux/amd64,linux/arm64
-          platforms: linux/amd64
+          file: ./epgstation/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/epgstation:latest
+      - name: Build and push EPGStation for cuda
+        uses: docker/build-push-action@v6
+        with:
+          context: ./epgstation/
+          file: ./epgstation/cuda.Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/stu2005/epgstation:cuda
