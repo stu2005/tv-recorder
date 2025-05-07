@@ -3,11 +3,10 @@ FROM scratch AS downloads
 COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
 COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /usr/local/ /build/usr/local/
-COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /etc/OpenCL/vendors/nvidia.icd /build/etc/OpenCL/vendors/
 
 
 # Final image
-FROM nvidia/cuda:12.8.1-base-ubuntu24.04
+FROM library/ubuntu:24.04
 
 # Set the working directory
 WORKDIR /app/
