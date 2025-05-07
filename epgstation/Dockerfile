@@ -36,7 +36,9 @@ RUN <<EOF bash -ex
     apt-get update -q
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
       libxcb1+ \
-      libxcb-shm0+
+      libxcb-shm0+ \
+      libasound.so.2+ \
+      libasound2t64+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       apt-get install -qy --no-install-recommends --no-install-suggests \
         curl \
