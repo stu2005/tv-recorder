@@ -60,7 +60,7 @@ COPY --from=library/node:18.20.8-bookworm-slim /opt/ /build/opt/
 COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 # Final image
-FROM nvidia/cuda:12.8.1-base-ubuntu20.04
+FROM nvidia/cuda:12.9.0-base-ubuntu20.04
 
 # Set the working directory
 WORKDIR /app/
