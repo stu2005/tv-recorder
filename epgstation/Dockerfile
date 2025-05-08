@@ -38,7 +38,8 @@ RUN <<EOF bash -ex
       libxcb1+ \
       libxcb-shm0+ \
       libasound2t64+ \
-      libv4l-0t64+
+      libv4l-0t64+ \
+      libxml2+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       apt-get install -qy --no-install-recommends --no-install-suggests \
         curl \
