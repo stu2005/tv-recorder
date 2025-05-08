@@ -37,13 +37,12 @@ RUN <<EOF bash -ex
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
       libxcb1+ \
       libxcb-shm0+ \
-      libasound2t64+
+      libasound2t64+ \
+      libv4l-0t64+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       apt-get install -qy --no-install-recommends --no-install-suggests \
         curl \
-        ca-certificates \
-        libnvidia-compute-570 \
-        v4l-utils
+        ca-certificates
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
       apt-get install -qy \
