@@ -1,5 +1,5 @@
 # Build jls
-FROM library/ubuntu:20.04 AS build
+FROM library/ubuntu:24.04 AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-nvidia2004 /usr/local/ /usr/local/
 RUN <<EOF bash -ex
