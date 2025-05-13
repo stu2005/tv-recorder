@@ -98,8 +98,8 @@ RUN <<EOF bash -ex
     cd /jls/
     yarn install
     yarn link
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc_20.04.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc_20.04.sh | bash      
     apt-get install -qy \
       --no-install-recommends --no-install-suggests \
         /qsvencc.deb \
