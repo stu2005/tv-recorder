@@ -18,3 +18,18 @@ fi
 
 # パッケージをダウンロード
 curl -Lso/vceencc.deb "$deb_url"
+
+curl -Lso/rocm.gpg https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/rocm.gpg
+
+SOURCES_CONTENT=$(cat <<EOF
+Types: deb
+URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
+Suites: jammy
+Components: main proprietary
+Architectures: amd64
+Signed-By: /rocm.gpg
+EOF
+)
+
+echo "$SOURCES_CONTENT" >/etc/apt/sources.list.d/amdgpu.sources
+apt-get update -q
