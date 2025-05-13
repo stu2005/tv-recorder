@@ -41,7 +41,8 @@ RUN <<EOF bash -ex
       libv4l-0t64+ \
       libxml2+ \
       libglib2.0-0t64+ \
-      libgomp1+
+      libgomp1+ \
+      libexpat1+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       apt-get install -qy --no-install-recommends --no-install-suggests \
         curl \
