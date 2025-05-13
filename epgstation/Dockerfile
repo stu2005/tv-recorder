@@ -42,7 +42,8 @@ RUN <<EOF bash -ex
       libxml2+ \
       libglib2.0-0t64+ \
       libgomp1+ \
-      libexpat1+
+      libexpat1+ \
+      libbrotli1+
     if [[ "$(uname -m)" == "x86_64" ]]; then
       apt-get install -qy --no-install-recommends --no-install-suggests \
         curl \
