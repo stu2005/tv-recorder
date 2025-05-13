@@ -61,7 +61,7 @@ COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM nvidia/cuda:12.8.1-base-ubuntu20.04
+FROM library/ubuntu:20.04
 
 # Set the working directory
 WORKDIR /app/
@@ -94,7 +94,6 @@ RUN <<EOF bash -ex
       libboost-program-options1.71.0+ \
       libboost-filesystem1.71.0+ \
       curl+ \
-      libnvidia-compute-570+ \
       v4l-utils+
     cd /jls/
     yarn install
