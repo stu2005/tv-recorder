@@ -98,17 +98,6 @@ RUN <<EOF bash -ex
     cd /jls/
     yarn install
     yarn link
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc_20.04.sh | bash
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc_20.04.sh | bash      
-    apt-get install -qy \
-      --no-install-recommends --no-install-suggests \
-        /qsvencc.deb \
-        /vceencc.deb \
-      --autoremove --purge \
-        curl- \
-        ca-certificates-
-    qsvencc -v
-    vceencc -v
     node -v
     ffmpeg -version
     /jls/bin/chapter_exe || true
