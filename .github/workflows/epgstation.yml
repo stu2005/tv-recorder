@@ -57,3 +57,11 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/epgstation:cuda
+      - name: Build and push EPGStation for rpi
+        uses: docker/build-push-action@v6
+        with:
+          context: ./epgstation/
+          file: ./epgstation/rpi.Dockerfile
+          platforms: linux/arm/v7
+          push: true
+          tags: ghcr.io/stu2005/epgstation:rpi
