@@ -71,7 +71,7 @@ EXPOSE 8888
 
 # Set environments
 ENV TZ="Asia/Tokyo"
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Directories that need to be mounted to run
@@ -94,7 +94,9 @@ RUN <<EOF bash -ex
       libboost-program-options1.71.0+ \
       libboost-filesystem1.71.0+ \
       curl+ \
-      v4l-utils+
+      v4l-utils+ \
+      libgomp1+ \
+      libexpat1+
     cd /jls/
     yarn install
     yarn link
