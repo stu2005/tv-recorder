@@ -50,11 +50,6 @@ RUN <<EOF bash -ex
     nvencc -v
     node -v
     ffmpeg -version
-    /jls/bin/chapter_exe || true
-    /jls/bin/logoframe || true
-    /jls/bin/join_logo_scp || true
-    /jls/bin/tsdivider --version
-    jlse --version
     apt-get clean -q
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  /*.deb
 
