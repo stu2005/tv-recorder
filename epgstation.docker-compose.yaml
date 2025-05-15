@@ -32,7 +32,7 @@ services:
       start_period: 20s
 
   epgstation:
-    image: ghcr.io/stu2005/epgstation:latest
+    image: ghcr.io/stu2005/epgstation:rpi
     container_name: epgstation
     devices:
       - "/dev/vchiq:/dev/vchiq"
@@ -59,25 +59,25 @@ services:
         source: epgstation
         target: /app/thumbnail/
       - type: bind
-        source: /home/sotaro/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
-      - type: bind
-        source: ./epgstation/jls/JL/
-        target: /jls/JL/
-      - type: bind
-        source: ./epgstation/jls/logo/
-        target: /jls/logo/
-      - type: bind
-        source: ./epgstation/jls/result/
-        target: /jls/result/
-      - type: bind
-        source: ./epgstation/jls/setting/
-        target: /jls/setting/
-      - type: bind
-        source: ./epgstation/jls/src/
-        target: /jls/src/
+      #- type: bind
+      #  source: ./epgstation/jls/JL/
+      #  target: /jls/JL/
+      #- type: bind
+      #  source: ./epgstation/jls/logo/
+      #  target: /jls/logo/
+      #- type: bind
+      # source: ./epgstation/jls/result/
+      #  target: /jls/result/
+      #- type: bind
+      #  source: ./epgstation/jls/setting/
+      #  target: /jls/setting/
+      #- type: bind
+      #  source: ./epgstation/jls/src/
+      #  target: /jls/src/
     depends_on:
       mariadb:
         condition: service_healthy
@@ -113,7 +113,7 @@ services:
         source: chinachu
         target: /app/data/
       - type: bind
-        source: /home/sotaro/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true

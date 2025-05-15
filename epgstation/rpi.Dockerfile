@@ -1,5 +1,5 @@
 # Build userland
-FROM dtcooper/raspberrypi-os:bookworm AS build
+FROM dtcooper/raspberrypi-os:bullseye AS build
 ARG DEBIAN_FRONTEND=noninteractive
 RUN <<EOF bash -ex
 
@@ -30,7 +30,7 @@ COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM dtcooper/raspberrypi-os:bookworm
+FROM dtcooper/raspberrypi-os:bullseye
 
 # Set the working directory
 WORKDIR /app/
