@@ -1,6 +1,7 @@
 name: epgstation
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"

@@ -1,6 +1,7 @@
 name: tvchannels-scan
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"
