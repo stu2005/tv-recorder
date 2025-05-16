@@ -48,7 +48,7 @@ jobs:
           file: ./epgstation/jls.Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/stu2005/epgstation:latest
+          tags: ghcr.io/stu2005/epgstation:jls
       - name: Build and push EPGStation for cuda
         uses: docker/build-push-action@v6
         with:
