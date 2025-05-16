@@ -10,7 +10,7 @@ const dualMonoMode = 'main';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
-const codec = 'h264_nvenc';
+const codec = 'h264_v4l2m2m';
 const crf = 23;
 
 const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
@@ -21,7 +21,7 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'nvdec', '-i', input]);
+Array.prototype.push.apply(args,['-i', input]);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
