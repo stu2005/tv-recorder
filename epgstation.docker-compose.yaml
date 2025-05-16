@@ -32,11 +32,11 @@ services:
       start_period: 20s
 
   epgstation:
-    image: ghcr.io/stu2005/epgstation:rpi
+    image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
     devices:
-      - "/dev/vchiq:/dev/vchiq"
-      - "/dev/vcsm-cma:/dev/vcsm-cma"
+      - "/dev/video10:/dev/video10"
+      - "/dev/video12:/dev/video12"
     #devices:
     #  - "/dev/dri:/dev/dri"
     #deploy:
