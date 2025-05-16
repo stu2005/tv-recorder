@@ -1,5 +1,5 @@
 # Build stage
-FROM library/rust:1.86.0-bookworm AS build
+FROM library/rust:1.87.0-bookworm AS build
 
 # Copy libpcsckai, mirakurun and the startup script
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
