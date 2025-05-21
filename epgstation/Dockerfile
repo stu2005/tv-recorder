@@ -54,7 +54,6 @@ RUN <<EOF bash -ex
         --no-install-recommends --no-install-suggests \
           /qsvencc.deb \
           /vceencc.deb \
-          intel-media-va-driver \
           i965-va-driver \
         --autoremove --purge \
           curl- \
