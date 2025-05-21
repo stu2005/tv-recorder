@@ -31,9 +31,9 @@ Array.prototype.push.apply(args,['-movflags', 'faststart']);
 // Array.prototype.push.apply(args, ['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
 
 // video filter 設定
-let videoFilter = 'bwdif=1:-1:1';
+let videoFilter = 'deinterlace_qsv';
 if (videoHeight > 720) {
-    videoFilter += ',scale=-2:1080'
+    videoFilter += ',scale_qsv=w=1920:h=1080,setsar=1'
 }
 Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
@@ -45,7 +45,7 @@ Array.prototype.push.apply(args,[
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
-    '-c:a', 'aac',
+    '-c:a', 'libfdk_aac',
     '-ar', '48000',
     '-ab', audioBitrate,
     '-ac', '2',
