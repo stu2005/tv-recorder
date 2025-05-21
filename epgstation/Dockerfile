@@ -16,7 +16,7 @@ EXPOSE 8888
 
 # Set environments
 ENV TZ="Asia/Tokyo"
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/:/usr/lib64:/usr/libexec
+ENV LD_LIBRARY_PATH=/usr/lib/:/usr/lib64:/usr/libexec:/usr/local/lib
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Directories that need to be mounted to run
