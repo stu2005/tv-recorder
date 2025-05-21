@@ -81,7 +81,7 @@ services:
         source: epgstation
         target: /app/thumbnail/
       - type: bind
-        source: /home/sotaro/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
@@ -122,7 +122,7 @@ services:
         source: chinachu
         target: /app/data/
       - type: bind
-        source: /home/sotaro/recorded/
+        source: /mnt/hdd/recorded/
         target: /app/recorded/
         bind:
           create_host_path: true
