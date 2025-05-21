@@ -22,11 +22,7 @@ if (isDualMono) {
 }
 
 // input 設定
-<<<<<<< HEAD
-Array.prototype.push.apply(args,['-i', input]);
-=======
-Array.prototype.push.apply(args,['-c:v', 'mpeg2_qsv', '-i', input]);
->>>>>>> 6164f8c (fix)
+Array.prototype.push.apply(args,['-hwaccel', 'qsv', '-c:v', 'mpeg2_qsv', '-i', input]);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
