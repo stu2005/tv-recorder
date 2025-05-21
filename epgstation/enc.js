@@ -10,7 +10,8 @@ const dualMonoMode = 'main';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
-const codec = 'h264_v4l2m2m';
+const preset = 'veryfast';
+const codec = 'h264_qsv';
 const crf = 23;
 
 const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
@@ -21,7 +22,11 @@ if (isDualMono) {
 }
 
 // input 設定
+<<<<<<< HEAD
 Array.prototype.push.apply(args,['-i', input]);
+=======
+Array.prototype.push.apply(args,['-c:v', 'mpeg2_qsv', '-i', input]);
+>>>>>>> 6164f8c (fix)
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
@@ -38,12 +43,13 @@ Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
 // その他設定
 Array.prototype.push.apply(args,[
+    '-preset', preset,
     '-aspect', '16:9',
     '-b:v', '6000k',
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
-    '-c:a', 'libfdk_aac',
+    '-c:a', 'aac',
     '-ar', '48000',
     '-ab', audioBitrate,
     '-ac', '2',

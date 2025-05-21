@@ -66,15 +66,8 @@ services:
   epgstation:
     image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
-    #devices:
-    #  - "/dev/dri:/dev/dri"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [compute, utility, video]
+    devices:
+      - "/dev/dri:/dev/dri"
     volumes:
       - type: bind
         source: ./epgstation/
