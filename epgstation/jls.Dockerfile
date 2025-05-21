@@ -1,5 +1,5 @@
 # Build jls
-FROM library/ubuntu:20.04 AS build
+FROM library/ubuntu:24.04 AS build
 ARG DEBIAN_FRONTEND=noninteractive
 COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /usr/local/
 RUN <<EOF bash -ex
@@ -61,7 +61,7 @@ COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
 
 
 # Final image
-FROM library/ubuntu:20.04
+FROM library/ubuntu:24.04
 
 # Set the working directory
 WORKDIR /app/
