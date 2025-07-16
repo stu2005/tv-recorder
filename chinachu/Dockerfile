@@ -34,7 +34,7 @@ COPY --from=build /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM library/alpine:3.21.3
+FROM library/alpine:3.22.1
 
 # Set the working directory
 WORKDIR /app/
