@@ -1,5 +1,5 @@
 # Build stage
-FROM library/alpine:3.21.3 AS build
+FROM library/alpine:3.22.1 AS build
 
 # Copy the startup script
 COPY ./container-init.sh /build/usr/local/bin/
