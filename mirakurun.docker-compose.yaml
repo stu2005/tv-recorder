@@ -172,7 +172,7 @@ services:
     container_name: plex
     devices:
       - "/dev/dri:/dev/dri"
-    image: plexinc/pms-docker:1.41.6.9685-d301f511a
+    image: plexinc/pms-docker:1.42.1.10054-f333bdaa8
     restart: unless-stopped
     ports:
       - target: 32400
