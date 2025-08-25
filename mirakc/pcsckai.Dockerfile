@@ -41,7 +41,7 @@ EOF
 
 
 # Final image
-FROM mirakc/mirakc:3.4.19-alpine
+FROM mirakc/mirakc:3.4.31-alpine
 
 # Set environment variables
 ENV TZ=Asia/Tokyo 
