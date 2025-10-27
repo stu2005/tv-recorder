@@ -29,7 +29,7 @@ EOF
 
 
 # Final image
-FROM mirakc/mirakc:3.4.19-debian
+FROM mirakc/mirakc:3.4.40-debian
 
 # Set environment variables
 ENV TZ=Asia/Tokyo
