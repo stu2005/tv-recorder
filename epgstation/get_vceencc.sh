@@ -32,7 +32,7 @@ SOURCES_CONTENT=$(cat <<EOF
 Types: deb
 URIs: https://repo.radeon.com/amdgpu/latest/ubuntu/ https://repo.radeon.com/rocm/apt/latest/
 Suites: noble
-Components: main proprietary
+Components: main
 Architectures: amd64
 Signed-By: /rocm.gpg
 EOF
