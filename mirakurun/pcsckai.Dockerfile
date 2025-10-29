@@ -1,3 +1,5 @@
+FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
+
 # Build stage
 FROM library/node:22.16.0-alpine3.21 AS build
 
@@ -8,7 +10,7 @@ ARG NODE_ENV=production
 # Copy mirakurun and libpcsckai
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
-COPY --from=chinachu/mirakurun:4.0.0-beta.15 /app/ /build/app/
+COPY --from=mirakurun /app/ /build/app/
 
 # Copy the startup script
 COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh

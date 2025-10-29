@@ -1,7 +1,9 @@
+FROM ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 AS avisynthplus
+
 # Build jls
 FROM library/ubuntu:20.04 AS build
 ARG DEBIAN_FRONTEND=noninteractive
-COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /usr/local/
+COPY --from=avisynthplus /usr/local/ /usr/local/
 RUN <<EOF bash -ex
 
   # Update
@@ -51,13 +53,17 @@ RUN <<EOF bash -ex
 
 EOF
 
+FROM library/node:18.20.8-bookworm-slim AS nodejs
+FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
+
+
 # Get nodejs and epgstation
 FROM scratch AS downloads
-COPY --from=ghcr.io/tobitti0/docker-avisynthplus:5.1-ubuntu2004 /usr/local/ /build/usr/local/
+COPY --from=avisynthplus /usr/local/ /build/usr/local/
 COPY --from=build /build/ /build/
-COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
-COPY --from=library/node:18.20.8-bookworm-slim /opt/ /build/opt/
-COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
+COPY --from=nodejs /usr/local/ /build/usr/local/
+COPY --from=nodejs /opt/ /build/opt/
+COPY --from=epgstation /app/ /build/app/
 
 
 # Final image

@@ -1,3 +1,5 @@
+FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
+
 # Final image
 FROM library/node:22.16.0-bookworm-slim
 
@@ -32,7 +34,7 @@ HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -fsSL http://localhost:40772/api/status || exit 1
 
 # Copy mirakurun
-COPY --from=chinachu/mirakurun:4.0.0-beta.15 /app/ /app/
+COPY --from=mirakurun /app/ /app/
 
 # Postinstall
 RUN <<EOF bash -ex

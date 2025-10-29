@@ -1,8 +1,12 @@
+FROM library/node:18.20.8-bookworm-slim AS nodejs
+FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
+FROM lscr.io/linuxserver/ffmpeg:7.1.1 AS ffmpeg
+
 # Get nodejs and epgstation
 FROM scratch AS downloads
-COPY --from=library/node:18.20.8-bookworm-slim /usr/local/ /build/usr/local/
-COPY --from=l3tnun/epgstation:v2.10.0-debian /app/ /build/app/
-COPY --from=lscr.io/linuxserver/ffmpeg:7.1.1 /usr/local/ /build/usr/local/
+COPY --from=nodejs /usr/local/ /build/usr/local/
+COPY --from=epgstation /app/ /build/app/
+COPY --from=ffmpeg /usr/local/ /build/usr/local/
 
 # Final image
 FROM nvidia/cuda:12.9.0-base-ubuntu24.04

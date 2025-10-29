@@ -1,3 +1,5 @@
+FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
+
 # Build stage
 FROM library/node:22.16.0-alpine3.21 AS build
 
@@ -7,7 +9,7 @@ ARG NODE_ENV=production
 
 # Copy mirakurun and the startup script
 COPY ./container-init-alpine.sh /build/usr/local/bin/container-init.sh
-COPY --from=chinachu/mirakurun:4.0.0-beta.15 /app/ /build/app/
+COPY --from=mirakurun /app/ /build/app/
 
 # Run the build script
 RUN <<EOF ash -ex
