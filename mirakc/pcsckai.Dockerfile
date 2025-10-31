@@ -1,5 +1,5 @@
 # Build stage
-FROM library/alpine:3.21.3 AS build
+FROM library/alpine:3.22.2 AS build
 
 # Copy libpcsckai
 COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
