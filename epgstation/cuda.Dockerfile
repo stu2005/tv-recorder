@@ -9,7 +9,7 @@ COPY --from=epgstation /app/ /build/app/
 COPY --from=ffmpeg /usr/local/ /build/usr/local/
 
 # Final image
-FROM nvidia/cuda:12.9.0-base-ubuntu24.04
+FROM nvidia/cuda:13.0.1-base-ubuntu24.04
 
 # Set the working directory
 WORKDIR /app/
