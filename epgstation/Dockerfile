@@ -54,18 +54,18 @@ RUN <<EOF bash -ex
         curl \
         ca-certificates
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash
-      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
+      #curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_vceencc.sh | bash      
       apt-get install -qy \
         --no-install-recommends --no-install-suggests \
           /qsvencc.deb \
-          /vceencc.deb \
+          #/vceencc.deb \
           i965-va-driver \
         --autoremove --purge \
           curl- \
           ca-certificates-
       qsvencc -v
-      vceencc -v
-      rm -rf /*.deb /rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
+      #vceencc -v
+      rm -rf /*.deb #/rocm.gpg /etc/apt/sources.list.d/amdgpu.sources
     fi
 
   # Test
