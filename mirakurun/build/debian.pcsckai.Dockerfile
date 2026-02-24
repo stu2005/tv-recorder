@@ -1,7 +1,7 @@
 FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
 
 # Build stage
-FROM library/rust:1.87.0-bookworm AS build
+FROM library/rust:1.93.1-bookworm AS build
 
 # Copy libpcsckai, mirakurun and the startup script
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
