@@ -11,9 +11,6 @@ COPY --from=mirakurun /app/ /build/app/
 # Run the build script
 RUN <<EOF bash -ex
 
-  # Set startup scrtipt permission
-    chmod +x /build/usr/local/bin/container-init.sh
-
   # Update packages
     apt-get update -q
     apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge  curl+ cmake+ git+ libclang-dev+ libdvbv5-dev+ libudev-dev+ pkg-config+ libpcsclite-dev+
