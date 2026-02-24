@@ -1,5 +1,5 @@
 # Build stage
-FROM library/rust:1.87.0-bookworm AS build
+FROM library/rust:1.93.1-bookworm AS build
 
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
