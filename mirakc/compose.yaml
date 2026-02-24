@@ -15,7 +15,7 @@ services:
       - ./config/config.yml:/etc/mirakc/config.yml:ro
     environment:
       TZ: Asia/Tokyo
-      RUST_LOG: info,mirakc=debug
+      RUST_LOG: info
     logging:
       driver: json-file
       options:
