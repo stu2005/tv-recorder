@@ -1,0 +1,105 @@
+services:
+  mirakc:
+    image: ghcr.io/stu2005/mirakc:pcsckai
+    container_name: mirakc
+    init: true
+    restart: unless-stopped
+    devices:
+      - /dev/px4video0
+      - /dev/px4video1
+      - /dev/px4video2
+      - /dev/px4video3
+      - /dev/pxm1urvideo0
+    ports:
+      - published: 40772
+        target: 40772
+    volumes:
+      - type: volume
+        source: mirakc
+        target: /var/lib/mirakc/epg
+      - type: bind
+        source: ./mirakc/config/config.yml
+        target: /etc/mirakc/config.yml
+        read_only: true
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+  mirakurun:
+    image: ghcr.io/stu2005/mirakurun:pcsckai
+    container_name: mirakurun
+    devices:
+      - /dev/px4video0
+      - /dev/px4video1
+      - /dev/px4video2
+      - /dev/px4video3
+      - /dev/pxm1urvideo0  
+    volumes:
+      - type: volume
+        source: mirakurun
+        target: /var/run/
+      - type: bind
+        source: ./mirakurun/config/
+        target: /app-config/
+      - type: volume
+        source: mirakurun
+        target: /app-data/
+    ports:
+      - published: 40772
+        target: 40772
+    cap_add:
+      - SYS_ADMIN
+      - SYS_NICE
+    device_cgroup_rules:
+      - 'c *:* rmw'
+    tmpfs:
+      - /tmp
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  edcb:
+    image: tsukumijima/edcb:latest
+    container_name: edcb
+    build:
+      context: ./edcb/
+    restart: always
+    network_mode: host
+    ports:
+      - published: 4510
+        target: 4510
+      - published: 5510
+        target: 5510
+      - published: 6510
+        target: 6510
+    privileged: true
+    volumes:
+      - type: bind
+        source: ./edcb/EDCB/
+        target: /EDCB/
+      - type: bind
+        source: /mnt/
+        target: /mnt/
+    depends_on:
+      mirakc:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+volumes:
+  mirakc:
+    name: mirakc
+    driver: local
+  mirakurun:
+    name: mirakurun
+    driver: local
