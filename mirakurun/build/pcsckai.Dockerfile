@@ -1,7 +1,7 @@
 FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
 
 # Build stage
-FROM library/node:22.16.0-alpine3.21 AS build
+FROM library/node:22.16.0-alpine3.22 AS build
 
 # Set environment variables in a build stage
 ARG DOCKER=YES
@@ -54,7 +54,7 @@ EOF
 
 
 # Final image
-FROM library/node:22.16.0-alpine3.21
+FROM library/node:22.16.0-alpine3.22
 
 # Set environment variables
 ENV DISABLE_PCSCD=1
