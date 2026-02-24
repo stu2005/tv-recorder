@@ -8,7 +8,7 @@ ARG DOCKER=YES
 ARG NODE_ENV=production
 
 # Copy mirakurun and the startup script
-COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
+COPY ./build/scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
 COPY --from=mirakurun /app/ /build/app/
 
 # Run the build script
