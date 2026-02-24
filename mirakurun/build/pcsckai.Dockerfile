@@ -13,7 +13,7 @@ COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
 COPY --from=mirakurun /app/ /build/app/
 
 # Copy the startup script
-COPY ./build/scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
+COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF ash -ex
