@@ -7,7 +7,6 @@ FROM library/rust:1.93.1-bookworm AS build
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /
 COPY --from=ghcr.io/stu2005/libpcsckai:debian / /build/
 COPY --from=mirakurun /app/ /build/app/
-COPY ./scripts/container-init-debian-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF bash -ex
