@@ -37,7 +37,7 @@ jobs:
       - name: Build and push isdb-scanner
         uses: docker/build-push-action@v6
         with:
-          context: ./isdb-scanner/
+          context: ./scan/isdb-scanner/build/
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/isdb-scanner:latest

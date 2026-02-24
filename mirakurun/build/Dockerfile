@@ -7,13 +7,9 @@ FROM library/node:22.16.0-alpine3.21 AS build
 ARG DOCKER=YES
 ARG NODE_ENV=production
 
-# Copy mirakurun and libpcsckai
-COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
-COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
+# Copy mirakurun and the startup script
+COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
 COPY --from=mirakurun /app/ /build/app/
-
-# Copy the startup script
-COPY ./container-init-alpine-pcsckai.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF ash -ex
@@ -25,14 +21,14 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install requires
-    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
+    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
 
   # Build libaribb25
     wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip > /dev/null
     cd /libaribb25-master/
-    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_PACKAGE=NO -DWITH_PCSC_LIBRARY=pcsckai
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local
     cd build
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc
@@ -44,7 +40,6 @@ RUN <<EOF ash -ex
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
-    mkdir -p /build/usr/local/bin/
     ./autogen.sh
     ./configure
     make -j$(nproc)
@@ -57,16 +52,8 @@ EOF
 FROM library/node:22.16.0-alpine3.21
 
 # Set environment variables
-ENV SERVER_CONFIG_PATH=/app-config/server.yml 
-ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 
-ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml 
-ENV SERVICES_DB_PATH=/app-data/services.json 
-ENV PROGRAMS_DB_PATH=/app-data/programs.json 
-ENV LOGO_DATA_DIR_PATH=/app-data/logo-data 
-ENV PATH=/opt/bin:$PATH 
-ENV DOCKER=YES 
-ENV INIT_PID=$$ 
-ENV MALLOC_ARENA_MAX=2 
+ENV DISABLE_PCSCD=0
+ENV DISABLE_B25_TEST=1
 ENV TZ=Asia/Tokyo
 
 # Set the working directory
@@ -90,15 +77,14 @@ COPY --from=build /build/ /
 
 # Postinstall
 RUN <<EOF ash -ex
-
+  
   # Update
     apk upgrade -qU --no-cache
 
   # Install
-    apk add -qU --no-cache curl
+    apk add -qU --no-cache bash curl pcsc-lite-libs pcsc-lite ccid pcsc-tools
 
   # Test
-    curl --version
     b25 || true
     recpt1 -v
 

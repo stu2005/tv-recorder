@@ -45,7 +45,7 @@ jobs:
       - name: Build and push Mirakurun
         uses: docker/build-push-action@v6
         with:
-          context: ./mirakurun/
+          context: ./mirakurun/build/
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/mirakurun:latest
@@ -53,8 +53,8 @@ jobs:
       - name: Build and push Mirakurun(PCSCkai)
         uses: docker/build-push-action@v6
         with:
-          context: ./mirakurun/
-          file: ./mirakurun/pcsckai.Dockerfile
+          context: ./mirakurun/build/
+          file: ./mirakurun/build/pcsckai.Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/mirakurun:pcsckai
@@ -62,8 +62,8 @@ jobs:
       - name: Build and push Mirakurun(Debian)
         uses: docker/build-push-action@v6
         with:
-          context: ./mirakurun/
-          file: ./mirakurun/debian.Dockerfile
+          context: ./mirakurun/build/
+          file: ./mirakurun/build/debian.Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/mirakurun:debian
@@ -71,8 +71,8 @@ jobs:
       - name: Build and push Mirakurun(Debian*PCSCkai)
         uses: docker/build-push-action@v6
         with:
-          context: ./mirakurun/
-          file: ./mirakurun/debian.pcsckai.Dockerfile
+          context: ./mirakurun/build/
+          file: ./mirakurun/build/debian.pcsckai.Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/mirakurun:debian_pcsckai

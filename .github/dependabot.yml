@@ -5,11 +5,10 @@ updates:
 
   - package-ecosystem: "docker"
     directories:
-      - "/tvchannels-scan/"
-      - "/mirakc/"
-      - "/mirakurun/"
-      - "/epgstation/"
-      - "/isdb-scanner/"
+      - "/scan/tvchannels-scan/build/"
+      - "/mirakc/build/"
+      - "/mirakurun/build/"
+      - "/scan/isdb-scanner/build/"
     schedule:
       interval: "daily"
     ignore:
@@ -22,7 +21,10 @@ updates:
 
       
   - package-ecosystem: "docker-compose"
-    directory: "/"
+    directories:
+      - "/scan/"
+      - "/mirakc/"
+      - "/mirakurun/"
     schedule:
       interval: "daily"
 

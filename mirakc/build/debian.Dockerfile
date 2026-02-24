@@ -20,11 +20,11 @@ HEALTHCHECK --interval=10s --timeout=3s \
 RUN <<EOF bash -ex
   
   # Download startup script
-    curl -Lso/usr/local/bin/container-init.sh https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/container-init.sh
+    curl -Lso/usr/local/bin/container-init.sh https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/build/scripts/container-init.sh
     chmod +x /usr/local/bin/container-init.sh
 
   # Update and install
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/get_recisdb.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/mirakc/build/scripts/get_recisdb.sh | bash
     apt-get update -q
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests
     apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb libpcsclite1 pcscd libccid 

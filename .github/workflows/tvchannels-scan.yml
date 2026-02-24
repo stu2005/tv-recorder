@@ -37,7 +37,7 @@ jobs:
       - name: Build and push tvchannels-scan
         uses: docker/build-push-action@v6
         with:
-          context: ./tvchannels-scan/
+          context: ./scan/tvchannels-scan/build/
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/stu2005/tvchannels-scan:latest

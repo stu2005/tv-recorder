@@ -1,0 +1,29 @@
+services:
+  mirakc:
+    image: ghcr.io/stu2005/mirakc:pcsckai
+    container_name: mirakc
+    init: true
+    restart: unless-stopped
+    devices:
+      - /dev/px4video0
+      - /dev/px4video1
+      - /dev/px4video2
+      - /dev/px4video3
+    network_mode: host
+    volumes:
+      - mirakc-epg:/var/lib/mirakc/epg
+      - ./config/config.yml:/etc/mirakc/config.yml:ro
+    environment:
+      TZ: Asia/Tokyo
+      RUST_LOG: info,mirakc=debug
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+volumes:
+  mirakc-epg:
+    name: mirakc_epg
+    driver: local

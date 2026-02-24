@@ -8,9 +8,9 @@ RUN <<EOF bash -ex
 
   # Install
     apt-get install -qy --no-install-recommends --no-install-suggests jq
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/isdb-scanner/get_recisdb.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/scan/isdb-scanner/build/scripts/get_recisdb.sh | bash
     apt-get install -qy --no-install-recommends --no-install-suggests /recisdb.deb
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/isdb-scanner/get_isdbscanner.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/scan/isdb-scanner/build/scripts/get_isdbscanner.sh | bash
 
   # Test
     recisdb -V

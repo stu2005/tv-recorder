@@ -1,20 +1,13 @@
-FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
-
 # Build stage
-FROM library/node:22.16.0-alpine3.21 AS build
+FROM library/alpine:3.23.3 AS build
 
-# Set environment variables in a build stage
-ARG DOCKER=YES
-ARG NODE_ENV=production
-
-# Copy mirakurun and the startup script
-COPY ./container-init-alpine.sh /build/usr/local/bin/container-init.sh
-COPY --from=mirakurun /app/ /build/app/
+# Copy the startup script
+COPY ./scripts/container-init.sh /build/usr/local/bin/
 
 # Run the build script
 RUN <<EOF ash -ex
 
-  # Set startup scrtipt permission
+  # Set startup script permission
     chmod +x /build/usr/local/bin/container-init.sh
 
   # Update packages
@@ -26,7 +19,7 @@ RUN <<EOF ash -ex
   # Build libaribb25
     wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
-    unzip -qq ./libaribb25-master.zip > /dev/null
+    unzip -qq ./libaribb25-master.zip
     cd /libaribb25-master/
     cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local
     cd build
@@ -49,29 +42,14 @@ EOF
 
 
 # Final image
-FROM library/node:22.16.0-alpine3.21
+FROM mirakc/mirakc:3.4.57-alpine
 
 # Set environment variables
-ENV SERVER_CONFIG_PATH=/app-config/server.yml 
-ENV TUNERS_CONFIG_PATH=/app-config/tuners.yml 
-ENV CHANNELS_CONFIG_PATH=/app-config/channels.yml 
-ENV SERVICES_DB_PATH=/app-data/services.json 
-ENV PROGRAMS_DB_PATH=/app-data/programs.json 
-ENV LOGO_DATA_DIR_PATH=/app-data/logo-data 
-ENV PATH=/opt/bin:$PATH 
-ENV DOCKER=YES 
-ENV INIT_PID=$$ 
-ENV MALLOC_ARENA_MAX=2 
-ENV TZ=Asia/Tokyo
-
-# Set the working directory
-WORKDIR /app/
+ENV TZ=Asia/Tokyo 
+ENV RUST_LOG=info
 
 # Directories that need to be mounted to run
-VOLUME /var/run/ /opt/ /app-config/ /app-data/
-
-# Open port
-EXPOSE 40772
+VOLUME /var/lib/mirakc/epg/
 
 # Set a command to be executed at startup
 CMD ["container-init.sh"]
@@ -90,8 +68,14 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install
-    apk add -qU --no-cache curl pcsc-lite-libs pcsc-lite ccid
+    apk add -qU --no-cache pcsc-lite-libs pcsc-lite ccid
 
+  # Miraview
+    curl -Lso/miraview.tar.gz https://github.com/maeda577/miraview/releases/download/v0.1.2/build.tar.gz
+    mkdir -p /var/www/miraview
+    tar -zx -C/var/www/miraview/ -f/miraview.tar.gz
+    rm -rf /miraview.tar.gz
+  
   # Test
     b25 || true
     recpt1 -v
