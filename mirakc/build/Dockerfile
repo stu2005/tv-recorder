@@ -68,7 +68,7 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install
-    apk add -qU --no-cache pcsc-lite-libs pcsc-lite ccid
+    apk add -qU --no-cache pcsc-lite-libs pcsc-lite ccid libstdc++ libgcc
 
   # Miraview
     curl -Lso/miraview.tar.gz https://github.com/maeda577/miraview/releases/download/v0.1.2/build.tar.gz

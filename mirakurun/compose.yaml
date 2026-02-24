@@ -6,10 +6,11 @@ services:
       - /dev/px4video0
       - /dev/px4video1
       - /dev/px4video2
-      - /dev/px4video3    
+      - /dev/px4video3
+      - /dev/pxm1urvideo0  
     volumes:
       - mirakurun:/var/run/
-      - ./mirakurun/config/:/app-config/
+      - ./config/:/app-config/
       - mirakurun:/app-data/
     network_mode: host
     cap_add:

@@ -9,7 +9,9 @@ services:
       - /dev/px4video1
       - /dev/px4video2
       - /dev/px4video3
-    network_mode: host
+      - /dev/pxm1urvideo0
+    ports:
+      - 40772:40772
     volumes:
       - mirakc-epg:/var/lib/mirakc/epg
       - ./config/config.yml:/etc/mirakc/config.yml:ro

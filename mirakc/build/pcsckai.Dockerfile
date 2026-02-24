@@ -63,7 +63,10 @@ RUN <<EOF ash -ex
   # Update
     apk upgrade -qU --no-cache
 
-  # Miraview
+  # Install
+    apk add -qU --no-cache libstdc++ libgcc
+
+    # Miraview
     curl -Lso/miraview.tar.gz https://github.com/maeda577/miraview/releases/download/v0.1.2/build.tar.gz
     mkdir -p /var/www/miraview
     tar -zx -C/var/www/miraview/ -f/miraview.tar.gz
