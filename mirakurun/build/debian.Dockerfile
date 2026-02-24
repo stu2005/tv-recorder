@@ -1,7 +1,7 @@
 FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
 
 # Final image
-FROM library/node:22.16.0-bookworm-slim
+FROM library/node:22.22.0-bookworm-slim
 
 # Set environment variables
 ENV TZ=Asia/Tokyo

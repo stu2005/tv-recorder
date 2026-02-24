@@ -33,7 +33,7 @@ EOF
 
 
 # Final image
-FROM library/node:22.16.0-bookworm-slim
+FROM library/node:22.22.0-bookworm-slim
 
 # Set environment variables
 ENV TZ=Asia/Tokyo
