@@ -1,6 +1,6 @@
 services:
   mirakc:
-    image: ghcr.io/stu2005/mirakc:pcsckai
+    image: ghcr.io/stu2005/mirakc:latest
     container_name: mirakc
     init: true
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
         max-size: "5m"
         compress: "true"
   mirakurun:
-    image: ghcr.io/stu2005/mirakurun:pcsckai
+    image: ghcr.io/stu2005/mirakurun:latest
     container_name: mirakurun
     devices:
       - /dev/px4video0
@@ -65,12 +65,9 @@ services:
         compress: "true"
 
   edcb:
-    image: tsukumijima/edcb:latest
+    image: ghcr.io/stu2005/edcb:latest
     container_name: edcb
-    build:
-      context: ./edcb/
     restart: always
-    network_mode: host
     ports:
       - published: 4510
         target: 4510
@@ -95,6 +92,57 @@ services:
         max-file: "2"
         max-size: "5m"
         compress: "true"
+
+  tvchannels-scan:
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+    init: true
+    restart: "no"
+    network_mode: "none"
+    devices:
+      - "/dev/px4video0:/dev/px4video0"
+      - "/dev/px4video2:/dev/px4video2"
+    container_name: tvchannels-scan
+    image: ghcr.io/stu2005/tvchannels-scan:latest
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./scan/tvchannels-scan/
+        target: /opt/tvchannels-scan/
+
+  isdb-scanner:
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+    init: true
+    restart: "no"
+    network_mode: "none"
+    devices:
+      - "/dev/px4video0:/dev/px4video0"
+      - "/dev/px4video1:/dev/px4video1"
+      - "/dev/px4video2:/dev/px4video2"
+      - "/dev/px4video3:/dev/px4video3"
+      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
+    container_name: isdb-scanner 
+    image: ghcr.io/stu2005/isdb-scanner:latest
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: ./scan/isdb-scanner/
+        target: /app/scanned/
 
 volumes:
   mirakc:

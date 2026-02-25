@@ -7,9 +7,13 @@ FROM library/node:22.22.0-alpine3.22 AS build
 ARG DOCKER=YES
 ARG NODE_ENV=production
 
-# Copy mirakurun and the startup script
-COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
+# Copy mirakurun and libpcsckai
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /
+COPY --from=ghcr.io/stu2005/libpcsckai:latest / /build/
 COPY --from=mirakurun /app/ /build/app/
+
+# Copy the startup script
+COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
 
 # Run the build script
 RUN <<EOF ash -ex
@@ -21,14 +25,14 @@ RUN <<EOF ash -ex
     apk upgrade -qU --no-cache
 
   # Install requires
-    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai pcsc-lite-dev autoconf automake linux-headers
+    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
 
   # Build libaribb25
     wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip > /dev/null
     cd /libaribb25-master/
-    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local
+    cmake -GNinja -Bbuild -DCMAKE_INSTALL_PREFIX=/build/usr/local -DWITH_PCSC_PACKAGE=NO -DWITH_PCSC_LIBRARY=pcsckai
     cd build
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb25.pc
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc
@@ -40,6 +44,7 @@ RUN <<EOF ash -ex
     cd /
     unzip -qq ./recpt1.zip
     cd /recpt1-feature-px4/recpt1/
+    mkdir -p /build/usr/local/bin/
     ./autogen.sh
     ./configure
     make -j$(nproc)
@@ -52,7 +57,7 @@ EOF
 FROM library/node:22.22.0-alpine3.22
 
 # Set environment variables
-ENV DISABLE_PCSCD=0
+ENV DISABLE_PCSCD=1
 ENV DISABLE_B25_TEST=1
 ENV TZ=Asia/Tokyo
 
@@ -77,14 +82,15 @@ COPY --from=build /build/ /
 
 # Postinstall
 RUN <<EOF ash -ex
-  
+
   # Update
     apk upgrade -qU --no-cache
 
   # Install
-    apk add -qU --no-cache bash curl pcsc-lite-libs pcsc-lite ccid pcsc-tools
+    apk add -qU --no-cache curl bash
 
   # Test
+    curl --version
     b25 || true
     recpt1 -v
 
