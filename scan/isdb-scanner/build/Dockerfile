@@ -4,7 +4,7 @@ RUN <<EOF bash -ex
 
   # Update
     apt-get update
-    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests --autoremove --purge libusb-1.0-0+
 
   # Install
     apt-get install -qy --no-install-recommends --no-install-suggests jq
