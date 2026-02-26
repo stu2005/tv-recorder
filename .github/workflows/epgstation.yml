@@ -1,4 +1,4 @@
-name: mirakc
+name: epgstation
 
 
 on:
@@ -7,7 +7,7 @@ on:
     branches:
       - "main"
     paths:
-      - 'mirakc/**'  
+      - 'epgstation/**'  
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '29 16 * * *'
@@ -28,10 +28,6 @@ jobs:
             [registry."docker.io"]
               mirrors = ["registry-1.docker.io", "mirror.gcr.io", "public.ecr.aws/docker"]
 
-      - name: Prune build cache
-        run: |
-          docker buildx prune --all --force --verbose
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -43,10 +39,10 @@ jobs:
         run: |
           docker buildx prune --all --force --verbose
 
-      - name: Build and push mirakc
+      - name: Build and push Mirakurun
         uses: docker/build-push-action@v6
         with:
-          context: ./mirakc/build/
+          context: ./epgstation/build/
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/stu2005/mirakc:latest
+          tags: ghcr.io/stu2005/epgstation:latest

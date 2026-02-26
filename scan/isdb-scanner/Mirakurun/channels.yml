@@ -1,0 +1,190 @@
+  - name: BS01/TS0
+    type: BS
+    channel: BS01_0
+    satellite: ' --tsid 16400 '
+    isDisabled: false
+  - name: BS01/TS1
+    type: BS
+    channel: BS01_1
+    satellite: ' --tsid 16401 '
+    isDisabled: false
+  - name: BS01/TS2
+    type: BS
+    channel: BS01_2
+    satellite: ' --tsid 16402 '
+    isDisabled: false
+  - name: BS03/TS0
+    type: BS
+    channel: BS03_0
+    satellite: ' --tsid 16432 '
+    isDisabled: false
+  - name: BS03/TS1
+    type: BS
+    channel: BS03_1
+    satellite: ' --tsid 17969 '
+    isDisabled: false
+  - name: BS03/TS2
+    type: BS
+    channel: BS03_2
+    satellite: ' --tsid 17970 '
+    isDisabled: false
+  - name: BS05/TS0
+    type: BS
+    channel: BS05_0
+    satellite: ' --tsid 17488 '
+    isDisabled: false
+  - name: BS05/TS1
+    type: BS
+    channel: BS05_1
+    satellite: ' --tsid 17489 '
+    isDisabled: false
+  - name: BS09/TS0
+    type: BS
+    channel: BS09_0
+    satellite: ' --tsid 16528 '
+    isDisabled: false
+  - name: BS09/TS1
+    type: BS
+    channel: BS09_1
+    satellite: ' --tsid 16530 '
+    isDisabled: false
+  - name: BS13/TS0
+    type: BS
+    channel: BS13_0
+    satellite: ' --tsid 16592 '
+    isDisabled: false
+  - name: BS13/TS1
+    type: BS
+    channel: BS13_1
+    satellite: ' --tsid 16593 '
+    isDisabled: false
+  - name: BS13/TS2
+    type: BS
+    channel: BS13_2
+    satellite: ' --tsid 18130 '
+    isDisabled: false
+  - name: BS15/TS0
+    type: BS
+    channel: BS15_0
+    satellite: ' --tsid 16625 '
+    isDisabled: false
+  - name: BS15/TS1
+    type: BS
+    channel: BS15_1
+    satellite: ' --tsid 16626 '
+    isDisabled: false
+  - name: BS15/TS2
+    type: BS
+    channel: BS15_2
+    satellite: ' --tsid 18675 '
+    isDisabled: false
+  - name: BS19/TS0
+    type: BS
+    channel: BS19_0
+    satellite: ' --tsid 18224 '
+    isDisabled: false
+  - name: BS19/TS1
+    type: BS
+    channel: BS19_1
+    satellite: ' --tsid 18225 '
+    isDisabled: false
+  - name: BS19/TS2
+    type: BS
+    channel: BS19_2
+    satellite: ' --tsid 18226 '
+    isDisabled: false
+  - name: BS19/TS3
+    type: BS
+    channel: BS19_3
+    satellite: ' --tsid 18227 '
+    isDisabled: false
+  - name: BS21/TS0
+    type: BS
+    channel: BS21_0
+    satellite: ' --tsid 18256 '
+    isDisabled: false
+  - name: BS21/TS1
+    type: BS
+    channel: BS21_1
+    satellite: ' --tsid 18257 '
+    isDisabled: false
+  - name: BS21/TS2
+    type: BS
+    channel: BS21_2
+    satellite: ' --tsid 18258 '
+    isDisabled: false
+  - name: BS23/TS0
+    type: BS
+    channel: BS23_0
+    satellite: ' --tsid 18288 '
+    isDisabled: false
+  - name: BS23/TS1
+    type: BS
+    channel: BS23_1
+    satellite: ' --tsid 18801 '
+    isDisabled: false
+  - name: BS23/TS2
+    type: BS
+    channel: BS23_2
+    satellite: ' --tsid 18803 '
+    isDisabled: false
+  - name: ND02
+    type: CS
+    channel: CS02
+    satellite: ' '
+    isDisabled: false
+  - name: ND04
+    type: CS
+    channel: CS04
+    satellite: ' '
+    isDisabled: false
+  - name: ND06
+    type: CS
+    channel: CS06
+    satellite: ' '
+    isDisabled: false
+  - name: ND08
+    type: CS
+    channel: CS08
+    satellite: ' '
+    isDisabled: false
+  - name: ND10
+    type: CS
+    channel: CS10
+    satellite: ' '
+    isDisabled: false
+  - name: ND12
+    type: CS
+    channel: CS12
+    satellite: ' '
+    isDisabled: false
+  - name: ND14
+    type: CS
+    channel: CS14
+    satellite: ' '
+    isDisabled: false
+  - name: ND16
+    type: CS
+    channel: CS16
+    satellite: ' '
+    isDisabled: false
+  - name: ND18
+    type: CS
+    channel: CS18
+    satellite: ' '
+    isDisabled: false
+  - name: ND20
+    type: CS
+    channel: CS20
+    satellite: ' '
+    isDisabled: false
+  - name: ND22
+    type: CS
+    channel: CS22
+    satellite: ' '
+    isDisabled: false
+  - name: ND24
+    type: CS
+    channel: CS24
+    satellite: ' '
+    isDisabled: false

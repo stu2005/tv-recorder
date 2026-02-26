@@ -1,0 +1,190 @@
+  - name: BS01/TS0
+    type: BS
+    channel: BS01_0
+    satellite: ''
+    isDisabled: false
+  - name: BS01/TS1
+    type: BS
+    channel: BS01_1
+    satellite: ''
+    isDisabled: false
+  - name: BS01/TS2
+    type: BS
+    channel: BS01_2
+    satellite: ''
+    isDisabled: false
+  - name: BS03/TS0
+    type: BS
+    channel: BS03_0
+    satellite: ''
+    isDisabled: false
+  - name: BS03/TS1
+    type: BS
+    channel: BS03_1
+    satellite: ''
+    isDisabled: false
+  - name: BS03/TS2
+    type: BS
+    channel: BS03_2
+    satellite: ''
+    isDisabled: false
+  - name: BS05/TS0
+    type: BS
+    channel: BS05_0
+    satellite: ''
+    isDisabled: false
+  - name: BS05/TS1
+    type: BS
+    channel: BS05_1
+    satellite: ''
+    isDisabled: false
+  - name: BS09/TS0
+    type: BS
+    channel: BS09_0
+    satellite: ''
+    isDisabled: false
+  - name: BS09/TS1
+    type: BS
+    channel: BS09_1
+    satellite: ''
+    isDisabled: false
+  - name: BS13/TS0
+    type: BS
+    channel: BS13_0
+    satellite: ''
+    isDisabled: false
+  - name: BS13/TS1
+    type: BS
+    channel: BS13_1
+    satellite: ''
+    isDisabled: false
+  - name: BS13/TS2
+    type: BS
+    channel: BS13_2
+    satellite: ''
+    isDisabled: false
+  - name: BS15/TS0
+    type: BS
+    channel: BS15_0
+    satellite: ''
+    isDisabled: false
+  - name: BS15/TS1
+    type: BS
+    channel: BS15_1
+    satellite: ''
+    isDisabled: false
+  - name: BS15/TS2
+    type: BS
+    channel: BS15_2
+    satellite: ''
+    isDisabled: false
+  - name: BS19/TS0
+    type: BS
+    channel: BS19_0
+    satellite: ''
+    isDisabled: false
+  - name: BS19/TS1
+    type: BS
+    channel: BS19_1
+    satellite: ''
+    isDisabled: false
+  - name: BS19/TS2
+    type: BS
+    channel: BS19_2
+    satellite: ''
+    isDisabled: false
+  - name: BS19/TS3
+    type: BS
+    channel: BS19_3
+    satellite: ''
+    isDisabled: false
+  - name: BS21/TS0
+    type: BS
+    channel: BS21_0
+    satellite: ''
+    isDisabled: false
+  - name: BS21/TS1
+    type: BS
+    channel: BS21_1
+    satellite: ''
+    isDisabled: false
+  - name: BS21/TS2
+    type: BS
+    channel: BS21_2
+    satellite: ''
+    isDisabled: false
+  - name: BS23/TS0
+    type: BS
+    channel: BS23_0
+    satellite: ''
+    isDisabled: false
+  - name: BS23/TS1
+    type: BS
+    channel: BS23_1
+    satellite: ''
+    isDisabled: false
+  - name: BS23/TS2
+    type: BS
+    channel: BS23_2
+    satellite: ''
+    isDisabled: false
+  - name: ND02
+    type: CS
+    channel: CS2
+    satellite: ''
+    isDisabled: false
+  - name: ND04
+    type: CS
+    channel: CS4
+    satellite: ''
+    isDisabled: false
+  - name: ND06
+    type: CS
+    channel: CS6
+    satellite: ''
+    isDisabled: false
+  - name: ND08
+    type: CS
+    channel: CS8
+    satellite: ''
+    isDisabled: false
+  - name: ND10
+    type: CS
+    channel: CS10
+    satellite: ''
+    isDisabled: false
+  - name: ND12
+    type: CS
+    channel: CS12
+    satellite: ''
+    isDisabled: false
+  - name: ND14
+    type: CS
+    channel: CS14
+    satellite: ''
+    isDisabled: false
+  - name: ND16
+    type: CS
+    channel: CS16
+    satellite: ''
+    isDisabled: false
+  - name: ND18
+    type: CS
+    channel: CS18
+    satellite: ''
+    isDisabled: false
+  - name: ND20
+    type: CS
+    channel: CS20
+    satellite: ''
+    isDisabled: false
+  - name: ND22
+    type: CS
+    channel: CS22
+    satellite: ''
+    isDisabled: false
+  - name: ND24
+    type: CS
+    channel: CS24
+    satellite: ''
+    isDisabled: false

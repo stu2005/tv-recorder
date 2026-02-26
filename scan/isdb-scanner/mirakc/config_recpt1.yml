@@ -1,0 +1,229 @@
+server:
+  addrs:
+    - http: 0.0.0.0:40772
+epg:
+  cache-dir: /var/lib/mirakc/epg
+channels:
+  - name: BS01/TS0
+    type: BS
+    channel: BS01_0
+    extra-args: ''
+    disabled: false
+  - name: BS01/TS1
+    type: BS
+    channel: BS01_1
+    extra-args: ''
+    disabled: false
+  - name: BS01/TS2
+    type: BS
+    channel: BS01_2
+    extra-args: ''
+    disabled: false
+  - name: BS03/TS0
+    type: BS
+    channel: BS03_0
+    extra-args: ''
+    disabled: false
+  - name: BS03/TS1
+    type: BS
+    channel: BS03_1
+    extra-args: ''
+    disabled: false
+  - name: BS03/TS2
+    type: BS
+    channel: BS03_2
+    extra-args: ''
+    disabled: false
+  - name: BS05/TS0
+    type: BS
+    channel: BS05_0
+    extra-args: ''
+    disabled: false
+  - name: BS05/TS1
+    type: BS
+    channel: BS05_1
+    extra-args: ''
+    disabled: false
+  - name: BS09/TS0
+    type: BS
+    channel: BS09_0
+    extra-args: ''
+    disabled: false
+  - name: BS09/TS1
+    type: BS
+    channel: BS09_1
+    extra-args: ''
+    disabled: false
+  - name: BS13/TS0
+    type: BS
+    channel: BS13_0
+    extra-args: ''
+    disabled: false
+  - name: BS13/TS1
+    type: BS
+    channel: BS13_1
+    extra-args: ''
+    disabled: false
+  - name: BS13/TS2
+    type: BS
+    channel: BS13_2
+    extra-args: ''
+    disabled: false
+  - name: BS15/TS0
+    type: BS
+    channel: BS15_0
+    extra-args: ''
+    disabled: false
+  - name: BS15/TS1
+    type: BS
+    channel: BS15_1
+    extra-args: ''
+    disabled: false
+  - name: BS15/TS2
+    type: BS
+    channel: BS15_2
+    extra-args: ''
+    disabled: false
+  - name: BS19/TS0
+    type: BS
+    channel: BS19_0
+    extra-args: ''
+    disabled: false
+  - name: BS19/TS1
+    type: BS
+    channel: BS19_1
+    extra-args: ''
+    disabled: false
+  - name: BS19/TS2
+    type: BS
+    channel: BS19_2
+    extra-args: ''
+    disabled: false
+  - name: BS19/TS3
+    type: BS
+    channel: BS19_3
+    extra-args: ''
+    disabled: false
+  - name: BS21/TS0
+    type: BS
+    channel: BS21_0
+    extra-args: ''
+    disabled: false
+  - name: BS21/TS1
+    type: BS
+    channel: BS21_1
+    extra-args: ''
+    disabled: false
+  - name: BS21/TS2
+    type: BS
+    channel: BS21_2
+    extra-args: ''
+    disabled: false
+  - name: BS23/TS0
+    type: BS
+    channel: BS23_0
+    extra-args: ''
+    disabled: false
+  - name: BS23/TS1
+    type: BS
+    channel: BS23_1
+    extra-args: ''
+    disabled: false
+  - name: BS23/TS2
+    type: BS
+    channel: BS23_2
+    extra-args: ''
+    disabled: false
+  - name: ND02
+    type: CS
+    channel: CS2
+    extra-args: ''
+    disabled: false
+  - name: ND04
+    type: CS
+    channel: CS4
+    extra-args: ''
+    disabled: false
+  - name: ND06
+    type: CS
+    channel: CS6
+    extra-args: ''
+    disabled: false
+  - name: ND08
+    type: CS
+    channel: CS8
+    extra-args: ''
+    disabled: false
+  - name: ND10
+    type: CS
+    channel: CS10
+    extra-args: ''
+    disabled: false
+  - name: ND12
+    type: CS
+    channel: CS12
+    extra-args: ''
+    disabled: false
+  - name: ND14
+    type: CS
+    channel: CS14
+    extra-args: ''
+    disabled: false
+  - name: ND16
+    type: CS
+    channel: CS16
+    extra-args: ''
+    disabled: false
+  - name: ND18
+    type: CS
+    channel: CS18
+    extra-args: ''
+    disabled: false
+  - name: ND20
+    type: CS
+    channel: CS20
+    extra-args: ''
+    disabled: false
+  - name: ND22
+    type: CS
+    channel: CS22
+    extra-args: ''
+    disabled: false
+  - name: ND24
+    type: CS
+    channel: CS24
+    extra-args: ''
+    disabled: false
+tuners:
+  - name: 'PLEX PX-W3PE5 (Terrestrial) #1'
+    types:
+      - GR
+    command: recpt1 --device /dev/px4video2 {{{channel}}} - -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Terrestrial) #2'
+    types:
+      - GR
+    command: recpt1 --device /dev/px4video3 {{{channel}}} - -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Satellite) #1'
+    types:
+      - BS
+      - CS
+    command: recpt1 --device /dev/px4video0 {{{channel}}} - -
+    disabled: false
+  - name: 'PLEX PX-W3PE5 (Satellite) #2'
+    types:
+      - BS
+      - CS
+    command: recpt1 --device /dev/px4video1 {{{channel}}} - -
+    disabled: false
+  - name: 'PLEX PX-M1UR #1'
+    types:
+      - GR
+      - BS
+      - CS
+    command: recpt1 --device /dev/pxm1urvideo0 {{{channel}}} - -
+    disabled: false
+filters:
+  decode-filter:
+    command: arib-b25-stream-test

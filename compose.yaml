@@ -1,32 +1,4 @@
 services:
-  mirakc:
-    image: ghcr.io/stu2005/mirakc:latest
-    container_name: mirakc
-    init: true
-    restart: unless-stopped
-    devices:
-      - /dev/px4video0
-      - /dev/px4video1
-      - /dev/px4video2
-      - /dev/px4video3
-      - /dev/pxm1urvideo0
-    ports:
-      - published: 40772
-        target: 40772
-    volumes:
-      - type: volume
-        source: mirakc
-        target: /var/lib/mirakc/epg
-      - type: bind
-        source: ./mirakc/config/config.yml
-        target: /etc/mirakc/config.yml
-        read_only: true
-    logging:
-      driver: json-file
-      options:
-        max-file: "2"
-        max-size: "5m"
-        compress: "true"
   mirakurun:
     image: ghcr.io/stu2005/mirakurun:latest
     container_name: mirakurun
@@ -64,28 +36,60 @@ services:
         max-size: "5m"
         compress: "true"
 
-  edcb:
-    image: ghcr.io/stu2005/edcb:latest
-    container_name: edcb
+  mariadb:
+    image: library/mariadb:latest
+    container_name: mariadb
+    volumes:
+      - type: volume
+        source: mariadb
+        target: /var/lib/mysql
+    environment:
+      MYSQL_USER: epgstation
+      MYSQL_PASSWORD: epgstation
+      MYSQL_ROOT_PASSWORD: epgstation
+      MYSQL_DATABASE: epgstation
+      TZ: "Asia/Tokyo"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --expire_logs_days=1 # for mariadb
     restart: always
-    ports:
-      - published: 4510
-        target: 4510
-      - published: 5510
-        target: 5510
-      - published: 6510
-        target: 6510
-    privileged: true
+    logging:
+      driver: json-file
+      options:
+        max-file: "2"
+        max-size: "5m"
+        compress: "true"
+
+  epgstation:
+    image: ghcr.io/stu2005/epgstation:latest
+    container_name: epgstation
     volumes:
       - type: bind
-        source: ./edcb/EDCB/
-        target: /EDCB/
+        source: ./epgstation/config/
+        target: /app/config/
+      - type: volume
+        source: epgstation
+        target: /app/data/
+      - type: volume
+        source: epgstation
+        target: /app/thumbnail/
+      - type: volume
+        source: epgstation
+        target: /app/logs/
       - type: bind
-        source: /mnt/
-        target: /mnt/
+        source: /mnt/hdd/recorded/
+        target: /app/recorded/
+    environment:
+      TZ: "Asia/Tokyo"
     depends_on:
-      mirakc:
-        condition: service_healthy
+      - mirakurun
+      - mariadb
+    ports:
+      - published: 8888
+        target: 8888
+      - published: 8889
+        target: 8889
+    devices:
+      - /dev/dri:/dev/dri
+    restart: always
     logging:
       driver: json-file
       options:
@@ -145,9 +149,6 @@ services:
         target: /app/scanned/
 
 volumes:
-  mirakc:
-    name: mirakc
-    driver: local
   mirakurun:
     name: mirakurun
     driver: local
