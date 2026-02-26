@@ -66,7 +66,7 @@ stream:
                 - name: 1080p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
@@ -76,7 +76,7 @@ stream:
                 - name: 720p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
@@ -86,7 +86,7 @@ stream:
                 - name: 480p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
@@ -98,7 +98,7 @@ stream:
                 - name: 1080p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
@@ -108,7 +108,7 @@ stream:
                 - name: 720p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
@@ -118,7 +118,7 @@ stream:
                 - name: 480p
                   cmd:
                       '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
-                      --audio-stream FR,FL 
+                      --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
                       --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc

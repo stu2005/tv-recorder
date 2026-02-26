@@ -84,8 +84,10 @@ services:
         source: /mnt/hdd/recorded/
         target: /app/recorded/
     depends_on:
-      - mirakurun
-      - mariadb
+      mirakurun:
+         condition: service_healthy
+      mariadb:
+         condition: service_healthy
     ports:
       - published: 8888
         target: 8888
@@ -158,4 +160,7 @@ volumes:
     driver: local
   mariadb:
     name: mariadb
+    driver: local  
+  epgstation:
+    name: epgstation
     driver: local  
