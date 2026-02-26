@@ -49,7 +49,7 @@ services:
       MYSQL_ROOT_PASSWORD: epgstation
       MYSQL_DATABASE: epgstation
       TZ: "Asia/Tokyo"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --expire_logs_days=1 # for mariadb
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --binlog-expire-logs-seconds=86400
     restart: always
     logging:
       driver: json-file
@@ -57,6 +57,12 @@ services:
         max-file: "2"
         max-size: "5m"
         compress: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   epgstation:
     image: ghcr.io/stu2005/epgstation:latest
@@ -77,8 +83,6 @@ services:
       - type: bind
         source: /mnt/hdd/recorded/
         target: /app/recorded/
-    environment:
-      TZ: "Asia/Tokyo"
     depends_on:
       - mirakurun
       - mariadb
@@ -152,3 +156,6 @@ volumes:
   mirakurun:
     name: mirakurun
     driver: local
+  mariadb:
+    name: mariadb
+    driver: local  
