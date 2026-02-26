@@ -1,6 +1,6 @@
 FROM library/node:18.20.8-bookworm-slim AS nodejs
 FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
-FROM lscr.io/linuxserver/ffmpeg:7.1.1 AS ffmpeg
+FROM lscr.io/linuxserver/ffmpeg:8.0.1 AS ffmpeg
 
 # Get nodejs and epgstation
 FROM scratch AS downloads
