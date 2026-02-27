@@ -51,7 +51,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./epgstation/build/
-          file: jls.Dockerfile
+          file: ./epgstation/build/jls.Dockerfile
           platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/epgstation:jls
