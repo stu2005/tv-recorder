@@ -155,7 +155,7 @@ RUN <<EOF bash -ex
   # Update and install
     apt-get update -q
     apt-get install -qy --no-install-recommends --no-install-suggests curl ca-certificates
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/add_dmosource.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/add_dmosource.sh | bash
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
       libvmaf3+ \
       libopencore-amrnb0+ \
