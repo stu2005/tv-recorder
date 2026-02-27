@@ -1,4 +1,4 @@
-FROM library/buildpack-deps:bookworm-curl
+FROM library/buildpack-deps:trixie-curl
 WORKDIR /app/
 RUN <<EOF bash -ex
 

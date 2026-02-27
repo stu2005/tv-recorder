@@ -43,8 +43,13 @@ ffprobe: /usr/local/bin/ffprobe
 encodeProcessNum: 4
 concurrentEncodeNum: 1
 encode:
-    - name: H.264
+encode:
+    - name: '通常'
       cmd: '%NODE% %ROOT%/config/enc.js'
+      suffix: .mp4
+      rate: 4.0
+    - name: 'CMカット'
+      cmd: '%NODE% %ROOT%/config/jlse.js'
       suffix: .mp4
       rate: 4.0
 
