@@ -8,7 +8,7 @@ RUN <<EOF bash -ex
 
   # Install requires for build
     apt-get update -q
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/add_dmosource.sh | bash
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/add_dmosource.sh | bash
     apt-get full-upgrade -qy --no-install-recommends --no-install-suggests \
       avisynth+-dev+ \
       ninja-build+ \
