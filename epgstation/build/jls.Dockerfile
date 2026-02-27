@@ -1,5 +1,5 @@
 # Build ffmpeg, jls
-FROM library/buildpack-deps:trixie AS build
+FROM library/buildpack-deps:bookworm AS build
 
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
