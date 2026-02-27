@@ -46,3 +46,12 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/stu2005/epgstation:latest
+
+      - name: Build and push EPGStation
+        uses: docker/build-push-action@v6
+        with:
+          context: ./epgstation/build/
+          file: jlse.Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/stu2005/epgstation:latest
