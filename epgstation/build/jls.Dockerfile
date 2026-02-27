@@ -117,7 +117,7 @@ COPY --from=jlse_node /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM library/debian:12.13-slim
+FROM library/debian:13.3-slim
 
 # Set the working directory
 WORKDIR /app/
