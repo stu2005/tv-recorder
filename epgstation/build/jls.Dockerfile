@@ -37,6 +37,7 @@ RUN <<EOF bash -ex
   # Build chapter_exe
     cd ./modules/chapter_exe/src/
     sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
+    sed -i '3i#include <cstdint>' compat.h
     make -j$(nproc)
     mv chapter_exe ../../join_logo_scp_trial/bin/
 
