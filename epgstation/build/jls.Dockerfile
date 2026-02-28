@@ -194,7 +194,7 @@ RUN <<EOF bash -ex
       ffmpeg+ \
       l-smash+ \
       libboost-program-options1.74.0+ \
-      libboost-filesystem1.74.0+     
+      libboost-filesystem1.74.0+
     ln -s /usr/lib/$(uname -m)-linux-gnu/libavisynth.so.10 /usr/lib/$(uname -m)-linux-gnu/libavisynth.so
       if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/get_qsvencc.sh | bash

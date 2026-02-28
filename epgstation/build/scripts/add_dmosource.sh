@@ -18,9 +18,16 @@ Components: main
 Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
 
 Types: deb
-URIs: http://deb.debian.org/debian
-Suites: bookworm bookworm-updates bookworm-backports
-Components: main contrib non-free non-free-firmware
+URIs: http://deb.debian.org/debian/
+Suites: bookworm bookworm-updates
+Components: contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: trixie
+Components: main
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 )
@@ -29,6 +36,10 @@ PREFERENCE=$(cat <<EOF
 Package: *
 Pin: release n=trixie
 Pin-Priority: 100
+
+Package: libc6 libc-bin libstdc++6 base-files
+Pin: release n=trixie
+Pin-Priority: 500
 EOF
 )
 
