@@ -27,7 +27,7 @@ EOF
 
 PREFERENCE=$(cat <<EOF
 Package: *
-Pin: release a=trixie
+Pin: release n=trixie
 Pin-Priority: 100
 EOF
 )
