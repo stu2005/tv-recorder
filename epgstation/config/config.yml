@@ -43,7 +43,6 @@ ffprobe: /usr/local/bin/ffprobe
 encodeProcessNum: 4
 concurrentEncodeNum: 1
 encode:
-encode:
     - name: '通常'
       cmd: '%NODE% %ROOT%/config/enc.js'
       suffix: .mp4
