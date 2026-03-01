@@ -1,6 +1,5 @@
 # Build ffmpeg, jls
-FROM library/buildpack-deps:bookworm AS build
-
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404 AS build
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -8,25 +7,17 @@ RUN <<EOF bash -ex
 
   # Install requires for build
     apt-get update -q
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/add_dmosource.sh | bash
     apt-get full-upgrade -qy --no-install-recommends --no-install-suggests \
-      avisynth+-dev+ \
       ninja-build+ \
       cmake+ \
       libboost-all-dev+ \
-      ffmpeg+ \
-      pkg-config+ \
-      libavutil-dev+ \
-      libavcodec-dev+ \
-      libavformat-dev+ \
-      libavfilter-dev+ \
-      libavdevice-dev+ \
-      libswresample-dev+ \
-      libdav1d-dev+ \
-      libmfx-dev+ \
-      libvpx-dev+ \
-      libxxhash-dev+ \
-      liblsmash-dev+
+      curl+ \
+      ca-certificates+ \
+      git+ \
+      make+ \
+      gcc+ \
+      g+++ \
+      unzip+
 
   # Clone
     mkdir -p /build/usr/local/bin/
@@ -36,14 +27,12 @@ RUN <<EOF bash -ex
 
   # Build chapter_exe
     cd ./modules/chapter_exe/src/
-    sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     sed -i '3i#include <cstdint>' compat.h
     make -j$(nproc)
     mv chapter_exe ../../join_logo_scp_trial/bin/
 
   # Build logoframe
     cd ../../logoframe/src/
-    sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     make -j$(nproc)
     mv logoframe ../../join_logo_scp_trial/bin/
 
@@ -66,35 +55,15 @@ RUN <<EOF bash -ex
     curl -Lso/delogo.zip https://github.com/tobitti0/delogo-AviSynthPlus-Linux/archive/refs/heads/master.zip
     unzip -qq ./delogo.zip
     cd ./delogo-AviSynthPlus-Linux-master/src/
-    sed -i -e 's#/usr/local/include/avisynth#/usr/include/avisynth#g' Makefile
     make -j$(nproc)
     mkdir -p /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
     mv libdelogo.so /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
-
-  # Build obuparse
-    cd /
-    curl -Lso/obuparse.zip https://github.com/dwbuiten/obuparse/archive/refs/heads/master.zip
-    unzip -qq /obuparse.zip
-    cd /obuparse-master/
-    make -j$(nproc)
-    make install
-    make PREFIX=/build/usr/local install
-
-  # Build l-smash-works
-    cd /
-    curl -Lso/lsmashworks.zip https://github.com/stu2005/L-SMASH-Works/archive/refs/heads/master.zip
-    unzip -qq lsmashworks.zip
-    cd /L-SMASH-Works-master/
-    cmake . -GNinja -DBUILD_VS_PLUGIN=OFF
-    ninja -j$(nproc)
-    mkdir -p /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
-    mv liblsmashsource.so /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
 
 EOF
 
 # Get nodejs and jlse
 FROM library/node:18.20.8-slim AS nodejs
-FROM library/buildpack-deps:trixie-scm AS jlse_node
+FROM library/buildpack-deps:24.04-scm AS jlse_node
 COPY --from=nodejs /usr/local/ /usr/local/
 COPY --from=nodejs /opt/ /opt/
 RUN yarn global add -s https://github.com/tobitti0/join_logo_scp_trial
@@ -117,8 +86,7 @@ COPY --from=jlse_node /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM library/debian:12.13-slim
-
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404
 # Set the working directory
 WORKDIR /app/
 
@@ -154,73 +122,30 @@ RUN <<EOF bash -ex
 
   # Update and install
     apt-get update -q
-    apt-get install -qy --no-install-recommends --no-install-suggests curl ca-certificates
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/add_dmosource.sh | bash
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
-      libvmaf3+ \
-      libopencore-amrnb0+ \
-      libopencore-amrwb0+ \
-      x264+ \
-      x265+ \
-      opus-tools+ \
-      libvorbis0a+ \
-      libvorbisenc2+ \
-      libvorbisfile3+ \
-      libtheora-bin+ \
-      vpx-tools+ \
-      webp+ \
-      lame+ \
-      libxvidcore4+ \
-      aac-enc+ \
-      libopenjp2-tools+ \
-      libfreetype6+ \
-      libvidstab1.1+ \
-      libfribidi-bin+ \
-      fontconfig+ \
-      libass9+ \
-      libkvazaar7+ \
-      aom-tools+ \
-      xutils+ \
-      libxau6+ \
-      libxcb1+ \
-      libxml2+ \
-      libbluray-bin+ \
-      libzmq5+ \
-      srt-tools+ \
-      libpng-tools+ \
-      libaribb24-0+ \
-      avisynth++ \
-      avisynth+-ffms2+ \
-      ffmpeg+ \
-      l-smash+ \
-      libboost-program-options1.74.0+ \
-      libboost-filesystem1.74.0+
-    ln -s /usr/lib/$(uname -m)-linux-gnu/libavisynth.so.10 /usr/lib/$(uname -m)-linux-gnu/libavisynth.so
-      if [[ "$(uname -m)" == "x86_64" ]]; then
-      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
-      apt-get install -qy --no-install-recommends --no-install-suggests \
-        /qsvencc.deb
-      qsvencc -v
-    fi
-
+      libboost-program-options1.83.0+ \
+      libboost-filesystem1.83.0+ \
+      curl+ \
+      ca-certificates+
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
+    apt-get install -qy --no-install-recommends --no-install-suggests \
+      /qsvencc.deb
+    qsvencc -v
+    
   # Test
     node -v
     ffmpeg -version
-    curl --version
     chapter_exe || true
     jlse --version
     logoframe || true
     tsdivider --version
 
   # Clean
-    apt-get autoremove -qy --purge deb-multimedia-keyring
     apt-get clean -q
     rm -rf \
       /var/lib/apt/lists/* \
       /tmp/* \
       /var/tmp/* \
       /*.deb \
-      /etc/apt/sources.list.d/dmo.sources \
-      /etc/apt/preferences.d/dmo.pref
 
 EOF
