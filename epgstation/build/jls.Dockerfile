@@ -199,7 +199,7 @@ RUN <<EOF bash -ex
       if [[ "$(uname -m)" == "x86_64" ]]; then
       curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
       apt-get install -qy --no-install-recommends --no-install-suggests \
-        /qsvencc.deb \
+        /qsvencc.deb
       qsvencc -v
     fi
 
