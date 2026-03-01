@@ -56,8 +56,8 @@ RUN <<EOF bash -ex
     unzip -qq ./delogo.zip
     cd ./delogo-AviSynthPlus-Linux-master/src/
     make -j$(nproc)
-    mkdir -p /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
-    mv libdelogo.so /build/usr/lib/$(uname -m)-linux-gnu/avisynth/
+    mkdir -p /build/usr/local/lib/avisynth/
+    mv libdelogo.so /build/usr/local/lib/avisynth/
 
 EOF
 
