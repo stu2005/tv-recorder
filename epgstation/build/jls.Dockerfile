@@ -1,5 +1,5 @@
 # Build ffmpeg, jls
-FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404 AS build
+FROM ghcr.io/till0196/docker-avisynthplus:6.1-qsvencc2204 AS build
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -63,7 +63,7 @@ EOF
 
 # Get nodejs and jlse
 FROM library/node:18.20.8-slim AS nodejs
-FROM library/buildpack-deps:24.04-scm AS jlse_node
+FROM library/buildpack-deps:22.04-scm AS jlse_node
 COPY --from=nodejs /usr/local/ /usr/local/
 COPY --from=nodejs /opt/ /opt/
 RUN yarn global add -s https://github.com/tobitti0/join_logo_scp_trial
@@ -86,7 +86,7 @@ COPY --from=jlse_node /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404
+FROM ghcr.io/till0196/docker-avisynthplus:6.1-qsvencc2204
 # Set the working directory
 WORKDIR /app/
 
@@ -123,19 +123,15 @@ RUN <<EOF bash -ex
   # Update and install
     apt-get update -q
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
-      libboost-program-options1.83.0+ \
-      libboost-filesystem1.83.0+ \
-      libboost-system1.83.0+ \
+      libboost-program-options1.74.0+ \
+      libboost-filesystem1.74.0+ \
       curl+ \
       ca-certificates+
-    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
-    apt-get install -qy --no-install-recommends --no-install-suggests \
-      /qsvencc.deb
-    qsvencc -v
     
   # Test
     node -v
     ffmpeg -version
+    qsvencc --version
     chapter_exe || true
     jlse --version
     logoframe || true
