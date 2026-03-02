@@ -10,11 +10,9 @@ const dualMonoMode = 'main';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
-const preset = 'veryfast';
 const codec = 'h264_vaapi';
-const crf = 23;
 
-const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
+const args =['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
 
 // dual mono 設定
 if (isDualMono) {
@@ -22,13 +20,13 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'vaapi', '-i', input]);
+Array.prototype.push.apply(args,['-hwaccel', 'vaapi', '-hwaccel_output_format', 'vaapi', '-i', input]);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
 
 // 字幕データを含めたストリームをすべてマップ
-// Array.prototype.push.apply(args, ['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
+// Array.prototype.push.apply(args,['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
 
 // video filter 設定
 let videoFilter = 'deinterlace_vaapi';
@@ -39,11 +37,10 @@ Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
 // その他設定
 Array.prototype.push.apply(args,[
-    '-preset', preset,
     '-aspect', '16:9',
     '-b:v', '6000k',
     '-c:v', codec,
-    '-crf', crf,
+    '-profile:v', 'high',
     '-f', 'mp4',
     '-c:a', 'libfdk_aac',
     '-ar', '48000',

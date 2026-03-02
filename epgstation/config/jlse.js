@@ -12,9 +12,7 @@ const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const dualMonoMode = 'main';
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
-const preset = 'veryfast';
 const codec = 'h264_vaapi';
-const crf = 23;
 const output_name = path.basename(output, path.extname(output));
 const output_dir = path.dirname(output);
 
@@ -27,7 +25,7 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'vaapi']);
+Array.prototype.push.apply(args,['-hwaccel', 'vaapi', '-hwaccel_output_format', 'vaapi']);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
@@ -37,15 +35,21 @@ let videoFilter = 'deinterlace_vaapi';
 if (videoHeight > 720) {
     videoFilter += ',scale_vaapi=w=1920:h=1080,setsar=1'
 }
+
+// -------------------------------------------------------------
+// もしエンコード時に「Impossible to convert between the formats」
+// というエラーが出る場合は、下の1行のコメントアウトを外す。
+// videoFilter = 'format=nv12,hwupload,' + videoFilter;
+// -------------------------------------------------------------
+
 Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
 // その他設定
 Array.prototype.push.apply(args,[
-    '-preset', preset,
     '-aspect', '16:9',
     '-b:v', '6000k',
     '-c:v', codec,
-    '-crf', crf,
+    '-profile:v', 'high',
     '-f', 'mp4',
     '-c:a', 'libfdk_aac',
     '-ar', '48000',
@@ -98,7 +102,7 @@ const getDuration = filePath => {
     let update_log_flag = false;
     let log = '';
 
-    const jlse_args = ['-i', input, '-e', '-o', str,'-r','-d', output_dir, '-n', output_name];
+    const jlse_args =['-i', input, '-e', '-o', str,'-r','-d', output_dir, '-n', output_name];
     console.error(jlse_args);
     
     var env = Object.create( process.env );
@@ -112,8 +116,6 @@ const getDuration = filePath => {
 
     /**
      * エンコード進捗表示用に標準出力に進捗情報を吐き出す
-     * 出力する JSON
-     * {"type":"progress","percent": 0.8, "log": "view log" }
      */
     child.stderr.on('data', data => {
         let strbyline = String(data).split('\n');
@@ -138,21 +140,18 @@ const getDuration = filePath => {
                 const raw_chapter_exe_data = str.replace(/chapter_exe\s/,'');
                 switch(raw_chapter_exe_data){
                   case raw_chapter_exe_data.startsWith('\tVideo Frames') && raw_chapter_exe_data :{ 
-                    //chapter_exeでの総フレーム数取得
                     const movie_frame_reg = /\tVideo\sFrames:\s(\d+)\s\[\d+\.\d+fps\]/;
                     total_num = Number(raw_chapter_exe_data.match(movie_frame_reg)[1]);
                     update_log_flag = true;
                     break;
                   }
                   case raw_chapter_exe_data.startsWith('mute') && raw_chapter_exe_data :{
-                    //現在のフレーム数取得
                     const chapter_reg = /mute\s?\d+:\s(\d+)\s\-\s\d+フレーム/;
                     now_num = Number(raw_chapter_exe_data.match(chapter_reg)[1]);
                     update_log_flag = true;
                     break;
                   }
                   case raw_chapter_exe_data.startsWith('end') && raw_chapter_exe_data :{
-                    //chapter_exeの終了検知
                     now_num = total_num;
                     update_log_flag = true;
                     break;
@@ -184,7 +183,6 @@ const getDuration = filePath => {
               }
 
               case str.startsWith('frame') && str:{ //FFmpeg
-                // frame= 2847 fps=0.0 q=-1.0 Lsize=  216432kB time=00:01:35.64 bitrate=18537.1kbits/s speed= 222x
                 const progress = {};
                 let tmp = (str + ' ').match(/[A-z]*=[A-z,0-9,\s,.,\/,:,-]* /g);
                 if (tmp === null) continue;
@@ -207,28 +205,18 @@ const getDuration = filePath => {
                   }
                 }
 
-                // 進捗率 1.0 で 100%
                 now_num = current;
                 total_num = duration;
                 log =
-                  '(4/4) FFmpeg: ' +
-                  //'frame= ' +
-                  //progress.frame +
-                  //' fps=' +
-                  //progress.fps +
-                  //' size=' +
-                  //progress.size +
-                  ' time=' +
+                  '(4/4) FFmpeg: time=' +
                   progress.time +
-                  //' bitrate=' +
-                  //progress.bitrate +
                   ' speed=' +
                   progress.speed;
                 update_log_flag = true;
                 break;
               }
 
-              default:{ //進捗表示に必要ない出力データを流す
+              default:{ 
                 console.log(strbyline[i]);
                 break;
               }
@@ -252,4 +240,3 @@ const getDuration = filePath => {
       //終了後にしたい処理があれば書く
     });
 })();
-//メインの処理 ここまで
