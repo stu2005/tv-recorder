@@ -6,45 +6,51 @@ const path = require('path');
 
 const input = process.env.INPUT;
 const output = process.env.OUTPUT;
+const analyzedurationSize = '10M'; // Mirakurun の設定に応じて変更すること
+const probesizeSize = '32M'; // Mirakurun の設定に応じて変更すること
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
+const dualMonoMode = 'main';
+const audioBitrate = videoHeight > 720 ? '192k' : '128k';
+const preset = 'veryfast';
+const codec = 'h264_qsv';
+const crf = 23;
 const output_name = path.basename(output, path.extname(output));
 const output_dir = path.dirname(output);
 
 //FFmpegオプション生成 ここから
-const args = ['-y'];
-const preset = 'medium';
-const codec = 'libx264'; //libx264でエンコード
-const crf = 23;
-const videoFilter = 'yadif';
+const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
 
+// dual mono 設定
 if (isDualMono) {
-    Array.prototype.push.apply(args, [
-        '-filter_complex',
-        'channelsplit[FL][FR]',
-        '-map', '0:v',
-        '-map', '[FL]',
-        '-map', '[FR]',
-        '-metadata:s:a:0', 'language=jpn',
-        '-metadata:s:a:1', 'language=eng',
-    ]);
-    Array.prototype.push.apply(args, ['-c:a ac3', '-ar 48000', '-ab 256k']);
-} else {
-    // audio dataをコピー
-    Array.prototype.push.apply(args, ['-c:a', 'aac']);
+    Array.prototype.push.apply(args, ['-dual_mono_mode', dualMonoMode]);
 }
 
-Array.prototype.push.apply(args, ['-ignore_unknown']);
+// input 設定
+Array.prototype.push.apply(args,['-hwaccel', 'qsv']);
+
+// メタ情報を先頭に置く
+Array.prototype.push.apply(args,['-movflags', 'faststart']);
+
+// video filter 設定
+let videoFilter = 'deinterlace_qsv';
+if (videoHeight > 720) {
+    videoFilter += ',scale_qsv=w=1920:h=1080,setsar=1'
+}
+Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
 // その他設定
 Array.prototype.push.apply(args,[
-    '-vf', videoFilter,
     '-preset', preset,
     '-aspect', '16:9',
+    '-b:v', '6000k',
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
-
+    '-c:a', 'libfdk_aac',
+    '-ar', '48000',
+    '-ab', audioBitrate,
+    '-ac', '2'
 ]);
 
 let str = '';
