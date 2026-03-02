@@ -21,7 +21,7 @@ RUN <<EOF bash -ex
 
   # Clone
     mkdir -p /build/usr/local/bin/
-    git clone -q --recursive https://github.com/tobitti0/JoinLogoScpTrialSetLinux /src
+    git clone -q --recursive https://github.com/stu2005/JoinLogoScpTrialSetLinux /src
     cd /src/
     git submodule -q foreach git pull -q origin master
 
@@ -66,7 +66,7 @@ FROM library/node:18.20.8-slim AS nodejs
 FROM library/buildpack-deps:22.04-scm AS jlse_node
 COPY --from=nodejs /usr/local/ /usr/local/
 COPY --from=nodejs /opt/ /opt/
-RUN yarn global add -s https://github.com/tobitti0/join_logo_scp_trial
+RUN yarn global add -s https://github.com/stu2005/join_logo_scp_trial
 
 # Putting together the artifacts
 FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
