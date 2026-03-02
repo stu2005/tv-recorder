@@ -47,7 +47,7 @@ Array.prototype.push.apply(args,[
     '-c:v', codec,
     '-crf', crf,
     '-f', 'mp4',
-    '-c:a', 'libfdk_aac',
+    '-c:a', 'aac',
     '-ar', '48000',
     '-ab', audioBitrate,
     '-ac', '2',
