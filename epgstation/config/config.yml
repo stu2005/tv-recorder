@@ -69,7 +69,7 @@ stream:
                 - name: 無変換
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -79,7 +79,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -89,7 +89,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -101,7 +101,7 @@ stream:
             m2tsll:
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -111,7 +111,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -121,7 +121,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '/usr/bin/vaapiencc --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -140,13 +140,13 @@ stream:
                 - name: 720p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -hwaccel vaapi -i pipe:0 -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_qsv -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -re -dual_mono_mode main -hwaccel vaapi -i pipe:0 -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac 2
-                      -c:v h264_qsv -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
 
@@ -159,19 +159,19 @@ stream:
                 - name: 1080p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -i pipe:0 -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 -c:v
-                      h264_qsv -vf deinterlace_vaapi,scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -i pipe:0 -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 -c:v
-                      h264_qsv -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
                       '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -i pipe:0 -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac 2 -c:v
-                      h264_qsv -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
             webm: []
@@ -181,20 +181,20 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac
-                      2 -c:v h264_qsv -vf scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k -profile:v baseline -preset veryfast -tune
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_vaapi -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac
+                      2 -c:v h264_vaapi -vf scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac
-                      2 -c:v h264_qsv -vf scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_vaapi -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac
+                      2 -c:v h264_vaapi -vf scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_qsv -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac
-                      2 -c:v h264_qsv -vf scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
+                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -c:v h264_vaapi -i %INPUT% -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac
+                      2 -c:v h264_vaapi -vf scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k -profile:v baseline -preset veryfast -tune
                       fastdecode,zerolatency -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4
                       pipe:1'
             webm: []
