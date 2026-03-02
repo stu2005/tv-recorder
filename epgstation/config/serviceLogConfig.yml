@@ -47,7 +47,7 @@ categories:
     appenders: 
       - stream
       - stdout
-    level: info
+    level: trace
   encode:
     appenders:
       - encode
