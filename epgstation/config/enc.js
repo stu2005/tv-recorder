@@ -11,7 +11,7 @@ const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
 const preset = 'veryfast';
-const codec = 'h264_qsv';
+const codec = 'h264_vaapi';
 const crf = 23;
 
 const args = ['-y', '-analyzeduration', analyzedurationSize, '-probesize', probesizeSize];
@@ -22,7 +22,7 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'qsv', '-c:v', 'mpeg2_qsv', '-i', input]);
+Array.prototype.push.apply(args,['-hwaccel', 'vaapi', '-i', input]);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
@@ -31,9 +31,9 @@ Array.prototype.push.apply(args,['-movflags', 'faststart']);
 // Array.prototype.push.apply(args, ['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
 
 // video filter 設定
-let videoFilter = 'deinterlace_qsv';
+let videoFilter = 'deinterlace_vaapi';
 if (videoHeight > 720) {
-    videoFilter += ',scale_qsv=w=1920:h=1080,setsar=1'
+    videoFilter += ',scale_vaapi=w=1920:h=1080,setsar=1'
 }
 Array.prototype.push.apply(args, ['-vf', videoFilter]);
 

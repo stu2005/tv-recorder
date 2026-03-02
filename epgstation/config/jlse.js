@@ -13,7 +13,7 @@ const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const dualMonoMode = 'main';
 const audioBitrate = videoHeight > 720 ? '192k' : '128k';
 const preset = 'veryfast';
-const codec = 'h264_qsv';
+const codec = 'h264_vaapi';
 const crf = 23;
 const output_name = path.basename(output, path.extname(output));
 const output_dir = path.dirname(output);
@@ -27,15 +27,15 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'qsv']);
+Array.prototype.push.apply(args,['-hwaccel', 'vaapi']);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
 
 // video filter 設定
-let videoFilter = 'deinterlace_qsv';
+let videoFilter = 'deinterlace_vaapi';
 if (videoHeight > 720) {
-    videoFilter += ',scale_qsv=w=1920:h=1080,setsar=1'
+    videoFilter += ',scale_vaapi=w=1920:h=1080,setsar=1'
 }
 Array.prototype.push.apply(args, ['-vf', videoFilter]);
 
