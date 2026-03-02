@@ -52,5 +52,5 @@ categories:
     appenders:
       - encode
       - stdout
-    level: debug
+    level: trace
 
