@@ -27,7 +27,7 @@ if (isDualMono) {
 }
 
 // input 設定
-Array.prototype.push.apply(args,['-hwaccel', 'qsv', '-c:v', 'mpeg2_qsv', '-i', input]);
+Array.prototype.push.apply(args,['-hwaccel', 'qsv']);
 
 // メタ情報を先頭に置く
 Array.prototype.push.apply(args,['-movflags', 'faststart']);
@@ -50,8 +50,7 @@ Array.prototype.push.apply(args,[
     '-c:a', 'aac',
     '-ar', '48000',
     '-ab', audioBitrate,
-    '-ac', '2',
-    output
+    '-ac', '2'
 ]);
 
 let str = '';
