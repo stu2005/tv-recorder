@@ -125,7 +125,7 @@ RUN <<EOF bash -ex
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
       libboost-program-options1.83.0+ \
       libboost-filesystem1.83.0+ \
-      libboost-system-1.83.0+ \
+      libboost-system1.83.0+ \
       curl+ \
       ca-certificates+
     curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
