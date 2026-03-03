@@ -37,7 +37,7 @@ thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
 
-ffmpeg: /usr/local/bin/ffmpeg
+ffmpeg: /usr/bin/qsvencc
 ffprobe: /usr/local/bin/ffprobe
 
 encodeProcessNum: 4
@@ -69,7 +69,7 @@ stream:
                 - name: 無変換
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -79,7 +79,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -89,7 +89,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -101,7 +101,7 @@ stream:
             m2tsll:
                 - name: 1080p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -111,7 +111,7 @@ stream:
                       --output-res 1920x1080 --output-format mpegts --output -'
                 - name: 720p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -121,7 +121,7 @@ stream:
                       --output-res 1280x720 --output-format mpegts --output -'                
                 - name: 480p
                   cmd:
-                      '/usr/bin/qsvencc --input-format mpegts --input - --avhw 
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
                       --audio-stream FL 
                       --data-copy timed_id3 --sub-copy
                       -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
@@ -133,22 +133,31 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1920x1080 --output-format ismv --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1280x720 --output-format ismv --output -'                
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -re -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac 2
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 854x480 --output-format ismv --output -'
 
             webm: []
             hls: []
@@ -158,22 +167,31 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1920x1080 --output-format ismv --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1280x720 --output-format ismv --output -'                
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -hwaccel vaapi -hwaccel_output_format vaapi -analyzeduration 10M -probesize 10M -i pipe:0 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac 2 
-                      -c:v h264_vaapi -vf deinterlace_vaapi,scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mpegts --input - --avhw 
+                      --audio-stream FL 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 854x480 --output-format ismv --output -'
             webm: []
             hls: []
 
@@ -181,21 +199,27 @@ stream:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -hwaccel_output_format vaapi -i %INPUT% 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 
-                      -c:v h264_vaapi -vf scale_vaapi=w=1920:h=1080,setsar=1 -b:v 6000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1920x1080 --output-format ismv --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -hwaccel_output_format vaapi -i %INPUT% 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 192k -ac 2 
-                      -c:v h264_vaapi -vf scale_vaapi=w=1280:h=720,setsar=1 -b:v 3000k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 1280x720 --output-format ismv --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% -dual_mono_mode main -ss %SS% -hwaccel vaapi -hwaccel_output_format vaapi -i %INPUT% 
-                      -sn -threads 0 -c:a libfdk_aac -ar 48000 -b:a 128k -ac 2 
-                      -c:v h264_vaapi -vf scale_vaapi=w=854:h=480,setsar=1 -b:v 1500k 
-                      -profile:v high -movflags frag_keyframe+empty_moov+faststart+default_base_moof -y -f mp4 pipe:1'
+                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
+                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
+                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
+                      --quality balanced --profile high --avsync vfr
+                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
+                      --output-res 854x480 --output-format ismv --output -'
             webm: []
             hls: []
