@@ -16,14 +16,22 @@ const args = ['-y'];
 const preset = 'medium';
 const codec = 'libx264'; //libx264でエンコード
 const crf = 23;
-const videoFilter = 'bwdif';
+const videoFilter = 'yadif';
 
 if (isDualMono) {
-    Array.prototype.push.apply(args, ['-dual_mono_mode', 'main']);
+    Array.prototype.push.apply(args, [
+        '-filter_complex',
+        'channelsplit[FL][FR]',
+        '-map', '0:v',
+        '-map', '[FL]',
+        '-map', '[FR]',
+        '-metadata:s:a:0', 'language=jpn',
+        '-metadata:s:a:1', 'language=eng',
+    ]);
     Array.prototype.push.apply(args, ['-c:a ac3', '-ar 48000', '-ab 256k']);
 } else {
     // audio dataをコピー
-    Array.prototype.push.apply(args, ['-c:a', 'libfdk_aac']);
+    Array.prototype.push.apply(args, ['-c:a', 'aac']);
 }
 
 Array.prototype.push.apply(args, ['-ignore_unknown']);
