@@ -38,7 +38,7 @@ recorded:
 thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
-thumbnailCmd:: '%FFMPEG% --seek %THUMBNAIL_POSITION% -i %INPUT% --frames 1 --output-res %THUMBNAIL_SIZE% -o %OUTPUT%''
+thumbnailCmd:: '%FFMPEG% --seek %THUMBNAIL_POSITION% -i %INPUT% --frames 1 --output-res %THUMBNAIL_SIZE% -o %OUTPUT%'
 
 ffmpeg: /usr/bin/qsvencc
 ffprobe: /usr/local/bin/ffprobe
