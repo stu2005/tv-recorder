@@ -25,7 +25,9 @@ epgUpdateIntervalTime: 10
 conflictPriority: 1
 recPriority: 2
 
-recordedFormat: '%TITLE%-%SHORTYEAR%年%MONTH%月%DAY%日%HOUR%時%MIN%分-%TYPE%-%CHID%-%CHNAME%-%CH%-%SID%-%ID%'
+streamFilePath: /app/recorded/tmp/
+
+recordedFormat: '%TITLE%-%SHORTYEAR%年%MONTH%月%DAY%日%HOUR%時%MIN%分'
 recordedFileExtension: .ts
 recorded:
     - name: recorded
@@ -36,6 +38,7 @@ recorded:
 thumbnail: '%ROOT%/thumbnail'
 thumbnailSize: 480x270
 thumbnailPosition: 5
+thumbnailCmd:: '%FFMPEG% --seek %THUMBNAIL_POSITION% -i %INPUT% --frames 1 --output-res %THUMBNAIL_SIZE% -o %OUTPUT%''
 
 ffmpeg: /usr/bin/qsvencc
 ffprobe: /usr/local/bin/ffprobe
@@ -69,157 +72,842 @@ stream:
                 - name: 無変換
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1920x1080 --output-format mpegts --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 6000 
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1280x720 --output-format mpegts --output -'                
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 854x480 --output-format mpegts --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 128
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
 
             m2tsll:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1920x1080 --output-format mpegts --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 6000 
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1280x720 --output-format mpegts --output -'                
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      --data-copy timed_id3 --sub-copy
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 854x480 --output-format mpegts --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        --data-copy timed_id3
+                        --sub-copy 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 128
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format mpegts 
+                        --output -'
 
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1920x1080 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 6000 
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1280x720 --output-format ismv --output -'                
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 192 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 854x480 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw
+                        --audio-stream FL 
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0 
+                        --lowlatency 
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 1500
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 128
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format ismv 
+                        --output -'
 
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0
+                        --lowlatency
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 6000 
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 256 
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format hls 
+                        -m hls_time:3 
+                        -m hls_list_size:17 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0
+                        --lowlatency
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 3000
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 192
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format hls 
+                        -m hls_time:3 
+                        -m hls_list_size:17 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts 
+                        --input-probesize 1000K
+                        --input-analyze 0.7 
+                        --input - 
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:250000
+                        -m max_interleave_delta:500K 
+                        --output-thread 0
+                        --lowlatency
+                        --disable-opencl
+                        --codec h264 
+                        --vbr 1500
+                        --quality balanced 
+                        --profile high 
+                        --dar 16:9
+                        --interlace tff 
+                        --vpp-deinterlace bob 
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop 
+                        --audio-bitrate 128
+                        --audio-samplerate 48000 
+                        --audio-filter volume=2.0 
+                        --audio-ignore-decode-error 30
+                        --output-format hls 
+                        -m hls_time:3 
+                        -m hls_list_size:17 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
             webm: []
-            hls: []
 
     recorded:
         ts:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1920x1080 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M 
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL                        
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 6000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 256
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1280x720 --output-format ismv --output -'                
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 3000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 192
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% --input-format mpegts --input - --avhw 
-                      --audio-stream FL 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --dar 16:9 --vpp-deinterlace bob --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 854x480 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M 
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 1500
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 128
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
+
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input -
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 6000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 256
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input -
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 3000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 192
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mpegts
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input -
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 1500
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 128
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
             webm: []
-            hls: []
 
         encoded:
             mp4:
                 - name: 1080p
                   cmd:
-                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1920x1080 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL                        
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 6000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 256
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 720p
                   cmd:
-                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 1280x720 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 3000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 192
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
                 - name: 480p
                   cmd:
-                      '%FFMPEG% --input-format mp4 --input %INPUT% --avhw 
-                      -m avioflags:direct -m fflags:nobuffer+flush_packets -m flush_packets:1 -m max_delay:250000
-                      --output-thread 0 --lowlatency --disable-opencl --codec h264 --fallback-rc
-                      --quality balanced --profile high --avsync vfr
-                      --audio-codec aac:aac_coder=twoloop --audio-samplerate 48000 --audio-filter volume=2.0 --audio-ignore-decode-error 30
-                      --output-res 854x480 --output-format ismv --output -'
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 1500
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 128
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        --output-format ismv
+                        --output -'
+            hls:
+                - name: 1080p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 6000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1920x1080
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 256
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 720p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 3000
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 1280x720
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 192
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
+                - name: 480p
+                  cmd:
+                      '%FFMPEG% 
+                        --input-format mp4
+                        --input-probesize 10M
+                        --input-analyze 5
+                        --input %INPUT%
+                        --avhw 
+                        --audio-stream FL
+                        -m avioflags:direct 
+                        -m fflags:nobuffer+flush_packets 
+                        -m flush_packets:1 
+                        -m max_delay:0
+                        -m max_interleave_delta:5000K
+                        --disable-opencl
+                        --codec h264
+                        --vbr 1500
+                        --strict-gop
+                        --quality balanced
+                        --profile high
+                        --dar 16:9
+                        --interlace tff
+                        --vpp-deinterlace bob
+                        --output-res 584x480
+                        --audio-codec aac:aac_coder=twoloop
+                        --audio-bitrate 128
+                        --audio-samplerate 48000
+                        --audio-filter volume=2.0
+                        --audio-ignore-decode-error 30
+                        -f hls 
+                        -m hls_time:3 
+                        -m hls_list_size:0 
+                        -m hls_allow_cache:1
+                        -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
+                        -m hls_flags:delete_segments
+                        -m flags:+global_header 
+                        --output %OUTPUT%'
             webm: []
-            hls: []

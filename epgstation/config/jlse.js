@@ -2,41 +2,53 @@ const spawn = require('child_process').spawn;
 const execFile = require('child_process').execFile;
 const ffmpeg = process.env.FFMPEG;
 const ffprobe = process.env.FFPROBE;
+const channelId = process.env.CHANNELID;
+const serviceId = channelId % 100000;
 const path = require('path');
 
 const input = process.env.INPUT;
 const output = process.env.OUTPUT;
+const analyzedurationSize = '10M'; // Mirakurun の設定に応じて変更すること
+const probesizeSize = '32M'; // Mirakurun の設定に応じて変更すること
+const dualMonoMode = 'FL';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
+const audioBitrate = videoHeight > 720 ? '192' : '128';
+const profile = 'high';
+const codec = 'h264';
+const crf = 23;
 const output_name = path.basename(output, path.extname(output));
 const output_dir = path.dirname(output);
 
-//FFmpegオプション生成 ここから
-const args = ['-y'];
-const preset = 'medium';
-const codec = 'libx264'; //libx264でエンコード
-const crf = 23;
-const videoFilter = 'bwdif';
+const args = ['--input-analyze', analyzedurationSize, '--input-probesize', probesizeSize];
 
+// dual mono 設定
 if (isDualMono) {
-    Array.prototype.push.apply(args, ['-dual_mono_mode', 'main']);
-    Array.prototype.push.apply(args, ['-c:a ac3', '-ar 48000', '-ab 256k']);
-} else {
-    // audio dataをコピー
-    Array.prototype.push.apply(args, ['-c:a', 'libfdk_aac']);
+    Array.prototype.push.apply(args, ['--audio-stream', dualMonoMode]);
 }
 
-Array.prototype.push.apply(args, ['-ignore_unknown']);
+// 字幕データを含めたストリームをすべてマップ
+// Array.prototype.push.apply(args, ['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
+
+// video filter 設定
+Array.prototype.push.apply(args, [
+    '--interlace', 'tff',
+    '--vpp-deinterlace', 'bob',
+    '--output-res', '1920x1080'
+]);
 
 // その他設定
 Array.prototype.push.apply(args,[
-    '-vf', videoFilter,
-    '-preset', preset,
-    '-aspect', '16:9',
-    '-c:v', codec,
-    '-crf', crf,
-    '-f', 'mp4',
-
+    '--profile', profile,
+    '--dar', '16:9',
+    '--codec', codec,
+    '--la-icq', crf,
+    '--output-format', 'mp4',
+    '--audio-codec', 'aac',
+    '--audio-samplerate', '48000',
+    '--audio-bitrate', audioBitrate,
+    '--audio-stream', ':stereo',
+    '--output'
 ]);
 
 let str = '';
@@ -84,7 +96,7 @@ const getDuration = filePath => {
     let update_log_flag = false;
     let log = '';
 
-    const jlse_args = ['-i', input, '-e', '-o', str,'-r','-d', output_dir, '-n', output_name];
+    const jlse_args = ['-i', input, '-e', ffmpeg, '-c', serviceId, '-o', str, '-r', '-d', output_dir, '-n', output_name];
     console.error(jlse_args);
     
     var env = Object.create( process.env );
