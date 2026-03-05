@@ -87,10 +87,17 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0 
-              --lowlatency 
+              --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
-              --vbr 6000 
+              --vbr 6000
+              --max-bitrate 9000
+              --vbv-bufsize 12000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -121,10 +128,17 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0 
-              --lowlatency 
+              --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
               --vbr 3000
+              --max-bitrate 4500
+              --vbv-bufsize 6000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -155,16 +169,23 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0 
-              --lowlatency 
+              --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
-              --vbr 3000
+              --vbr 1500
+              --max-bitrate 2250
+              --vbv-bufsize 3000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
               --interlace tff 
               --vpp-deinterlace bob 
-              --output-res 584x480
+              --output-res 854x480
               --audio-codec aac:aac_coder=twoloop 
               --audio-bitrate 128
               --audio-samplerate 48000 
@@ -191,10 +212,17 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0 
-              --lowlatency 
+              --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
-              --vbr 6000 
+              --vbr 6000
+              --max-bitrate 9000
+              --vbv-bufsize 12000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -225,10 +253,17 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0 
-              --lowlatency 
+              --lowlatency
+              --async-depth 2 
               --disable-opencl
               --codec h264 
               --vbr 3000
+              --max-bitrate 4500
+              --vbv-bufsize 6000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -260,15 +295,22 @@ stream:
               -m max_interleave_delta:500K 
               --output-thread 0 
               --lowlatency 
+              --async-depth 2
               --disable-opencl
               --codec h264 
-              --vbr 3000
+              --vbr 1500
+              --max-bitrate 2250
+              --vbv-bufsize 3000
+              --gop-len 60
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
               --interlace tff 
               --vpp-deinterlace bob 
-              --output-res 584x480
+              --output-res 854x480
               --audio-codec aac:aac_coder=twoloop 
               --audio-bitrate 128
               --audio-samplerate 48000 
@@ -366,13 +408,14 @@ stream:
               --dar 16:9
               --interlace tff 
               --vpp-deinterlace bob 
-              --output-res 584x480
+              --output-res 854x480
               --audio-codec aac:aac_coder=twoloop 
               --audio-bitrate 128
               --audio-samplerate 48000 
-              --audio-filter volume=2.0 
+              --audio-filter "volume=2.0,aresample=async=1000" 
               --audio-ignore-decode-error 30
-              --output-format ismv 
+              --output-format ismv
+              -m movflags:frag_keyframe+empty_moov+default_base_moof
               --output -'
 
       hls:
@@ -392,9 +435,14 @@ stream:
               -m max_interleave_delta:500K 
               --output-thread 0
               --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
               --vbr 6000 
+              --gop-len 180
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -411,7 +459,7 @@ stream:
               -m hls_list_size:17 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 720p
           cmd:
@@ -428,10 +476,17 @@ stream:
               -m max_delay:250000
               -m max_interleave_delta:500K 
               --output-thread 0
-              --lowlatency
+              --lowlatency 
+              --async-depth 2
               --disable-opencl
               --codec h264 
               --vbr 3000
+              --max-bitrate 4500
+              --vbv-bufsize 6000
+              --gop-len 180
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
@@ -448,7 +503,7 @@ stream:
               -m hls_list_size:17 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 480p
           cmd:
@@ -466,15 +521,22 @@ stream:
               -m max_interleave_delta:500K 
               --output-thread 0
               --lowlatency
+              --async-depth 2
               --disable-opencl
               --codec h264 
               --vbr 1500
+              --max-bitrate 2250
+              --vbv-bufsize 3000
+              --gop-len 180
+              --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced 
               --profile high 
               --dar 16:9
               --interlace tff 
               --vpp-deinterlace bob 
-              --output-res 584x480
+              --output-res 854x480
               --audio-codec aac:aac_coder=twoloop 
               --audio-bitrate 128
               --audio-samplerate 48000 
@@ -485,7 +547,7 @@ stream:
               -m hls_list_size:17 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
       webm: []
 
@@ -506,22 +568,30 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 6000
+              --max-bitrate 9000
+              --vbv-bufsize 12000
+              --gop-len 60
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
               --output-res 1920x1080
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 256
               --audio-samplerate 48000
               --audio-filter volume=2.0
               --audio-ignore-decode-error 30
               --output-format ismv
+              -m movflags:frag_keyframe+empty_moov+default_base_moof
               --output -'
         - name: 720p
           cmd:
@@ -537,22 +607,30 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 3000
+              --max-bitrate 4500
+              --vbv-bufsize 6000
+              --gop-len 60
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
               --output-res 1280x720
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 192
               --audio-samplerate 48000
               --audio-filter volume=2.0
               --audio-ignore-decode-error 30
               --output-format ismv
+              -m movflags:frag_keyframe+empty_moov+default_base_moof
               --output -'
         - name: 480p
           cmd:
@@ -568,22 +646,30 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 1500
+              --max-bitrate 2250
+              --vbv-bufsize 3000
+              --gop-len 60
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
-              --output-res 584x480
+              --output-res 854x480
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 128
               --audio-samplerate 48000
               --audio-filter volume=2.0
               --audio-ignore-decode-error 30
               --output-format ismv
+              -m movflags:frag_keyframe+empty_moov+default_base_moof
               --output -'
 
       hls:
@@ -601,16 +687,23 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 6000
+              --max-bitrate 9000
+              --vbv-bufsize 12000
+              --gop-len 180
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
               --output-res 1920x1080
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 256
               --audio-samplerate 48000
@@ -621,7 +714,7 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 720p
           cmd:
@@ -637,16 +730,23 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 3000
+              --max-bitrate 4500
+              --vbv-bufsize 6000
+              --gop-len 180
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
               --output-res 1280x720
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 192
               --audio-samplerate 48000
@@ -657,7 +757,7 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 480p
           cmd:
@@ -673,16 +773,23 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 1500
+              --max-bitrate 2250
+              --vbv-bufsize 3000
+              --gop-len 180
               --strict-gop
+              --repeat-headers
+              --aud
               --quality balanced
               --profile high
               --dar 16:9
               --interlace tff
               --vpp-deinterlace bob
-              --output-res 584x480
+              --output-res 854x480
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 128
               --audio-samplerate 48000
@@ -693,7 +800,7 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
       webm: []
 
@@ -714,6 +821,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 6000
@@ -722,12 +830,13 @@ stream:
               --avsync forcecfr
               --repeat-headers
               --aud
-              --gop-len 120
+              --gop-len 60
               --strict-gop
               --quality balanced
               --profile high
               --dar 16:9
               --output-res 1920x1080
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 256
               --audio-samplerate 48000
@@ -751,6 +860,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 3000
@@ -759,12 +869,13 @@ stream:
               --avsync forcecfr
               --repeat-headers
               --aud
-              --gop-len 120
+              --gop-len 60
               --strict-gop
               --quality balanced
               --profile high
               --dar 16:9
               --output-res 1280x720
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 192
               --audio-samplerate 48000
@@ -788,6 +899,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 1500
@@ -796,12 +908,13 @@ stream:
               --avsync forcecfr
               --repeat-headers
               --aud
-              --gop-len 120
+              --gop-len 60
               --strict-gop
               --quality balanced
               --profile high
               --dar 16:9
-              --output-res 584x480
+              --output-res 854x480
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 128
               --audio-samplerate 48000
@@ -826,6 +939,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 6000
@@ -834,12 +948,13 @@ stream:
               --repeat-headers
               --aud
               --avsync forcecfr
-              --gop-len 90
+              --gop-len 180
               --strict-gop
               --quality balanced
               --profile high
               --dar 16:9
               --output-res 1920x1080
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 256
               --audio-samplerate 48000
@@ -850,7 +965,7 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 720p
           cmd:
@@ -867,6 +982,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 3000
@@ -881,6 +997,7 @@ stream:
               --profile high
               --dar 16:9
               --output-res 1280x720
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 192
               --audio-samplerate 48000
@@ -891,7 +1008,7 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
         - name: 480p
           cmd:
@@ -908,6 +1025,7 @@ stream:
               -m flush_packets:1 
               -m max_delay:0
               -m max_interleave_delta:5000K
+              --lowlatency
               --disable-opencl
               --codec h264
               --vbr 1500
@@ -921,7 +1039,8 @@ stream:
               --quality balanced
               --profile high
               --dar 16:9
-              --output-res 584x480
+              --output-res 854x480
+              --async-depth 2
               --audio-codec aac:aac_coder=twoloop
               --audio-bitrate 128
               --audio-samplerate 48000
@@ -932,6 +1051,6 @@ stream:
               -m hls_list_size:0 
               -m hls_allow_cache:1
               -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-              -m hls_flags:delete_segments
+              -m hls_flags:delete_segments+discont_start+split_by_time
               --output %OUTPUT%'
       webm: []
