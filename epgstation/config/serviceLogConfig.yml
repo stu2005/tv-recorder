@@ -32,17 +32,17 @@ categories:
     appenders: 
       - console
       - stdout
-    level: info
+    level: trace
   system: 
     appenders: 
       - system
       - stdout
-    level: info
+    level: trace
   access: 
     appenders: 
       - access
       - stdout
-    level: info
+    level: trace
   stream: 
     appenders: 
       - stream
