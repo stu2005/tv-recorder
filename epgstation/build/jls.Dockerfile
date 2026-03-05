@@ -1,5 +1,5 @@
 # Build ffmpeg, jls
-FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404 AS build
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0.1-ubuntu2404 AS build
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -86,7 +86,7 @@ COPY --from=jlse_node /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM ghcr.io/tobitti0/docker-avisynthplus:8.0-ubuntu2404
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0.1-ubuntu2404
 # Set the working directory
 WORKDIR /app/
 
