@@ -498,7 +498,7 @@ stream:
               --input-format mpegts
               --input-probesize 10M 
               --input-analyze 5
-              --input %INPUT%
+              --input -
               --avhw
               --audio-stream FL                        
               -m avioflags:direct 
@@ -529,7 +529,7 @@ stream:
               --input-format mpegts
               --input-probesize 10M
               --input-analyze 5
-              --input %INPUT%
+              --input -
               --avhw
               --audio-stream FL
               -m avioflags:direct 
@@ -560,7 +560,7 @@ stream:
               --input-format mpegts
               --input-probesize 10M 
               --input-analyze 5
-              --input %INPUT%
+              --input -
               --avhw
               --audio-stream FL
               -m avioflags:direct 
