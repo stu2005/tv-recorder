@@ -141,6 +141,8 @@ services:
       - type: bind
         source: ./scan/tvchannels-scan/
         target: /opt/tvchannels-scan/
+    profiles:
+      - tvchannels-scan
 
   isdb-scanner:
     logging:
@@ -168,6 +170,8 @@ services:
       - type: bind
         source: ./scan/isdb-scanner/
         target: /app/scanned/
+    profiles:
+      - isdb-scanner
 
 volumes:
   mirakurun:
