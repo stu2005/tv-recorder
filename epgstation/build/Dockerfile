@@ -1,17 +1,104 @@
-FROM library/node:18.20.8-bookworm-slim AS nodejs
-FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
-FROM lscr.io/linuxserver/ffmpeg:8.0.1 AS ffmpeg
+# Build ffmpeg, jls
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0.1-ubuntu2404 AS build
+# Set environment variable
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Get nodejs and epgstation
-FROM scratch AS downloads
-COPY --from=nodejs /usr/local/ /build/usr/local/
+# Install requires for build
+RUN <<EOF bash -ex 
+    apt-get update -q
+    apt-get full-upgrade -qy --no-install-recommends --no-install-suggests \
+      ninja-build+ \
+      cmake+ \
+      libboost-all-dev+ \
+      curl+ \
+      ca-certificates+ \
+      git+ \
+      make+ \
+      gcc+ \
+      g+++ \
+      unzip+
+EOF
+
+# Clone
+RUN <<EOF bash -ex 
+    mkdir -p /build/usr/local/bin/
+    git clone -q --recursive https://github.com/stu2005/JoinLogoScpTrialSetLinux /src
+    cd /src/
+    git submodule -q foreach git pull -q origin master
+EOF
+
+# Build chapter_exe
+RUN <<EOF bash -ex
+    cd ./modules/chapter_exe/src/
+    sed -i '3i#include <cstdint>' compat.h
+    make -j$(nproc)
+    mv chapter_exe ../../join_logo_scp_trial/bin/
+EOF
+
+# Build logoframe
+RUN <<EOF bash -ex
+    cd ../../logoframe/src/
+    make -j$(nproc)
+    mv logoframe ../../join_logo_scp_trial/bin/
+EOF
+
+# Build jls
+RUN <<EOF bash -ex
+    cd ../../join_logo_scp/src/
+    make -j$(nproc)
+    mv join_logo_scp ../../join_logo_scp_trial/bin/
+EOF
+
+# Build tsdivider
+RUN <<EOF bash -ex
+    cd ../../tsdivider/
+    cmake . -GNinja -DCMAKE_BUILD_TYPE=Release
+    ninja -j$(nproc)
+    mv ./tsdivider ../join_logo_scp_trial/bin/
+EOF
+
+# Copy artifacts
+RUN <<EOF bash -ex
+    mv ../join_logo_scp_trial/bin/* /build/usr/local/bin/
+EOF
+
+# Build delogo
+RUN <<EOF bash -ex
+    cd /
+    curl -Lso/delogo.zip https://github.com/tobitti0/delogo-AviSynthPlus-Linux/archive/refs/heads/master.zip
+    unzip -qq ./delogo.zip
+    cd ./delogo-AviSynthPlus-Linux-master/src/
+    make -j$(nproc)
+    mkdir -p /build/usr/local/lib/avisynth/
+    mv libdelogo.so /build/usr/local/lib/avisynth/
+EOF
+
+# Get nodejs and jlse
+FROM library/node:18.20.8-slim AS nodejs
+FROM library/buildpack-deps:24.04-scm AS jlse_node
+COPY --from=nodejs /usr/local/ /usr/local/
+COPY --from=nodejs /opt/ /opt/
+RUN yarn global add -s https://github.com/stu2005/join_logo_scp_trial
+
+# Putting together the artifacts
+FROM l3tnun/epgstation:v2.10.0-debian AS epgstation
+FROM scratch AS artifacts
+
+# jls
+COPY --from=build /build/ /build/
+
+# EPGStation
 COPY --from=epgstation /app/ /build/app/
-COPY --from=ffmpeg /usr/local/ /build/usr/local/
+
+# Yarn
+COPY --from=jlse_node /opt/ /build/opt/
+
+# Nodejs, npm, jlse
+COPY --from=jlse_node /usr/local/ /build/usr/local/
 
 
 # Final image
-FROM library/ubuntu:24.04
-
+FROM ghcr.io/tobitti0/docker-avisynthplus:8.0.1-ubuntu2404
 # Set the working directory
 WORKDIR /app/
 
@@ -20,8 +107,6 @@ EXPOSE 8888
 
 # Set environments
 ENV TZ="Asia/Tokyo"
-ENV LD_LIBRARY_PATH=/usr/lib/:/usr/lib64:/usr/libexec:/usr/local/lib
-ENV LIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Directories that need to be mounted to run
@@ -31,46 +116,48 @@ VOLUME /app/data/ /app/thumbnail/ /app/recorded/
 ENTRYPOINT ["node"]
 CMD ["./dist/index.js"]
 
-# Copy downloads
-COPY --from=downloads /build/ /
+# Check if container is running
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD curl -fsSL http://localhost:8888/api/version || exit 1
+
+# Copy artifacts
+COPY --from=artifacts /build/ /
 
 # Postinstall
 RUN <<EOF bash -ex
 
+  # Link artifacts
+    ln -s /usr/local/bin/chapter_exe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/chapter_exe
+    ln -s /usr/local/bin/logoframe /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/logoframe
+    ln -s /usr/local/bin/join_logo_scp /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/join_logo_scp
+    ln -s /usr/local/bin/tsdivider /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/bin/tsdivider
+
   # Update and install
     apt-get update -q
     apt-get full-upgrade -qy --autoremove --purge --no-install-recommends --no-install-suggests \
-      libxcb1+ \
-      libxcb-shm0+ \
-      libasound2t64+ \
-      libv4l-0t64+ \
-      libxml2+ \
-      libglib2.0-0t64+ \
-      libgomp1+ \
-      libexpat1+ \
-      libbrotli1+
-    if [[ "$(uname -m)" == "x86_64" ]]; then
-      apt-get install -qy --no-install-recommends --no-install-suggests \
-        curl \
-        ca-certificates
-      curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
-      apt-get install -qy \
-        --no-install-recommends --no-install-suggests \
-          /qsvencc.deb \
-          i965-va-driver \
-        --autoremove --purge \
-          curl- \
-          ca-certificates-
-      qsvencc -v
-      rm -rf /*.deb
-    fi
-
+      libboost-program-options1.83.0+ \
+      libboost-filesystem1.83.0+ \
+      curl+ \
+      ca-certificates+
+    curl -Ls https://raw.githubusercontent.com/stu2005/tv-recorder/refs/heads/main/epgstation/build/scripts/get_qsvencc.sh | bash
+    apt-get install -qy --no-install-recommends --no-install-suggests \
+      /qsvencc.deb
+    
   # Test
     node -v
     ffmpeg -version
+    qsvencc --version
+    chapter_exe || true
+    jlse --version
+    logoframe || true
+    tsdivider --version
 
   # Clean
     apt-get clean -q
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf \
+      /var/lib/apt/lists/* \
+      /tmp/* \
+      /var/tmp/* \
+      /*.deb \
 
 EOF

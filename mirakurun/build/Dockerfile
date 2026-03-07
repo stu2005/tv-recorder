@@ -15,19 +15,23 @@ COPY --from=mirakurun /app/ /build/app/
 # Copy the startup script
 COPY ./scripts/container-init-alpine.sh /build/usr/local/bin/container-init.sh
 
-# Run the build script
+# Setup
 RUN <<EOF ash -ex
-
-  # Set startup scrtipt permission
     chmod +x /build/usr/local/bin/container-init.sh
-
-  # Update packages
     apk upgrade -qU --no-cache
+    apk add -qU --no-cache \
+      alpine-sdk \
+      cmake \
+      ninja-build \
+      samurai \
+      autoconf \
+      automake \
+      linux-headers \
+      pcsc-lite-dev
+EOF
 
-  # Install requires
-    apk add -qU --no-cache alpine-sdk cmake ninja-build samurai autoconf automake linux-headers pcsc-lite-dev
-
-  # Build libaribb25
+# Build libaribb25
+RUN <<EOF ash -ex
     wget -qO /libaribb25-master.zip https://github.com/tsukumijima/libaribb25/archive/refs/heads/master.zip
     cd /
     unzip -qq ./libaribb25-master.zip > /dev/null
@@ -38,8 +42,10 @@ RUN <<EOF ash -ex
     sed -i -e 's#/build/usr/local#/usr/local#g' libaribb1.pc
     ninja -j$(nproc)
     ninja install
+EOF
 
-  # Build recpt1
+# Build recpt1
+RUN <<EOF ash -ex
     wget -qO /recpt1.zip https://github.com/hendecarows/recpt1/archive/refs/heads/feature-px4.zip
     cd /
     unzip -qq ./recpt1.zip
@@ -49,7 +55,6 @@ RUN <<EOF ash -ex
     ./configure
     make -j$(nproc)
     make prefix=/build/usr/local install
-
 EOF
 
 
