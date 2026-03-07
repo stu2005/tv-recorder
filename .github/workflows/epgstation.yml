@@ -40,7 +40,7 @@ jobs:
           docker buildx prune --all --force --verbose
 
       - name: Build and push EPGStation
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./epgstation/build/
           platforms: linux/amd64
