@@ -7,25 +7,18 @@ services:
       - /dev/px4video1
       - /dev/px4video2
       - /dev/px4video3
-      - /dev/pxm1urvideo0  
+      - /dev/pxm1urvideo0
     volumes:
-      - type: volume
-        source: mirakurun
-        target: /var/run/
-      - type: bind
-        source: ./mirakurun/config/
-        target: /app-config/
-      - type: volume
-        source: mirakurun
-        target: /app-data/
+      - mirakurun:/var/run/
+      - ./mirakurun/config/:/app-config/
+      - mirakurun:/app-data/
     ports:
-      - published: 40772
-        target: 40772
+      - 40772:40772
     cap_add:
       - SYS_ADMIN
       - SYS_NICE
     device_cgroup_rules:
-      - 'c *:* rmw'
+      - c *:* rmw
     tmpfs:
       - /tmp
     restart: always
@@ -33,81 +26,56 @@ services:
       driver: json-file
       options:
         max-file: "2"
-        max-size: "5m"
+        max-size: 5m
         compress: "true"
-
   mariadb:
     image: library/mariadb:latest
     container_name: mariadb
     volumes:
-      - type: volume
-        source: mariadb
-        target: /var/lib/mysql
+      - mariadb:/var/lib/mysql
     environment:
-      MYSQL_USER: epgstation
-      MYSQL_PASSWORD: epgstation
-      MYSQL_ROOT_PASSWORD: epgstation
-      MYSQL_DATABASE: epgstation
-      TZ: "Asia/Tokyo"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=false --binlog-expire-logs-seconds=86400
+      - MYSQL_USER=epgstation
+      - MYSQL_PASSWORD=epgstation
+      - MYSQL_ROOT_PASSWORD=epgstation
+      - MYSQL_DATABASE=epgstation
+      - TZ=Asia/Tokyo
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      --performance-schema=false --binlog-expire-logs-seconds=86400
     restart: always
     logging:
       driver: json-file
       options:
         max-file: "2"
-        max-size: "5m"
+        max-size: 5m
         compress: "true"
     healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -h localhost || exit 1"]
+      test:
+        - CMD-SHELL
+        - mariadb-admin ping -h localhost || exit 1
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 20s
-
   epgstation:
     image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
     volumes:
-      - type: bind
-        source: ./epgstation/config/
-        target: /app/config/
-      - type: volume
-        source: epgstation
-        target: /app/data/
-      - type: volume
-        source: epgstation
-        target: /app/thumbnail/
-      - type: volume
-        source: epgstation
-        target: /app/logs/
-      - type: bind
-        source: /mnt/hdd/recorded/
-        target: /app/recorded/
-      - type: bind
-        source: ./epgstation/jls/JL/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/JL/
-      - type: bind
-        source: ./epgstation/jls/logo/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/logo/
-      - type: bind
-        source: ./epgstation/jls/result/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/result/
-      - type: bind
-        source: ./epgstation/jls/setting/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/setting/
-      - type: bind
-        source: ./epgstation/jls/src/
-        target: /usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/src/      
+      - ./epgstation/config/:/app/config/
+      - epgstation:/app/data/
+      - epgstation:/app/thumbnail/
+      - epgstation:/app/logs/
+      - /mnt/hdd/recorded/:/app/recorded/
+      - ./epgstation/jls/JL/:/usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/JL/
+      - ./epgstation/jls/logo/:/usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/logo/
+      - ./epgstation/jls/result/:/usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/result/
+      - ./epgstation/jls/setting/:/usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/setting/
+      - ./epgstation/jls/src/:/usr/local/share/.config/yarn/global/node_modules/join_logo_scp_trial/src/
     depends_on:
-      mirakurun:
-         condition: service_healthy
-      mariadb:
-         condition: service_healthy
+      - mirakurun
+      - mariadb
     ports:
-      - published: 8888
-        target: 8888
-      - published: 8889
-        target: 8889
+      - 8888:8888
+      - 8889:8889
     devices:
       - /dev/dri:/dev/dri
     restart: always
@@ -115,22 +83,21 @@ services:
       driver: json-file
       options:
         max-file: "2"
-        max-size: "5m"
+        max-size: 5m
         compress: "true"
-
   tvchannels-scan:
     logging:
       driver: json-file
       options:
-        max-size: "5m"
+        max-size: 5m
         max-file: "2"
         compress: "true"
     init: true
-    restart: "no"
-    network_mode: "none"
+    restart: no
+    network_mode: none
     devices:
-      - "/dev/px4video0:/dev/px4video0"
-      - "/dev/px4video2:/dev/px4video2"
+      - /dev/px4video0:/dev/px4video0
+      - /dev/px4video2:/dev/px4video2
     container_name: tvchannels-scan
     image: ghcr.io/stu2005/tvchannels-scan:latest
     volumes:
@@ -143,24 +110,23 @@ services:
         target: /opt/tvchannels-scan/
     profiles:
       - tvchannels-scan
-
   isdb-scanner:
     logging:
       driver: json-file
       options:
-        max-size: "5m"
+        max-size: 5m
         max-file: "2"
         compress: "true"
     init: true
-    restart: "no"
-    network_mode: "none"
+    restart: no
+    network_mode: none
     devices:
-      - "/dev/px4video0:/dev/px4video0"
-      - "/dev/px4video1:/dev/px4video1"
-      - "/dev/px4video2:/dev/px4video2"
-      - "/dev/px4video3:/dev/px4video3"
-      - "/dev/pxm1urvideo0:/dev/pxm1urvideo0"
-    container_name: isdb-scanner 
+      - /dev/px4video0:/dev/px4video0
+      - /dev/px4video1:/dev/px4video1
+      - /dev/px4video2:/dev/px4video2
+      - /dev/px4video3:/dev/px4video3
+      - /dev/pxm1urvideo0:/dev/pxm1urvideo0
+    container_name: isdb-scanner
     image: ghcr.io/stu2005/isdb-scanner:latest
     volumes:
       - type: bind
@@ -172,14 +138,13 @@ services:
         target: /app/scanned/
     profiles:
       - isdb-scanner
-
 volumes:
   mirakurun:
     name: mirakurun
     driver: local
   mariadb:
     name: mariadb
-    driver: local  
+    driver: local
   epgstation:
     name: epgstation
-    driver: local  
+    driver: local
