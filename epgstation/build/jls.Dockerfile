@@ -106,7 +106,7 @@ CMD ["./dist/index.js"]
 
 # Check if container is running
 HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -fsSL http://localhost:8888/api/status || exit 1
+  CMD curl -fsSL http://localhost:8888/api/version || exit 1
 
 # Copy artifacts
 COPY --from=artifacts /build/ /
