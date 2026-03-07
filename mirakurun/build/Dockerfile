@@ -1,4 +1,4 @@
-FROM chinachu/mirakurun:4.0.0-beta.15 AS mirakurun
+FROM chinachu/mirakurun:4.0.0-beta.18 AS mirakurun
 
 # Build stage
 FROM library/node:22.22.1-alpine3.22 AS build

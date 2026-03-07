@@ -75,7 +75,7 @@ RUN <<EOF bash -ex
 EOF
 
 # Get nodejs and jlse
-FROM library/node:18.20.8-slim AS nodejs
+FROM library/node:18.20.8-bookworm-slim AS nodejs
 FROM library/buildpack-deps:24.04-scm AS jlse_node
 COPY --from=nodejs /usr/local/ /usr/local/
 COPY --from=nodejs /opt/ /opt/
