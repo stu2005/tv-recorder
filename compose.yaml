@@ -28,6 +28,8 @@ services:
         max-file: "2"
         max-size: 5m
         compress: "true"
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
   mariadb:
     image: library/mariadb:latest
     container_name: mariadb
@@ -85,6 +87,8 @@ services:
         max-file: "2"
         max-size: 5m
         compress: "true"
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
   tvchannels-scan:
     logging:
       driver: json-file
@@ -148,3 +152,4 @@ volumes:
   epgstation:
     name: epgstation
     driver: local
+networks: {}
