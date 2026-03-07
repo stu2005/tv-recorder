@@ -2,6 +2,8 @@
 FROM ghcr.io/tobitti0/docker-avisynthplus:8.0.1-ubuntu2404 AS build
 # Set environment variable
 ARG DEBIAN_FRONTEND=noninteractive
+# Set workdir
+WORKDIR /src/
 
 # Install requires for build
 RUN <<EOF bash -ex 
@@ -19,11 +21,10 @@ RUN <<EOF bash -ex
       unzip+
 EOF
 
-# Clone
+# Setup
 RUN <<EOF bash -ex 
     mkdir -p /build/usr/local/bin/
-    git clone -q --recursive https://github.com/stu2005/JoinLogoScpTrialSetLinux /src
-    cd /src/
+    git clone -q --recursive https://github.com/stu2005/JoinLogoScpTrialSetLinux .
     git submodule -q foreach git pull -q origin master
 EOF
 
@@ -37,21 +38,21 @@ EOF
 
 # Build logoframe
 RUN <<EOF bash -ex
-    cd ../../logoframe/src/
+    cd ./modules/logoframe/src/
     make -j$(nproc)
     mv logoframe ../../join_logo_scp_trial/bin/
 EOF
 
 # Build jls
 RUN <<EOF bash -ex
-    cd ../../join_logo_scp/src/
+    cd ./modules/join_logo_scp/src/
     make -j$(nproc)
     mv join_logo_scp ../../join_logo_scp_trial/bin/
 EOF
 
 # Build tsdivider
 RUN <<EOF bash -ex
-    cd ../../tsdivider/
+    cd ./modules/tsdivider/
     cmake . -GNinja -DCMAKE_BUILD_TYPE=Release
     ninja -j$(nproc)
     mv ./tsdivider ../join_logo_scp_trial/bin/
@@ -59,7 +60,7 @@ EOF
 
 # Copy artifacts
 RUN <<EOF bash -ex
-    mv ../join_logo_scp_trial/bin/* /build/usr/local/bin/
+    mv ./modules/join_logo_scp_trial/bin/* /build/usr/local/bin/
 EOF
 
 # Build delogo
