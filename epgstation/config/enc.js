@@ -3,8 +3,8 @@ const ffmpeg = process.env.FFMPEG;
 
 const input = process.env.INPUT;
 const output = process.env.OUTPUT;
-const analyzedurationSize = '10M'; // Mirakurun の設定に応じて変更すること
-const probesizeSize = '32M'; // Mirakurun の設定に応じて変更すること
+const analyzedurationSize = '10M';
+const probesizeSize = '32M';
 const maxMuxingQueueSize = 1024;
 const dualMonoMode = 'FL';
 const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
@@ -17,24 +17,17 @@ const crf = 23;
 
 const args = ['--input-analyze', analyzedurationSize, '--input-probesize', probesizeSize];
 
-// dual mono 設定
 if (isDualMono) {
     Array.prototype.push.apply(args, ['--audio-stream', dualMonoMode]);
 }
 
-// input 設定
 Array.prototype.push.apply(args,['--avhw', '--input-format', 'mpegts', '-i', input]);
 
-// 字幕データを含めたストリームをすべてマップ
-// Array.prototype.push.apply(args, ['-map', '0', '-ignore_unknown', '-max_muxing_queue_size', maxMuxingQueueSize, '-sn']);
-
-// video filter 設定
 Array.prototype.push.apply(args, [
     '--vpp-deinterlace', 'bob',
     '--output-res', '1920x1080'
 ]);
 
-// その他設定
 Array.prototype.push.apply(args,[
     '--profile', profile,
     '--dar', '16:9',
@@ -56,7 +49,35 @@ console.error(str);
 
 const child = spawn(ffmpeg, args);
 
-child.stderr.on('data', (data) => { console.error(String(data)); });
+/**
+ * プログレスバー表示のための修正箇所
+ */
+let remainder = '';
+child.stderr.on('data', (data) => {
+    // 溜まっている文字列と新しいデータを結合して、改行またはキャリッジリターンで分割
+    const lines = (remainder + data.toString()).split(/\r|\n/);
+    remainder = lines.pop();
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed) {
+            // 通常のログとして出力（ログビュー用）
+            console.error(trimmed);
+
+            // QSVEncCの進捗形式 "[ 2.5%]" を解析
+            const match = trimmed.match(/\[\s*(\d+\.\d+)\s*%\]/);
+            if (match) {
+                const percent = parseFloat(match[1]) / 100;
+                // EPGStationのプログレスバーを更新するためのJSON出力
+                console.log(JSON.stringify({
+                    type: 'progress',
+                    percent: percent,
+                    log: trimmed
+                }));
+            }
+        }
+    }
+});
 
 child.on('error', (err) => {
     console.error(err);
@@ -64,6 +85,10 @@ child.on('error', (err) => {
 });
 
 child.on('close', (code) => {
+    // 残っている文字列があれば出力
+    if (remainder.trim()) {
+        console.error(remainder.trim());
+    }
     process.exitCode = code;
 });
 
