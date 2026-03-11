@@ -11,7 +11,6 @@ const videoHeight = parseInt(process.env.VIDEORESOLUTION, 10);
 const isDualMono = parseInt(process.env.AUDIOCOMPONENTTYPE, 10) == 2;
 const audioBitrate = videoHeight > 720 ? '192' : '128';
 const profile = 'high';
-const quality = 'balanced';
 const codec = 'h264';
 const crf = 23;
 
@@ -25,7 +24,7 @@ Array.prototype.push.apply(args,['--avhw', '--input-format', 'mpegts', '-i', inp
 
 Array.prototype.push.apply(args, [
     '--vpp-deinterlace', 'bob',
-    '--output-res', '1920x1080'
+    '--output-res', '1280x720'
 ]);
 
 Array.prototype.push.apply(args,[
@@ -34,7 +33,7 @@ Array.prototype.push.apply(args,[
     '--codec', codec,
     '--la-icq', crf,
     '--output-format', 'mp4',
-    '--audio-codec', 'aac',
+    '--audio-codec', 'aac:aac_coder=twoloop',
     '--audio-samplerate', '48000',
     '--audio-bitrate', audioBitrate,
     '--audio-stream', ':stereo',
