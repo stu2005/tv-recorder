@@ -32,25 +32,25 @@ categories:
     appenders: 
       - console
       - stdout
-    level: trace
+    level: info
   system: 
     appenders: 
       - system
       - stdout
-    level: trace
+    level: info
   access: 
     appenders: 
       - access
       - stdout
-    level: trace
+    level: info
   stream: 
     appenders: 
       - stream
       - stdout
-    level: trace
+    level: info
   encode:
     appenders:
       - encode
       - stdout
-    level: trace
+    level: info
 

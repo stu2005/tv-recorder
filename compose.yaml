@@ -2,6 +2,10 @@ services:
   mirakurun:
     image: ghcr.io/stu2005/mirakurun:latest
     container_name: mirakurun
+    ports:
+      - 40773:40772
+    environment:
+      - ALLOW_ORIGINS=https://lavie.tailff70c2.ts.net:40772
     devices:
       - /dev/px4video0
       - /dev/px4video1
@@ -12,8 +16,9 @@ services:
       - mirakurun:/var/run/
       - ./mirakurun/config/:/app-config/
       - mirakurun:/app-data/
-    ports:
-      - 40772:40772
+    networks:
+      - tv-recorder_default
+      - caddy_default
     cap_add:
       - SYS_ADMIN
       - SYS_NICE
@@ -35,6 +40,8 @@ services:
     container_name: mariadb
     volumes:
       - mariadb:/var/lib/mysql
+    networks:
+      - tv-recorder_default
     environment:
       - MYSQL_USER=epgstation
       - MYSQL_PASSWORD=epgstation
@@ -63,6 +70,8 @@ services:
   epgstation:
     image: ghcr.io/stu2005/epgstation:latest
     container_name: epgstation
+    ports:
+      - 8889:8888
     volumes:
       - ./epgstation/config/:/app/config/
       - epgstation:/app/data/
@@ -77,9 +86,9 @@ services:
     depends_on:
       - mirakurun
       - mariadb
-    ports:
-      - 8888:8888
-      - 8889:8889
+    networks:
+      - tv-recorder_default
+      - caddy_default
     devices:
       - /dev/dri:/dev/dri
     restart: always
@@ -154,4 +163,8 @@ volumes:
   epgstation:
     name: epgstation
     driver: local
-networks: {}
+networks:
+  caddy_default:
+    external: true
+  tv-recorder_default:
+    external: true

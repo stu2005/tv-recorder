@@ -68,7 +68,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -94,7 +93,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1920x1080
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -109,7 +109,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -135,7 +134,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1280x720
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -150,7 +150,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -176,7 +175,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 854x480
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -193,7 +193,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -219,7 +218,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1920x1080
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -234,7 +234,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -260,7 +259,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1280x720
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -275,7 +275,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               --data-copy timed_id3
               --sub-copy 
               -m avioflags:direct 
@@ -301,7 +300,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 854x480
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -318,7 +318,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -335,7 +334,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1920x1080
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -350,7 +350,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -367,7 +366,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1280x720
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 192 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -382,7 +382,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw
-              --audio-stream FL 
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -399,7 +398,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 854x480
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000 
               --audio-filter "volume=2.0,aresample=async=1000" 
@@ -417,7 +417,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -439,7 +438,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1920x1080
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 256 
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -459,7 +459,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -483,7 +482,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 1280x720
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 192
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -503,7 +503,6 @@ stream:
               --input-analyze 0.7 
               --input - 
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -527,7 +526,8 @@ stream:
               --interlace tff 
               --vpp-deinterlace bob 
               --output-res 854x480
-              --audio-codec aac:aac_coder=twoloop 
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop 
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000 
               --audio-filter volume=2.0 
@@ -552,7 +552,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw
-              --audio-stream FL                        
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -575,7 +574,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 1920x1080
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 256
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -591,7 +591,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -614,7 +613,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 1280x720
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 192
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -630,7 +630,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -653,7 +652,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 854x480
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -671,7 +671,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -694,7 +693,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 1920x1080
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 256
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -714,7 +714,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -737,7 +736,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 1280x720
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 192
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -757,7 +757,6 @@ stream:
               --input-analyze 5
               --input -
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -780,7 +779,8 @@ stream:
               --vpp-deinterlace bob
               --output-res 854x480
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -796,45 +796,6 @@ stream:
 
     encoded:
       mp4:
-        #- name: 1080p
-        #  cmd:
-        #    '%FFMPEG% 
-        #      --input-format mp4
-        #      --input-probesize 10M
-        #      --input-analyze 5
-        #      --input %INPUT%
-        #      --seek %SS%
-        #      --avhw
-        #      --audio-stream FL                        
-        #      -m avioflags:direct 
-        #      -m fflags:nobuffer+flush_packets 
-        #      -m flush_packets:1 
-        #      -m max_delay:0
-        #      -m max_interleave_delta:5000K
-        #      --lowlatency
-        #      --disable-opencl
-        #      --codec h264
-        #      --vbr 6000
-        #      --max-bitrate 9000
-        #      --vbv-bufsize 12000
-        #      --avsync forcecfr
-        #      --repeat-headers
-        #      --aud
-        #      --gop-len 60
-        #     --strict-gop
-        #      --quality balanced
-        #      --profile high
-        #      --dar 16:9
-        #      --output-res 1920x1080
-        #      --async-depth 2
-        #      --audio-codec aac:aac_coder=twoloop
-        #      --audio-bitrate 256
-        #      --audio-samplerate 48000
-        #      --audio-filter volume=2.0
-        #      --audio-ignore-decode-error 30
-        #      --output-format ismv
-        #      -m movflags:frag_keyframe+empty_moov+default_base_moof
-        #      --output -'
         - name: 720p
           cmd:
             '%FFMPEG% 
@@ -844,7 +805,6 @@ stream:
               --input %INPUT%
               --seek %SS%
               --avhw
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -866,7 +826,8 @@ stream:
               --dar 16:9
               --output-res 1280x720
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 192
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -883,7 +844,6 @@ stream:
               --input %INPUT%
               --seek %SS%
               --avhw
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -905,7 +865,8 @@ stream:
               --dar 16:9
               --output-res 854x480
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -914,49 +875,6 @@ stream:
               -m movflags:frag_keyframe+empty_moov+default_base_moof
               --output -'
       hls:
-        #- name: 1080p
-        #  cmd:
-        #    '%FFMPEG% 
-        #      --input-format mp4
-        #      --input-probesize 10M
-        #      --input-analyze 5
-        #      --input %INPUT%
-        #      --seek %SS%
-        #      --avhw 
-        #      --audio-stream FL
-        #      -m avioflags:direct 
-        #      -m fflags:nobuffer+flush_packets 
-        #      -m flush_packets:1 
-        #      -m max_delay:0
-        #      -m max_interleave_delta:5000K
-        #      --lowlatency
-        #      --disable-opencl
-        #      --codec h264
-        #      --vbr 6000
-        #      --max-bitrate 9000
-        #      --vbv-bufsize 12000
-        #      --repeat-headers
-        #      --aud
-        #      --avsync forcecfr
-        #      --gop-len 180
-        #      --strict-gop
-        #      --quality balanced
-        #      --profile high
-        #      --dar 16:9
-        #      --output-res 1920x1080
-        #      --async-depth 2
-        #      --audio-codec aac:aac_coder=twoloop
-        #      --audio-bitrate 256
-        #      --audio-samplerate 48000
-        #      --audio-filter volume=2.0
-        #      --audio-ignore-decode-error 30
-        #      -f hls 
-        #      -m hls_time:3 
-        #      -m hls_list_size:0 
-        #      -m hls_allow_cache:1
-        #      -m hls_segment_filename:%streamFileDir%/stream%streamNum%-%09d.ts 
-        #      -m hls_flags:delete_segments+discont_start+split_by_time
-        #      --output %OUTPUT%'
         - name: 720p
           cmd:
             '%FFMPEG% 
@@ -966,7 +884,6 @@ stream:
               --input %INPUT%
               --seek %SS%
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -988,7 +905,8 @@ stream:
               --dar 16:9
               --output-res 1280x720
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 192
               --audio-samplerate 48000
               --audio-filter volume=2.0
@@ -1009,7 +927,6 @@ stream:
               --input %INPUT%
               --seek %SS%
               --avhw 
-              --audio-stream FL
               -m avioflags:direct 
               -m fflags:nobuffer+flush_packets 
               -m flush_packets:1 
@@ -1031,7 +948,8 @@ stream:
               --dar 16:9
               --output-res 854x480
               --async-depth 2
-              --audio-codec aac:aac_coder=twoloop
+              --audio-codec aac#dual_mono_mode=main:aac_coder=twoloop
+              --audio-stream :stereo
               --audio-bitrate 128
               --audio-samplerate 48000
               --audio-filter volume=2.0
